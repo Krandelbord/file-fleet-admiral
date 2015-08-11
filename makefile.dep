@@ -1,3 +1,3 @@
-MainWindow.o: MainWindow.cc MainWindow.h config.h
+MainWindow.o: MainWindow.cc MainWindow.h config.h SinglePanel.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h
 main.o: main.cc config.h MainWindow.h

@@ -3,10 +3,10 @@ DEBUG='true'
 OUT=gfm
 
 ifdef DEBUG
-	CXXFLAGS+=-g3 -DDEBUG
+	CXXFLAGS+=-g3 -DDEBUG 
 endif
 
-CXXFLAGS+=-Wall
+CXXFLAGS+=-Wall -std=c++11
 
 
 CXXFLAGS+=`pkg-config --cflags gtkmm-2.4`
