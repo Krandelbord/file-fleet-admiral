@@ -1,1 +1,2 @@
-main.o: main.cc
+MainWindow.o: MainWindow.cc MainWindow.h
+main.o: main.cc config.h MainWindow.h

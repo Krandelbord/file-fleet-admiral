@@ -12,7 +12,7 @@ CXXFLAGS+=-Wall
 CXXFLAGS+=`pkg-config --cflags gtkmm-2.4`
 LDFLAGS+=`pkg-config --libs gtkmm-2.4`
 
-$(OUT): main.o 
+$(OUT): main.o MainWindow.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 include makefile.dep
