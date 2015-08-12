@@ -1,6 +1,7 @@
 MainWindow.o: MainWindow.cc MainWindow.h config.h SinglePanel.h \
- Settings.h
-Settings.o: Settings.cc Settings.h
+ Settings.h Rectangle.h
+Rectangle.o: Rectangle.cc Rectangle.h
+Settings.o: Settings.cc Settings.h Rectangle.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h
