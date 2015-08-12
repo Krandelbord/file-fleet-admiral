@@ -6,6 +6,8 @@
 class MainWindow : public Gtk::Window {
     public:
         MainWindow();
+    private:
+        Gtk::Label m_label;
 };
 
 #endif /** MAIN_WINDOW_H */
