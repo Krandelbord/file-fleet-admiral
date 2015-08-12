@@ -1,11 +1,16 @@
 #include "MainWindow.h"
 #include "config.h"
 #include "SinglePanel.h"
+#include "Settings.h"
 
 #define DO_NOT_EXPAND true
 #define DO_NOT_FILL true
+#define CONF_MAIN_WINDOW_SIZE "CONF_MAIN_WINDOW_SIZE"
 
 MainWindow::MainWindow() {
+    Settings settings;
+    settings.readInteger(CONF_MAIN_WINDOW_SIZE);
+
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
     
