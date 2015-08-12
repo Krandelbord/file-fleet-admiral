@@ -5,7 +5,8 @@
 
 #ifdef DEBUG
 #include <glib.h>
-#  define gfm_debug(args...) g_print (args)
+#include "debug.h"
+#  define gfm_debug(args...) debug_with_time(); g_print (args)
 #else
 #  define gfm_debug(args...) ;
 #endif
