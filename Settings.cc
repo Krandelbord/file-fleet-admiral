@@ -19,13 +19,12 @@ int Settings::readInteger(const Glib::ustring &name) const {
 	return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NO_ERROR_HANDLER);
 }
 
-int Settings::readWindowSize() const {
-    int readValue = readInteger(CONF_MAIN_WINDOW_SIZE);
-    if (readValue == 0) {
-        return DEFAULT_WINDOW_SIZE;
-    } else {
-        return readValue;
-    }
+Rectangle Settings::readWindowSize() const {
+    int readValueX = readInteger(CONF_MAIN_WINDOW_SIZE);
+    if (readValueX == 0) {
+        readValueX = DEFAULT_WINDOW_SIZE;
+   }
+   return Rectangle(readValueX, readValueX*0.7); 
 }
 
 void Settings::saveInteger(const Glib::ustring &name, int value) {

@@ -2,14 +2,12 @@
 #include "config.h"
 #include "SinglePanel.h"
 #include "Settings.h"
-
-#define DO_NOT_EXPAND true
-#define DO_NOT_FILL true
+#include "Rectangle.h"
 
 MainWindow::MainWindow() {
     Settings settings;
-    int winSize =  settings.readWindowSize();
-    this->set_default_size(winSize, winSize*1.2);
+    Rectangle winSizeFromCfg =  settings.readWindowSize();
+    this->set_default_size(winSizeFromCfg.getWidth(), winSizeFromCfg.getHeight());
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
     
