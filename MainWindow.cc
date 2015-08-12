@@ -10,12 +10,12 @@ MainWindow::MainWindow() {
     this->set_title(APPLICATION_NAME);
     
 
-    Gtk::HBox* mainHbox = Gtk::manage(new Gtk::HBox());
+    Gtk::HPaned* mainHbox = Gtk::manage(new Gtk::HPaned());
     SinglePanel* leftPanel = Gtk::manage(new SinglePanel());
 
-    mainHbox->pack_start(*leftPanel, DO_NOT_EXPAND, DO_NOT_FILL, 1);
+    mainHbox->add1(*leftPanel);
     SinglePanel* rightPanel = Gtk::manage(new SinglePanel());
-    mainHbox->pack_end(*rightPanel, DO_NOT_EXPAND, DO_NOT_FILL, 2);
+    mainHbox->add2(*rightPanel);
     
     this->add(*mainHbox);
     this->show_all();
