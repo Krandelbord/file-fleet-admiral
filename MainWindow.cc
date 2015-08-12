@@ -5,12 +5,11 @@
 
 #define DO_NOT_EXPAND true
 #define DO_NOT_FILL true
-#define CONF_MAIN_WINDOW_SIZE "CONF_MAIN_WINDOW_SIZE"
 
 MainWindow::MainWindow() {
     Settings settings;
-    settings.readInteger(CONF_MAIN_WINDOW_SIZE);
-
+    int winSize =  settings.readWindowSize();
+    this->set_default_size(winSize, winSize*1.2);
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
     

@@ -2,22 +2,39 @@
 #include <glibmm/keyfile.h>
 
 #define MAIN_CATEGORY_NAME "main-settings"
+#define NO_ERROR_HANDLER NULL
+
+#define CONF_MAIN_WINDOW_SIZE "CONF_MAIN_WINDOW_SIZE"
+#define DEFAULT_WINDOW_SIZE 800
 
 Settings::Settings() {
     m_key_file = g_key_file_new();
 	
 	const gchar *konf_rootdir = g_get_user_config_dir();
 	m_file = g_build_filename(konf_rootdir, "gfm.cfg", NULL);
-	g_key_file_load_from_file(m_key_file, m_file, G_KEY_FILE_KEEP_COMMENTS, NULL);
+	g_key_file_load_from_file(m_key_file, m_file, G_KEY_FILE_KEEP_COMMENTS, NO_ERROR_HANDLER);
 }
 
-
 int Settings::readInteger(const Glib::ustring &name) const {
-	return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NULL);
+	return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NO_ERROR_HANDLER);
+}
+
+int Settings::readWindowSize() const {
+    int readValue = readInteger(CONF_MAIN_WINDOW_SIZE);
+    if (readValue == 0) {
+        return DEFAULT_WINDOW_SIZE;
+    } else {
+        return readValue;
+    }
 }
 
 void Settings::saveInteger(const Glib::ustring &name, int value) {
 	g_key_file_set_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value);
+}
+
+
+void Settings::saveWindowSize(int value) {
+    saveInteger(CONF_MAIN_WINDOW_SIZE, value);
 }
 
 Settings::~Settings() {
