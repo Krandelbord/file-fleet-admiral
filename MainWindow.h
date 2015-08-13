@@ -2,13 +2,14 @@
 #define MAIN_WINDOW_H
 
 #include <gtkmm.h>
+#include "Rectangle.h"
 
 class MainWindow : public Gtk::Window {
     public:
         MainWindow();
         void saveSettings() const;
     private:
-        Gtk::Label m_label;
+        Rectangle getWindowSize() const;
 };
 
 #endif /** MAIN_WINDOW_H */

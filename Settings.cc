@@ -6,8 +6,8 @@
 #define NO_ERROR_HANDLER NULL
 #define DEFAULT_WINDOW_WIDTH 800
 
-const Glib::ustring CONF_MAIN_WINDOW_SIZE_X = Glib::ustring("CONF_MAIN_WINDOW_SIZE_X");
-const Glib::ustring CONF_MAIN_WINDOW_SIZE_Y = Glib::ustring("CONF_MAIN_WINDOW_SIZE_Y");
+const Glib::ustring CONF_MAIN_WINDOW_SIZE_X = Glib::ustring("main_window_width");
+const Glib::ustring CONF_MAIN_WINDOW_SIZE_Y = Glib::ustring("main_window_height");
 
 Settings::Settings() {
     m_key_file = g_key_file_new();
@@ -38,8 +38,9 @@ void Settings::saveInteger(const Glib::ustring &name, int value) {
 }
 
 
-void Settings::saveWindowSize(int value) {
-    saveInteger(CONF_MAIN_WINDOW_SIZE_X, value);
+void Settings::saveWindowSize(Rectangle rectToSave) {
+    saveInteger(CONF_MAIN_WINDOW_SIZE_X, rectToSave.getWidth());
+    saveInteger(CONF_MAIN_WINDOW_SIZE_Y, rectToSave.getHeight());
 }
 
 Settings::~Settings() {

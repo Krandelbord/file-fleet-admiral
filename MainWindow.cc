@@ -26,8 +26,14 @@ MainWindow::MainWindow() {
 
 void MainWindow::saveSettings() const {
     Settings settings;
+    Rectangle winSize = getWindowSize();
+    gfm_debug("Window size is %d x %d\n", winSize.getWidth(), winSize.getHeight());
+    settings.saveWindowSize(winSize);
+}
+
+Rectangle MainWindow::getWindowSize() const {
     int width_read, height_read;
     this->get_size(width_read, height_read);
-    gfm_debug("Window size is %d x %d\n", width_read, height_read);
-    settings.saveWindowSize(width_read);
+    Rectangle winSizeRect = Rectangle(width_read, height_read);
+    return winSizeRect;
 }

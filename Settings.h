@@ -10,7 +10,7 @@ class Settings {
         void saveInteger(const Glib::ustring &name, int integer_to_save);
         int readInteger(const Glib::ustring &name);
         Rectangle readWindowSize();
-        void saveWindowSize(int valueToSave);
+        void saveWindowSize(Rectangle rectWinSize);
         
         ~Settings();
         
