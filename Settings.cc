@@ -1,11 +1,13 @@
 #include "Settings.h"
 #include <glibmm/keyfile.h>
+#include "config.h"
 
 #define MAIN_CATEGORY_NAME "main-settings"
 #define NO_ERROR_HANDLER NULL
+#define DEFAULT_WINDOW_WIDTH 800
 
-#define CONF_MAIN_WINDOW_SIZE "CONF_MAIN_WINDOW_SIZE"
-#define DEFAULT_WINDOW_SIZE 800
+const Glib::ustring CONF_MAIN_WINDOW_SIZE_X = Glib::ustring("CONF_MAIN_WINDOW_SIZE_X");
+const Glib::ustring CONF_MAIN_WINDOW_SIZE_Y = Glib::ustring("CONF_MAIN_WINDOW_SIZE_Y");
 
 Settings::Settings() {
     m_key_file = g_key_file_new();
@@ -15,16 +17,20 @@ Settings::Settings() {
 	g_key_file_load_from_file(m_key_file, m_file, G_KEY_FILE_KEEP_COMMENTS, NO_ERROR_HANDLER);
 }
 
-int Settings::readInteger(const Glib::ustring &name) const {
-	return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NO_ERROR_HANDLER);
+int Settings::readInteger(const Glib::ustring &name) {
+    return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NO_ERROR_HANDLER);
 }
 
-Rectangle Settings::readWindowSize() const {
-    int readValueX = readInteger(CONF_MAIN_WINDOW_SIZE);
+Rectangle Settings::readWindowSize() {
+    int readValueX = readInteger(CONF_MAIN_WINDOW_SIZE_X);
     if (readValueX == 0) {
-        readValueX = DEFAULT_WINDOW_SIZE;
-   }
-   return Rectangle(readValueX, readValueX*0.7); 
+        readValueX = DEFAULT_WINDOW_WIDTH;
+    }
+    int readValueY = readInteger(CONF_MAIN_WINDOW_SIZE_Y);
+    if (readValueY == 0) {
+        readValueY = DEFAULT_WINDOW_WIDTH*0.7;
+    }
+    return Rectangle(readValueX, readValueY); 
 }
 
 void Settings::saveInteger(const Glib::ustring &name, int value) {
@@ -33,7 +39,7 @@ void Settings::saveInteger(const Glib::ustring &name, int value) {
 
 
 void Settings::saveWindowSize(int value) {
-    saveInteger(CONF_MAIN_WINDOW_SIZE, value);
+    saveInteger(CONF_MAIN_WINDOW_SIZE_X, value);
 }
 
 Settings::~Settings() {

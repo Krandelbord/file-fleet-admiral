@@ -8,8 +8,8 @@ class Settings {
     public :
         Settings();
         void saveInteger(const Glib::ustring &name, int integer_to_save);
-        int readInteger(const Glib::ustring &name) const;
-        Rectangle readWindowSize() const;
+        int readInteger(const Glib::ustring &name);
+        Rectangle readWindowSize();
         void saveWindowSize(int valueToSave);
         
         ~Settings();
