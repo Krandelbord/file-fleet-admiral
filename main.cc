@@ -9,6 +9,9 @@ int main(int argc, char **argv) {
     MainWindow mainWindow;
     app.run(mainWindow);
 
+    gfm_debug("saving config...");
+    mainWindow.saveSettings();
     gfm_debug("ending gfm...\n");      
     return 0;
 }
+

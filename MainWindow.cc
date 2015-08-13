@@ -24,3 +24,10 @@ MainWindow::MainWindow() {
     this->show_all();
 }
 
+void MainWindow::saveSettings() const {
+    Settings settings;
+    int width_read, height_read;
+    this->get_size(width_read, height_read);
+    gfm_debug("Window size is %d x %d\n", width_read, height_read);
+    settings.saveWindowSize(width_read);
+}
