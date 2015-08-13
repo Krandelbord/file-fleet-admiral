@@ -12,8 +12,9 @@ MainWindow::MainWindow() {
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
     
-
     Gtk::HPaned* mainHPaned = Gtk::manage(new Gtk::HPaned());
+    mainHPaned->set_position(settings.readPanedPosition());
+
     SinglePanel* leftPanel = Gtk::manage(new SinglePanel());
 
     mainHPaned->add1(*leftPanel);

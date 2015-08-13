@@ -8,6 +8,7 @@
 
 const Glib::ustring CONF_MAIN_WINDOW_SIZE_X = Glib::ustring("main_window_width");
 const Glib::ustring CONF_MAIN_WINDOW_SIZE_Y = Glib::ustring("main_window_height");
+const Glib::ustring CONF_MAIN_PANEL_SPLIT = Glib::ustring("panels_split");
 
 Settings::Settings() {
     m_key_file = g_key_file_new();
@@ -41,6 +42,14 @@ void Settings::saveInteger(const Glib::ustring &name, int value) {
 void Settings::saveWindowSize(Rectangle rectToSave) {
     saveInteger(CONF_MAIN_WINDOW_SIZE_X, rectToSave.getWidth());
     saveInteger(CONF_MAIN_WINDOW_SIZE_Y, rectToSave.getHeight());
+}
+
+int Settings::readPanedPosition() {
+    int panelSplitRead = readInteger(CONF_MAIN_PANEL_SPLIT);
+    if (panelSplitRead == 0) {
+        panelSplitRead = 50;
+    }
+    return panelSplitRead;
 }
 
 Settings::~Settings() {

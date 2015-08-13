@@ -9,6 +9,8 @@ class Settings {
         Settings();
         void saveInteger(const Glib::ustring &name, int integer_to_save);
         int readInteger(const Glib::ustring &name);
+        int readPanedPosition();
+
         Rectangle readWindowSize();
         void saveWindowSize(Rectangle rectWinSize);
         
