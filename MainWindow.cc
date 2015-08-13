@@ -7,6 +7,7 @@
 MainWindow::MainWindow() {
     Settings settings;
     Rectangle winSizeFromCfg =  settings.readWindowSize();
+    gfm_debug("Size read from cfg %d x %d \n", winSizeFromCfg.getWidth(), winSizeFromCfg.getHeight());
     this->set_default_size(winSizeFromCfg.getWidth(), winSizeFromCfg.getHeight());
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
