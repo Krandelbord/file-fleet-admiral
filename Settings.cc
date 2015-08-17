@@ -22,34 +22,45 @@ int Settings::readInteger(const Glib::ustring &name) {
     return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NO_ERROR_HANDLER);
 }
 
-Rectangle Settings::readWindowSize() {
+int Settings::readWindowWidth() {
+    gfm_debug("odczyt szerokosci \n");
     int readValueX = readInteger(CONF_MAIN_WINDOW_SIZE_X);
     if (readValueX == 0) {
         readValueX = DEFAULT_WINDOW_WIDTH;
     }
+    return readValueX;
+}
+
+Rectangle Settings::readWindowSize() {
+    gfm_debug("Odczyt wielkości okna\n");
     int readValueY = readInteger(CONF_MAIN_WINDOW_SIZE_Y);
     if (readValueY == 0) {
         readValueY = DEFAULT_WINDOW_WIDTH*0.7;
     }
-    return Rectangle(readValueX, readValueY); 
+    return Rectangle(readWindowWidth(), readValueY); 
 }
 
 void Settings::saveInteger(const Glib::ustring &name, int value) {
-	g_key_file_set_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value);
+	return g_key_file_set_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value);
 }
-
 
 void Settings::saveWindowSize(Rectangle rectToSave) {
     saveInteger(CONF_MAIN_WINDOW_SIZE_X, rectToSave.getWidth());
     saveInteger(CONF_MAIN_WINDOW_SIZE_Y, rectToSave.getHeight());
 }
 
+void Settings::savePanedPosition(int panedPositionToSave) {
+    saveInteger(CONF_MAIN_PANEL_SPLIT, panedPositionToSave);
+}
+
+
 int Settings::readPanedPosition() {
     int panelSplitRead = readInteger(CONF_MAIN_PANEL_SPLIT);
     if (panelSplitRead == 0) {
-        panelSplitRead = 50;
+        return this->readWindowWidth()/2;
+    } else {
+        return panelSplitRead;
     }
-    return panelSplitRead;
 }
 
 Settings::~Settings() {

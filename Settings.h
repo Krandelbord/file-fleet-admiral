@@ -13,10 +13,13 @@ class Settings {
 
         Rectangle readWindowSize();
         void saveWindowSize(Rectangle rectWinSize);
-        
+        void savePanedPosition(int panedPositionToSave);
+
         ~Settings();
         
     private:
+        int readWindowWidth();
+
         GKeyFile *m_key_file;
         char *m_file;
     

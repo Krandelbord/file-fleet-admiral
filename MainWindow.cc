@@ -30,6 +30,7 @@ void MainWindow::saveSettings() const {
     Rectangle winSize = getWindowSize();
     gfm_debug("Window size is %d x %d\n", winSize.getWidth(), winSize.getHeight());
     settings.saveWindowSize(winSize);
+    settings.savePanedPosition(this->getPanedPosition());
 }
 
 Rectangle MainWindow::getWindowSize() const {
@@ -38,3 +39,13 @@ Rectangle MainWindow::getWindowSize() const {
     Rectangle winSizeRect = Rectangle(width_read, height_read);
     return winSizeRect;
 }
+
+int MainWindow::getPanedPosition() const {
+    Glib::ListHandle< const Widget* > childrens = this->get_children();
+    for (const Widget *x: childrens) {
+        const Gtk::HPaned *panedInside = (const Gtk::HPaned*) x;
+        return panedInside->get_position();
+    }
+    throw new std::runtime_error("Could not find hpaned");
+}
+

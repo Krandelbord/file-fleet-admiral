@@ -10,6 +10,7 @@ class MainWindow : public Gtk::Window {
         void saveSettings() const;
     private:
         Rectangle getWindowSize() const;
+        int getPanedPosition() const;
 };
 
 #endif /** MAIN_WINDOW_H */
