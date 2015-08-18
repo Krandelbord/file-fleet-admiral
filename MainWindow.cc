@@ -1,8 +1,8 @@
 #include "MainWindow.h"
 #include "config.h"
-#include "SinglePanel.h"
 #include "Settings.h"
 #include "Rectangle.h"
+#include "FilesNavigationPanel.h"
 
 MainWindow::MainWindow() {
     Settings settings;
@@ -12,16 +12,9 @@ MainWindow::MainWindow() {
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
     
-    Gtk::HPaned* mainHPaned = Gtk::manage(new Gtk::HPaned());
-    mainHPaned->set_position(settings.readPanedPosition());
-
-    SinglePanel* leftPanel = Gtk::manage(new SinglePanel());
-
-    mainHPaned->add1(*leftPanel);
-    SinglePanel* rightPanel = Gtk::manage(new SinglePanel());
-    mainHPaned->add2(*rightPanel);
-    
-    this->add(*mainHPaned);
+    FilesNavigationPanel *filesPanel = Gtk::manage(new FilesNavigationPanel(settings));    
+      
+    this->add(*filesPanel);
     this->show_all();
 }
 

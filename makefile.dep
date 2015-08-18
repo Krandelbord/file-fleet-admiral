@@ -1,5 +1,7 @@
-MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h config.h \
- SinglePanel.h Settings.h
+FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
+ Settings.h Rectangle.h SinglePanel.h
+MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h config.h Settings.h \
+ FilesNavigationPanel.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h
