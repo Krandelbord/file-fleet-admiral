@@ -2,7 +2,6 @@
 #include "config.h"
 #include "Settings.h"
 #include "Rectangle.h"
-#include "FilesNavigationPanel.h"
 
 MainWindow::MainWindow() {
     Settings settings;
@@ -12,9 +11,10 @@ MainWindow::MainWindow() {
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
     
-    FilesNavigationPanel *filesPanel = Gtk::manage(new FilesNavigationPanel(settings));    
-      
-    this->add(*filesPanel);
+    this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));
+    Gtk::HBox *mainHBox = Gtk::manage(new Gtk::HBox());
+    mainHBox->add(*this->filesPanel);
+    this->add(*mainHBox);
     this->show_all();
 }
 
@@ -34,11 +34,7 @@ Rectangle MainWindow::getWindowSize() const {
 }
 
 int MainWindow::getPanedPosition() const {
-    Glib::ListHandle< const Widget* > childrens = this->get_children();
-    for (const Widget *x: childrens) {
-        const Gtk::HPaned *panedInside = (const Gtk::HPaned*) x;
-        return panedInside->get_position();
-    }
-    throw new std::runtime_error("Could not find hpaned");
+   const Gtk::HPaned *panedInside = (const Gtk::HPaned*) filesPanel;
+   return panedInside->get_position();
 }
 
