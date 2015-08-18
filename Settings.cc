@@ -18,11 +18,11 @@ Settings::Settings() {
 	g_key_file_load_from_file(m_key_file, m_file, G_KEY_FILE_KEEP_COMMENTS, NO_ERROR_HANDLER);
 }
 
-int Settings::readInteger(const Glib::ustring &name) {
+int Settings::readInteger(const Glib::ustring &name) const {
     return g_key_file_get_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), NO_ERROR_HANDLER);
 }
 
-int Settings::readWindowWidth() {
+int Settings::readWindowWidth() const {
     gfm_debug("odczyt szerokosci \n");
     int readValueX = readInteger(CONF_MAIN_WINDOW_SIZE_X);
     if (readValueX == 0) {
@@ -54,7 +54,7 @@ void Settings::savePanedPosition(int panedPositionToSave) {
 }
 
 
-int Settings::readPanedPosition() {
+int Settings::readPanedPosition() const {
     int panelSplitRead = readInteger(CONF_MAIN_PANEL_SPLIT);
     if (panelSplitRead == 0) {
         return this->readWindowWidth()/2;

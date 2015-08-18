@@ -8,8 +8,8 @@ class Settings {
     public :
         Settings();
         void saveInteger(const Glib::ustring &name, int integer_to_save);
-        int readInteger(const Glib::ustring &name);
-        int readPanedPosition();
+        int readInteger(const Glib::ustring &name) const;
+        int readPanedPosition() const;
 
         Rectangle readWindowSize();
         void saveWindowSize(Rectangle rectWinSize);
@@ -18,7 +18,7 @@ class Settings {
         ~Settings();
         
     private:
-        int readWindowWidth();
+        int readWindowWidth() const;
 
         GKeyFile *m_key_file;
         char *m_file;
