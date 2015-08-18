@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include "Rectangle.h"
+#include "FilesNavigationPanel.h"
 
 class MainWindow : public Gtk::Window {
     public:
@@ -11,6 +12,7 @@ class MainWindow : public Gtk::Window {
     private:
         Rectangle getWindowSize() const;
         int getPanedPosition() const;
+        FilesNavigationPanel *filesPanel;
 };
 
 #endif /** MAIN_WINDOW_H */
