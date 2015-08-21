@@ -2,6 +2,7 @@
 #include "config.h"
 #include "Settings.h"
 #include "Rectangle.h"
+#include "MenuBar.h"
 
 MainWindow::MainWindow() {
     Settings settings;
@@ -12,7 +13,10 @@ MainWindow::MainWindow() {
     this->set_title(APPLICATION_NAME);
 
     Gtk::Container *mainContainer = Gtk::manage(new Gtk::VBox());
-    
+
+    MenuBar menuBar; 
+    mainContainer->add(menuBar);
+ 
     this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));
     mainContainer->add(*this->filesPanel);
     this->add(*mainContainer);
