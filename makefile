@@ -12,7 +12,8 @@ CXXFLAGS+=-Wall -std=c++11
 CXXFLAGS+=`pkg-config --cflags gtkmm-3.0`
 LDFLAGS+=`pkg-config --libs gtkmm-3.0`
 
-$(OUT): main.o MainWindow.o SinglePanel.o debug.o Settings.o Rectangle.o FilesNavigationPanel.o 
+$(OUT): main.o MainWindow.o SinglePanel.o debug.o Settings.o Rectangle.o FilesNavigationPanel.o \
+	FilesColumns.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 include makefile.dep
