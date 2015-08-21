@@ -10,11 +10,12 @@ MainWindow::MainWindow() {
     this->set_default_size(winSizeFromCfg.getWidth(), winSizeFromCfg.getHeight());
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
+
+    Gtk::Container *mainContainer = Gtk::manage(new Gtk::VBox());
     
     this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));
-    Gtk::HBox *mainHBox = Gtk::manage(new Gtk::HBox());
-    mainHBox->add(*this->filesPanel);
-    this->add(*mainHBox);
+    mainContainer->add(*this->filesPanel);
+    this->add(*mainContainer);
     this->show_all();
 }
 
