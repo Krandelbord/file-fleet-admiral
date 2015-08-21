@@ -3,9 +3,19 @@
 using namespace Gtk::Menu_Helpers;
 
 MenuBar::MenuBar() {
-        //this->prepend(MenuElem(_("_File"), *this->createFileMenu()));
-        //this->prepend(MenuElem(_("_Help"), *this->createHelpMenu()));
-        this->append(*new Gtk::MenuItem("File"));
+    Gtk::MenuItem* item = Gtk::manage(new Gtk::MenuItem("test"));
+    Gtk::Menu* submenu1 = Gtk::manage(new Gtk::Menu);
+    Gtk::MenuItem* subitem1 = Gtk::manage(new Gtk::MenuItem("sub Item"));
+    submenu1->append(*subitem1);
+    item->set_submenu(*submenu1);
+    Gtk::MenuItem* item2 = Gtk::manage(new Gtk::MenuItem("test2"));
+    Gtk::Menu* submenu2 = Gtk::manage(new Gtk::Menu);
+    Gtk::MenuItem* subitem2 = Gtk::manage(new Gtk::MenuItem("sub item 2"));
+    submenu2->append(*subitem2);
+    item2->set_submenu(*submenu2);
+
+    this->append(*item);
+    this->append(*item2);
 }
 
 Gtk::Menu *MenuBar::createFileMenu() {
