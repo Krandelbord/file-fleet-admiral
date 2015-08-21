@@ -9,6 +9,8 @@
 const Glib::ustring CONF_MAIN_WINDOW_SIZE_X = Glib::ustring("main_window_width");
 const Glib::ustring CONF_MAIN_WINDOW_SIZE_Y = Glib::ustring("main_window_height");
 const Glib::ustring CONF_MAIN_PANEL_SPLIT = Glib::ustring("panels_split");
+//const Glib::ustring CONF_LEFT_PANEL_DIR = Glib::ustring("left_panel_last_dir");
+//const Glib::ustring CONF_RIGHT_PANEL_DIR = Glib::ustring("right_panel_last_dir");
 
 Settings::Settings() {
     m_key_file = g_key_file_new();
@@ -61,6 +63,15 @@ int Settings::readPanedPosition() const {
     } else {
         return panelSplitRead;
     }
+}
+
+Glib::ustring Settings::readStringConfigValue(const Glib::ustring& paramToRead) const {   
+    return "/read/this/value/somehow";
+}
+
+Glib::ustring Settings::getLeftDirPath() const {
+    //Glib::ustring leftPanelDir = readStringConfigValue("CONF_LEFT_PANEL_DIR"); //TODO: don't know why but it crashes
+    return "/the/dummy/string";
 }
 
 Settings::~Settings() {

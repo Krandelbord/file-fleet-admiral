@@ -4,7 +4,8 @@
 FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     this->set_position(settingsToRead.readPanedPosition());
 
-    SinglePanel* leftPanel = Gtk::manage(new SinglePanel("/home/emil"));
+    
+    SinglePanel* leftPanel = Gtk::manage(new SinglePanel(settingsToRead.getLeftDirPath()));
     this->add1(*leftPanel);
 
     SinglePanel* rightPanel = Gtk::manage(new SinglePanel("/dupa8"));
