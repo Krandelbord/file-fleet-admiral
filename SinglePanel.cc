@@ -1,10 +1,10 @@
 #include "SinglePanel.h"
 
-SinglePanel::SinglePanel() {
+SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     Gtk::TreeView *filesTreeView = createFilesTreeView();
     this->add(*filesTreeView);
 
-    Gtk::Label *bottomStatusBar = new Gtk::Label("/home/emil");
+    Gtk::Label *bottomStatusBar = new Gtk::Label(startDirPath);
 
     this->pack_end(*bottomStatusBar, Gtk::PackOptions::PACK_SHRINK);
 }
