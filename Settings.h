@@ -10,6 +10,7 @@ class Settings {
         void saveInteger(const Glib::ustring &name, int integer_to_save);
         int readInteger(const Glib::ustring &name) const;
         int readPanedPosition() const;
+        Glib::ustring getLeftDirPath() const;
 
         Rectangle readWindowSize();
         void saveWindowSize(Rectangle rectWinSize);
@@ -19,6 +20,7 @@ class Settings {
         
     private:
         int readWindowWidth() const;
+        Glib::ustring readStringConfigValue(const Glib::ustring& paramToRead) const;
 
         GKeyFile *m_key_file;
         char *m_file;
