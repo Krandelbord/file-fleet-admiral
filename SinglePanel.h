@@ -2,13 +2,12 @@
 #define SINGLE_PANEL_H
 
 #include <gtkmm.h>
-
 /**
  * Represents single panel for files
 **/
 class SinglePanel : public Gtk::VBox {
     public:
-        SinglePanel();
+        SinglePanel(const Glib::ustring& startDirPath);
     private:
         Gtk::TreeView* createFilesTreeView();
         
