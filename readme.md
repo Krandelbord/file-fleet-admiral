@@ -10,3 +10,4 @@ What features should version 1.0 have
 6) Colouring based on mc.ini
 7) Find option
 
+File Fleet Admiral
