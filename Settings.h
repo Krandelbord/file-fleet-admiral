@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <glibmm/ustring.h>
+#include <glibmm/keyfile.h>
 #include "Rectangle.h"
 
 class Settings {
@@ -22,8 +23,8 @@ class Settings {
         int readWindowWidth() const;
         Glib::ustring readStringConfigValue(const Glib::ustring& paramToRead) const;
 
-        GKeyFile *m_key_file;
-        char *m_file;
+        Glib::KeyFile* m_key_file;
+        Glib::ustring m_file_name;
     
 };
 
