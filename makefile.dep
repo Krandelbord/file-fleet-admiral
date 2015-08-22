@@ -1,10 +1,12 @@
+ChownWindow.o: ChownWindow.cc ChownWindow.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  Settings.h Rectangle.h SinglePanel.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
- FilesNavigationPanel.h Settings.h config.h
+ FilesNavigationPanel.h Settings.h config.h ToolBar.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h
+ToolBar.o: ToolBar.cc ToolBar.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h

@@ -2,6 +2,7 @@
 #include "config.h"
 #include "Settings.h"
 #include "Rectangle.h"
+#include "ToolBar.h"
 
 MainWindow::MainWindow() {
     Settings settings;
@@ -10,9 +11,13 @@ MainWindow::MainWindow() {
     this->set_default_size(winSizeFromCfg.getWidth(), winSizeFromCfg.getHeight());
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
-    
+
+    Gtk::VBox *mainHBox = Gtk::manage(new Gtk::VBox());
+
+    ToolBar* toollBar = Gtk::manage(new ToolBar());
+    mainHBox->pack_start(*toollBar,  Gtk::PackOptions::PACK_SHRINK);
+
     this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));
-    Gtk::HBox *mainHBox = Gtk::manage(new Gtk::HBox());
     mainHBox->add(*this->filesPanel);
     this->add(*mainHBox);
     this->show_all();
