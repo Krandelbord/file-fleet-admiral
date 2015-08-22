@@ -1,6 +1,6 @@
 FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
- Settings.h Rectangle.h SinglePanel.h FilesColumns.h
+ Settings.h Rectangle.h SinglePanel.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h config.h
 Rectangle.o: Rectangle.cc Rectangle.h
