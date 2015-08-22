@@ -8,7 +8,6 @@ class FilesColumns : public Gtk::TreeModel::ColumnRecord {
         FilesColumns();
         Gtk::TreeModelColumn<int> size_column;
         Gtk::TreeModelColumn<Glib::ustring> file_name_column;
-
 };
 
 #endif /** FILES_COLUMNS_H **/
