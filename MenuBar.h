@@ -11,9 +11,6 @@ class MenuBar : public Gtk::MenuBar {
         Gtk::MenuItem* createFileMenu();
         Gtk::MenuItem* createHelpMenu();
         void onQuitMenuItem();
- 
-        sigc::signal<void> m_signal_create_dir;
-        sigc::signal<void> m_signal_open_help;
 };
 
 #endif /** MENU_BAR_H */
