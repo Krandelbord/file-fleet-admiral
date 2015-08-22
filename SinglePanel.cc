@@ -16,7 +16,7 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
     Gtk::TreeView *treeView = Gtk::manage(new Gtk::TreeView());
     treeView->set_model(refListStore);
     treeView->append_column("Name", filesColumns.file_name_column);
-    treeView->append_column("ID", filesColumns.size_column);
+    treeView->append_column("Size", filesColumns.size_column);
 
 
 
@@ -26,6 +26,7 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
 Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
     FilesColumns filesColumns;
     Glib::RefPtr<Gtk::ListStore> refListStore = Gtk::ListStore::create(filesColumns);
+    appendOneFile(refListStore, 0, "...");
     appendOneFile(refListStore, 3443, "some file name");
     return refListStore;
 }
@@ -33,6 +34,6 @@ Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
 void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName) {
     FilesColumns filesColumns;
     Gtk::TreeModel::Row row = *(refListStore->append());
-    row[filesColumns.file_name_column] = Glib::ustring("chyba nie");
-    row[filesColumns.size_column] = 34;
+    row[filesColumns.file_name_column] = Glib::ustring(fileName);
+    row[filesColumns.size_column] = size;
 }
