@@ -8,8 +8,8 @@ class MenuBar : public Gtk::MenuBar {
     public :
         MenuBar();
     private:
-        Gtk::Menu* createFileMenu();
-        Gtk::Menu* createHelpMenu();
+        Gtk::MenuItem* createFileMenu();
+        Gtk::MenuItem* createHelpMenu();
         void onQuitMenuItem();
  
         sigc::signal<void> m_signal_create_dir;

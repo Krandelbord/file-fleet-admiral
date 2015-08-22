@@ -12,10 +12,10 @@ MainWindow::MainWindow() {
     this->set_position(Gtk::WIN_POS_CENTER);
     this->set_title(APPLICATION_NAME);
 
-    Gtk::Container *mainContainer = Gtk::manage(new Gtk::VBox());
+    Gtk::Box *mainContainer = Gtk::manage(new Gtk::VBox());
 
-    MenuBar menuBar; 
-    mainContainer->add(menuBar);
+    MenuBar *menuBar = Gtk::manage(new MenuBar());
+    mainContainer->pack_start(*menuBar, Gtk::PackOptions::PACK_SHRINK);
  
     this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));
     mainContainer->add(*this->filesPanel);
