@@ -1,5 +1,6 @@
 #include "SinglePanel.h"
 #include "FilesColumns.h"
+#include "PanelHeader.h"
 #include "config.h"
 
 #define PANEL_MARGIN_SIZE 5
@@ -11,7 +12,7 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox());
     
     Gtk::TreeView *filesTreeView = createFilesTreeView();
-    this->pathHeader = Gtk::manage(new Gtk::Label(startDirPath));
+    this->pathHeader = Gtk::manage(new PanelHeader(startDirPath));
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
     mainFilesBox->pack_end(*filesTreeView, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
