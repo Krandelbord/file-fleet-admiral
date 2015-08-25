@@ -11,5 +11,9 @@
 #  define gfm_debug(args...) ;
 #endif
 
+#include <libintl.h>
+#define PACKAGE PROGRAM_NAME
+#define _(s) gettext(s)
+
 
 #endif /* CONFIG_H */
