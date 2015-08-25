@@ -5,7 +5,7 @@
 /**
  * Represents single panel for files
 **/
-class SinglePanel : public Gtk::VBox {
+class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
     private:
