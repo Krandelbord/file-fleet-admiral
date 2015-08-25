@@ -10,12 +10,15 @@ class SinglePanel : public Gtk::Frame {
         SinglePanel(const Glib::ustring& startDirPath);
     private:
         Gtk::Widget *pathHeader;
+        Glib::RefPtr<Gtk::ListStore> refListStore;
 
         Gtk::TreeView* createFilesTreeView();
         Glib::RefPtr<Gtk::ListStore> createFakeData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName);
+        void onNewData(const Glib::ustring& rowToAppend);
 
         void startReadDataThread();
+
 };
 
 #endif /** SINGLE_PANEL_H */
