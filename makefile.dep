@@ -4,9 +4,11 @@ FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h config.h MenuBar.h
 MenuBar.o: MenuBar.cc MenuBar.h config.h
+PanelHeader.o: PanelHeader.cc PanelHeader.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
-SinglePanel.o: SinglePanel.cc SinglePanel.h FilesColumns.h
+SinglePanel.o: SinglePanel.cc SinglePanel.h FilesColumns.h PanelHeader.h \
+ config.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h
