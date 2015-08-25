@@ -1,6 +1,7 @@
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "PanelHeader.h"
+#include "FilesReadThread.h"
 #include "config.h"
 
 #define PANEL_MARGIN_SIZE 5
@@ -24,7 +25,10 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 }
 
 void SinglePanel::startReadDataThread() {
-    gfm_debug("reading files data should start here\n");
+    gfm_debug("reading files data starts here\n");
+    FilesReadThread* redDirThread = new FilesReadThread("/home/emil");
+    redDirThread->singalNewDataFromThread().connect(
+            sigc::bind<1>(sigc::mem_fun(*this, &SinglePanel::onNewData), "there should be data"));
 }
 
 Gtk::TreeView* SinglePanel::createFilesTreeView() {
@@ -37,6 +41,10 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
     treeView->append_column("Size", filesColumns.size_column);
 
     return treeView;
+}
+
+void SinglePanel::onNewData(const Glib::ustring& rowToAppend) {
+    appendOneFile(this->refListStore, 222, "zz");
 }
 
 Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
