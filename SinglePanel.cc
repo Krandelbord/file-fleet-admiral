@@ -4,13 +4,17 @@
 #define PANEL_MARGIN_SIZE 5
 
 SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
-    this->set_label(startDirPath);
     this->set_margin_start(PANEL_MARGIN_SIZE);
     this->set_margin_end(PANEL_MARGIN_SIZE);
     
+    Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox());
+    
     Gtk::TreeView *filesTreeView = createFilesTreeView();
-    this->add(*filesTreeView);
+    this->pathHeader = Gtk::manage(new Gtk::Label(startDirPath));
+    mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
+    mainFilesBox->pack_end(*filesTreeView, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
+    this->add(*mainFilesBox);
 }
 
 Gtk::TreeView* SinglePanel::createFilesTreeView() {
@@ -21,8 +25,6 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
     treeView->set_model(refListStore);
     treeView->append_column("Name", filesColumns.file_name_column);
     treeView->append_column("Size", filesColumns.size_column);
-
-
 
     return treeView;
 }
