@@ -1,5 +1,6 @@
 #include "SinglePanel.h"
 #include "FilesColumns.h"
+#include "config.h"
 
 #define PANEL_MARGIN_SIZE 5
 
@@ -15,6 +16,14 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     mainFilesBox->pack_end(*filesTreeView, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     this->add(*mainFilesBox);
+
+    Glib::signal_idle().connect(
+            sigc::bind_return(sigc::mem_fun(*this, &SinglePanel::startReadDataThread), false));
+
+}
+
+void SinglePanel::startReadDataThread() {
+    gfm_debug("reading files data should start here\n");
 }
 
 Gtk::TreeView* SinglePanel::createFilesTreeView() {
