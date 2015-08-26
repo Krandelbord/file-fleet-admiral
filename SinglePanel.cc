@@ -11,15 +11,19 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     
     this->dirDisplayed = Glib::ustring(startDirPath);
 
-    Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox());
-    
-    Gtk::TreeView *filesTreeView = createFilesTreeView();
+    Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox()); 
+
     this->pathHeader = Gtk::manage(new PanelHeader(startDirPath));
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
-    mainFilesBox->pack_end(*filesTreeView, Gtk::PackOptions::PACK_EXPAND_WIDGET);
+
+    Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
+    Gtk::TreeView* filesTreeView = createFilesTreeView();
+    scrollWin->add(*filesTreeView);
+    mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     this->add(*mainFilesBox);
 
+    //singal launched after GUI is rendered
     Glib::signal_idle().connect(
             sigc::bind_return(sigc::mem_fun(*this, &SinglePanel::startReadDataThread), false));
 
