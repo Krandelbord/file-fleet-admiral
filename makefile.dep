@@ -1,7 +1,7 @@
 FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
- Settings.h Rectangle.h SinglePanel.h FilesReadThread.h
-FilesReadThread.o: FilesReadThread.cc FilesReadThread.h SinglePanel.h \
+ Settings.h Rectangle.h SinglePanel.h FilesReadWorker.h
+FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h SinglePanel.h \
  config.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h config.h MenuBar.h
@@ -9,7 +9,7 @@ MenuBar.o: MenuBar.cc MenuBar.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
-SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadThread.h \
+SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadWorker.h \
  FilesColumns.h PanelHeader.h config.h
 debug.o: debug.cc debug.h
 examplewindow.o: examplewindow.cc examplewindow.h exampleworker.h

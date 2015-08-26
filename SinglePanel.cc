@@ -1,7 +1,6 @@
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "PanelHeader.h"
-#include "FilesReadThread.h"
 #include "config.h"
 
 #define PANEL_MARGIN_SIZE 5

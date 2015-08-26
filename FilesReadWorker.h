@@ -1,5 +1,5 @@
-#ifndef FILES_READ_THREAD_H
-#define FILES_READ_THREAD_H
+#ifndef FILES_READ_WORKER_H
+#define FILES_READ_WORKER_H
 
 #include <glibmm.h>
 
@@ -24,4 +24,4 @@ class FilesReadWorker {
         
 
 };
-#endif /** FILES_READ_THREAD_H **/
+#endif /** FILES_READ_WORKER_H **/

@@ -1,4 +1,4 @@
-#include "FilesReadThread.h"
+#include "FilesReadWorker.h"
 #include "SinglePanel.h"
 #include "config.h"
 
