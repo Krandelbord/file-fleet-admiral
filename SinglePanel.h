@@ -3,11 +3,12 @@
 
 #include <gtkmm.h>
 #include "FilesReadWorker.h"
+#include "WorkerNotifable.h"
 
 /**
  * Represents single panel for files
 **/
-class SinglePanel : public Gtk::Frame {
+class SinglePanel : public Gtk::Frame, public WorkerNotifable {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
 

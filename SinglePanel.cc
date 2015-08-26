@@ -29,7 +29,7 @@ void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
     this->readDirWorker = new FilesReadWorker(dirDisplayed);    
     this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::thread_function), this));
+            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
    // Connect the handler to the dispatcher.
    m_Dispatcher.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
