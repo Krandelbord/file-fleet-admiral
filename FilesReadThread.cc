@@ -2,11 +2,11 @@
 #include "SinglePanel.h"
 #include "config.h"
 
-FilesReadThread::FilesReadThread(const Glib::ustring& dirToRead) {
+FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead) {
     this->dirToRead = dirToRead; 
 }
 
-void FilesReadThread::thread_function(SinglePanel* caller) {
+void FilesReadWorker::thread_function(SinglePanel* caller) {
     gfm_debug("Inside thread function \n");
     {
         Glib::Threads::Mutex::Lock lock(mutexForData);
@@ -33,7 +33,7 @@ void FilesReadThread::thread_function(SinglePanel* caller) {
 }
 
 // Accesses to these data are synchronized by a mutex.
-const Glib::ustring FilesReadThread::getDataFromThread() const {
+const Glib::ustring FilesReadWorker::getDataFromThread() const {
     Glib::Threads::Mutex::Lock lock(mutexForData);
     return Glib::ustring(fileDataRead);
 }

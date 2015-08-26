@@ -9,9 +9,9 @@ class SinglePanel;
 /**
  * Thread that reads directory content 
  * **/
-class FilesReadThread {
+class FilesReadWorker {
     public:
-        FilesReadThread(const Glib::ustring& pathToRead);
+        FilesReadWorker(const Glib::ustring& pathToRead);
 
         void thread_function(SinglePanel* caller);
         const Glib::ustring getDataFromThread() const;

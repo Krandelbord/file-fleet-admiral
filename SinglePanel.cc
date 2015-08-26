@@ -28,9 +28,9 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->redDirThread = new FilesReadThread(dirDisplayed);    
+    this->readDirWorker = new FilesReadWorker(dirDisplayed);    
     this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(redDirThread, &FilesReadThread::thread_function), this));
+            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::thread_function), this));
    // Connect the handler to the dispatcher.
    m_Dispatcher.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
@@ -54,7 +54,7 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
 }
 
 void SinglePanel::onNewData() {
-    Glib::ustring dataFromThread = this->redDirThread->getDataFromThread();
+    Glib::ustring dataFromThread = this->readDirWorker->getDataFromThread();
     appendOneFile(this->refListStore, 222, dataFromThread);
 }
 

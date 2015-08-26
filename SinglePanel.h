@@ -27,7 +27,7 @@ class SinglePanel : public Gtk::Frame {
 
         void startReadDataThread();
         Glib::Dispatcher m_Dispatcher;
-        FilesReadThread* redDirThread;
+        FilesReadWorker* readDirWorker;
         Glib::Threads::Thread* workerThread;
 };
 
