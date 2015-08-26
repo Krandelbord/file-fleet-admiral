@@ -2,9 +2,7 @@
 #define FILES_READ_WORKER_H
 
 #include <glibmm.h>
-
-/** Aby pokręcone zależnosci działały **/
-class SinglePanel;
+#include "WorkerNotifable.h"
 
 /**
  * Thread that reads directory content 
@@ -13,7 +11,7 @@ class FilesReadWorker {
     public:
         FilesReadWorker(const Glib::ustring& pathToRead);
 
-        void thread_function(SinglePanel* caller);
+        void threadFunction(WorkerNotifable* caller);
         const Glib::ustring getDataFromThread() const;
     private:
         Glib::ustring dirToRead;
