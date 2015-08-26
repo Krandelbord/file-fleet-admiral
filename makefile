@@ -1,5 +1,4 @@
 DEBUG='true'
-
 OUT=gfm
 
 ifdef DEBUG

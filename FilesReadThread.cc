@@ -1,22 +1,39 @@
 #include "FilesReadThread.h"
+#include "SinglePanel.h"
 #include "config.h"
 
 FilesReadThread::FilesReadThread(const Glib::ustring& dirToRead) {
-    this->launch();
+    this->dirToRead = dirToRead; 
 }
 
-void FilesReadThread::launch() {
-    gfm_debug("Thread was launched\n");
-	Glib::Thread::create(sigc::mem_fun(*this, &FilesReadThread::thread_function), false);
+void FilesReadThread::thread_function(SinglePanel* caller) {
+    gfm_debug("Inside thread function \n");
+    {
+        Glib::Threads::Mutex::Lock lock(mutexForData);
+        fileDataRead = "no data from thread so far";
+    } // The mutex is unlocked here by lock's destructor.
+
+    // Simulate a long calculation.
+    for (int i = 0; ; ++i) // do until break
+    {
+        gfm_debug("one iteration start \n");
+        Glib::usleep(250000); // microseconds
+
+        Glib::Threads::Mutex::Lock lock(mutexForData);
+
+        fileDataRead = "data from Thread "+dirToRead;
+
+        lock.release();
+        caller->notifyNewDataFromThread();
+    }
+
+    Glib::Threads::Mutex::Lock lock(mutexForData);
+    lock.release();
+    caller->notifyNewDataFromThread();
 }
 
-void FilesReadThread::thread_function() {
-	gfm_debug("Inside thread function \n");
-
-    m_signal_on_new_data.emit();
-	//m_signal_finished.emit();
-}
-
-sigc::signal<void>& FilesReadThread::singalNewDataFromThread() {
-    return m_signal_on_new_data;
+// Accesses to these data are synchronized by a mutex.
+const Glib::ustring FilesReadThread::getDataFromThread() const {
+    Glib::Threads::Mutex::Lock lock(mutexForData);
+    return Glib::ustring(fileDataRead);
 }

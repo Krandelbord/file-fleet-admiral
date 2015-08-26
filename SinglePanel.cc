@@ -10,6 +10,8 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     this->set_margin_start(PANEL_MARGIN_SIZE);
     this->set_margin_end(PANEL_MARGIN_SIZE);
     
+    this->dirDisplayed = Glib::ustring(startDirPath);
+
     Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox());
     
     Gtk::TreeView *filesTreeView = createFilesTreeView();
@@ -26,25 +28,34 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    FilesReadThread* redDirThread = new FilesReadThread("/home/emil");
-    redDirThread->singalNewDataFromThread().connect(
-            sigc::bind<1>(sigc::mem_fun(*this, &SinglePanel::onNewData), "there should be data"));
+    this->redDirThread = new FilesReadThread(dirDisplayed);    
+    this->workerThread = Glib::Threads::Thread::create(
+            sigc::bind(sigc::mem_fun(redDirThread, &FilesReadThread::thread_function), this));
+   // Connect the handler to the dispatcher.
+   m_Dispatcher.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
+}
+
+// notify() is called from ExampleWorker::do_work(). It is executed in the worker
+// thread. It triggers a call to on_notification_from_worker_thread(), which is
+// executed in the GUI thread.
+void SinglePanel::notifyNewDataFromThread() {
+    m_Dispatcher.emit();
 }
 
 Gtk::TreeView* SinglePanel::createFilesTreeView() {
     FilesColumns filesColumns;
-    Glib::RefPtr<Gtk::ListStore> refListStore = createFakeData(); 
+    this->refListStore = createFakeData(); 
     
     Gtk::TreeView *treeView = Gtk::manage(new Gtk::TreeView());
     treeView->set_model(refListStore);
     treeView->append_column("Name", filesColumns.file_name_column);
     treeView->append_column("Size", filesColumns.size_column);
-
     return treeView;
 }
 
-void SinglePanel::onNewData(const Glib::ustring& rowToAppend) {
-    appendOneFile(this->refListStore, 222, "zz");
+void SinglePanel::onNewData() {
+    Glib::ustring dataFromThread = this->redDirThread->getDataFromThread();
+    appendOneFile(this->refListStore, 222, dataFromThread);
 }
 
 Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
