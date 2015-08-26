@@ -3,21 +3,25 @@
 
 #include <glibmm.h>
 
+/** Aby pokręcone zależnosci działały **/
+class SinglePanel;
+
 /**
  * Thread that reads directory content 
  * **/
 class FilesReadThread {
     public:
         FilesReadThread(const Glib::ustring& pathToRead);
-        //launches reading data
-        void launch();
 
-        //signal emited when thread prepares new portion of data 
-        sigc::signal<void> &singalNewDataFromThread();
-
+        void thread_function(SinglePanel* caller);
+        const Glib::ustring getDataFromThread() const;
     private:
-        sigc::signal<void>	m_signal_on_new_data;
+        Glib::ustring dirToRead;
 
-        void thread_function();
+        //mutex for data read/write
+        mutable Glib::Threads::Mutex mutexForData;
+        Glib::ustring fileDataRead;
+        
+
 };
 #endif /** FILES_READ_THREAD_H **/
