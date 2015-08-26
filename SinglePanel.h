@@ -2,7 +2,7 @@
 #define SINGLE_PANEL_H
 
 #include <gtkmm.h>
-#include "FilesReadThread.h"
+#include "FilesReadWorker.h"
 
 /**
  * Represents single panel for files
