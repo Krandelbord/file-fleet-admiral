@@ -46,6 +46,11 @@ void Settings::saveInteger(const Glib::ustring &name, int value) {
 	return g_key_file_set_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value);
 }
 
+void Settings::saveString(const Glib::ustring &name, const Glib::ustring& value) {
+	return g_key_file_set_string(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value.c_str());
+}
+
+
 void Settings::saveWindowSize(Rectangle rectToSave) {
     saveInteger(CONF_MAIN_WINDOW_SIZE_X, rectToSave.getWidth());
     saveInteger(CONF_MAIN_WINDOW_SIZE_Y, rectToSave.getHeight());
@@ -77,6 +82,10 @@ Glib::ustring Settings::readStringConfigValue(const Glib::ustring& paramToRead) 
 Glib::ustring Settings::getRightDirPath() const {
     Glib::ustring rightPanelDir = readStringConfigValue(CONF_RIGHT_PANEL_DIR);
     return rightPanelDir;
+}
+
+void Settings::saveRightPanelDir(const Glib::ustring& dirToSave) {
+    saveString(CONF_RIGHT_PANEL_DIR, dirToSave);
 }
 
 Settings::~Settings() {

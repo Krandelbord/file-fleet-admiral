@@ -3,10 +3,15 @@
 
 #include <gtkmm.h>
 #include "Settings.h"
+#include "SinglePanel.h"
 
 class FilesNavigationPanel : public Gtk::HPaned {
     public:
         FilesNavigationPanel(const Settings &settings);
+        const Glib::ustring& getRightPanelDir() const;
+
+    private:
+        SinglePanel* rightPanel;
 };
 
 #endif
