@@ -8,7 +8,11 @@ FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     SinglePanel* leftPanel = Gtk::manage(new SinglePanel(currentDir));
     this->add1(*leftPanel);
 
-    SinglePanel* rightPanel = Gtk::manage(new SinglePanel(settingsToRead.getRightDirPath()));
+    this->rightPanel = Gtk::manage(new SinglePanel(settingsToRead.getRightDirPath()));
     this->add2(*rightPanel);
-
 }
+
+const Glib::ustring& FilesNavigationPanel::getRightPanelDir() const {
+    return rightPanel->getCurrentDir();
+}
+

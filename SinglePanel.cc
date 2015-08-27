@@ -78,3 +78,7 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int s
     row[filesColumns.file_name_column] = Glib::ustring(fileName);
     row[filesColumns.size_column] = size;
 }
+
+const Glib::ustring& SinglePanel::getCurrentDir() const {
+    return dirDisplayed;
+}

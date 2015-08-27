@@ -11,6 +11,7 @@
 class SinglePanel : public Gtk::Frame, public WorkerNotifable {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
+        const Glib::ustring& getCurrentDir() const;
 
         // Called from the worker thread.
         void notifyNewDataFromThread();
