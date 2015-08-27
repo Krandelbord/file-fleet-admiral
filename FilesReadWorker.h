@@ -19,7 +19,9 @@ class FilesReadWorker {
         //mutex for data read/write
         mutable Glib::Threads::Mutex mutexForData;
         Glib::ustring fileDataRead;
-        
+
+        void initializeReturnData();
+        void setNewData(const Glib::ustring& newData);
 
 };
 #endif /** FILES_READ_WORKER_H **/
