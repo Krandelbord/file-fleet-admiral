@@ -33,7 +33,7 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->readDirWorker = new FilesReadWorker(dirDisplayed);    
+    this->readDirWorker = new FilesReadWorker(dirDisplayed, FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
    // Connect the handler to the dispatcher.
