@@ -61,7 +61,7 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
 void SinglePanel::onNewData() {
     std::vector<FileListElement> dataFromThread = this->readDirWorker->getDataFromThread();
     for (FileListElement oneNewDataElem : dataFromThread) {
-        appendOneFile(this->refListStore, 222, oneNewDataElem.getFileName());
+        appendOneFile(this->refListStore, oneNewDataElem.getFileSizeInBytes(), oneNewDataElem.getFileName());
     }
 }
 
@@ -69,7 +69,6 @@ Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
     FilesColumns filesColumns;
     Glib::RefPtr<Gtk::ListStore> refListStore = Gtk::ListStore::create(filesColumns);
     appendOneFile(refListStore, 0, "...");
-    appendOneFile(refListStore, 3443, "some file name");
     return refListStore;
 }
 

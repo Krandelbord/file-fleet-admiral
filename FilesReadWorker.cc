@@ -13,14 +13,26 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 
         std::string nextElemInDir = *dirIter;
         gfm_debug("nextElemInDir = %s\n", nextElemInDir.c_str());
+
+		std::string path = Glib::build_filename(dirToRead, nextElemInDir);
+		//Glib::usleep(101000);
+
+		//bool isDir = Glib::file_test(path, Glib::FILE_TEST_IS_DIR);
+
+		struct stat statFile;
+        int m_fileSize = 0;
+		int err = stat(path.c_str(), &statFile);
+		if (err != 0) {
+			m_fileSize = 0;
+		} 
+		m_fileSize = statFile.st_size;
 	
 		if (nextElemInDir.size() != 0)	{
-            setNewData(FileListElement(nextElemInDir, 232));
+            setNewData(FileListElement(nextElemInDir, m_fileSize));
             caller->notifyNewDataFromThread();
         }
 	}
-    gfm_debug("koniec plik byl\n");
-    //caller->notifyNewDataFromThread();
+    gfm_debug("End of reading thread\n");
 }
 
 void FilesReadWorker::setNewData(const FileListElement& newData) {

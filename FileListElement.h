@@ -8,12 +8,13 @@
  */
 class FileListElement {
     public:
-        FileListElement(const Glib::ustring& fileName, int fileSizeInBytes);
+        FileListElement(const Glib::ustring& fileName, uint64_t fileSizeInBytes);
 
         const Glib::ustring& getFileName() const;
+        uint64_t getFileSizeInBytes() const;
     private:
         Glib::ustring fileName;
-        int fileSizeInBytes;
+        uint64_t fileSizeInBytes;
 };
 
 #endif /** FILE_LIST_ELEMENT_H **/
