@@ -1,3 +1,4 @@
+#include <vector>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "PanelHeader.h"
@@ -57,8 +58,10 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
 }
 
 void SinglePanel::onNewData() {
-    Glib::ustring dataFromThread = this->readDirWorker->getDataFromThread();
-    appendOneFile(this->refListStore, 222, dataFromThread);
+    std::vector<Glib::ustring> dataFromThread = this->readDirWorker->getDataFromThread();
+    for (Glib::ustring oneNewDataElem : dataFromThread) {
+        appendOneFile(this->refListStore, 222, oneNewDataElem);
+    }
 }
 
 Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {

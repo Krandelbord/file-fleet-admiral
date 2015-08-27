@@ -1,5 +1,6 @@
 #include "FilesReadWorker.h"
 #include "config.h"
+#include <sys/stat.h>
 
 FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead) {
     this->dirToRead = dirToRead; 
@@ -7,32 +8,32 @@ FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead) {
 
 void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
     gfm_debug("Inside thread function \n");
-    initializeReturnData();
+  	Glib::Dir dir(dirToRead);
+	for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
 
-    // Simulate a long calculation.
-    for (int i = 0; ; ++i) // do until break
-    {
-        gfm_debug("one iteration start \n");
-        Glib::usleep(250000); // microseconds
-
-        setNewData("data from thread");        
-        caller->notifyNewDataFromThread();
-    }
-    caller->notifyNewDataFromThread();
-}
-
-void FilesReadWorker::initializeReturnData() {
-    setNewData("");
+        std::string nextElemInDir = *dirIter;
+        gfm_debug("nextElemInDir = %s\n", nextElemInDir.c_str());
+  	
+		if (nextElemInDir.size() != 0)	{
+            setNewData(nextElemInDir);
+            caller->notifyNewDataFromThread();
+        }
+	}
+    gfm_debug("koniec plik byl\n");
+    //caller->notifyNewDataFromThread();
 }
 
 void FilesReadWorker::setNewData(const Glib::ustring& newData) {
     Glib::Threads::Mutex::Lock lock(mutexForData);
-    fileDataRead = Glib::ustring(newData);
+    gfm_debug("set new data with %s\n", newData.c_str());
+    fileDataRead.push_back(Glib::ustring(newData));
     // The mutex is unlocked here by lock's destructor.
 }
 
 // Accesses to these data are synchronized by a mutex.
-const Glib::ustring FilesReadWorker::getDataFromThread() const {
+const std::vector<Glib::ustring> FilesReadWorker::getDataFromThread() {
     Glib::Threads::Mutex::Lock lock(mutexForData);
-    return Glib::ustring(fileDataRead);
+    std::vector<Glib::ustring> copyToReturn = fileDataRead;
+    fileDataRead.clear(); //empty output quueue
+    return copyToReturn;
 }
