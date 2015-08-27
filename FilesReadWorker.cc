@@ -1,8 +1,15 @@
 #include "FilesReadWorker.h"
+#include "FileType.h"
 #include "config.h"
 #include <sys/stat.h>
 
-bool sortByName(FileListElement first, FileListElement second) {
+bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
+    //dirs first
+    if (first.getFileType() == FileType::DIRECTORY && second.getFileType() == FileType::REGULAR_FILE) {
+        return true;
+    } else if (first.getFileType() == FileType::REGULAR_FILE && second.getFileType() == FileType::DIRECTORY) {
+        return false;
+    }
     return first.getFileName().lowercase() < second.getFileName().lowercase();
 }
 
@@ -22,8 +29,6 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 		std::string path = Glib::build_filename(dirToRead, nextElemInDir);
 		//Glib::usleep(101000);
 
-		//bool isDir = Glib::file_test(path, Glib::FILE_TEST_IS_DIR);
-
 		struct stat statFile;
         int m_fileSize = 0;
 		int err = stat(path.c_str(), &statFile);
@@ -33,10 +38,14 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 		m_fileSize = statFile.st_size;
 	
 		if (nextElemInDir.size() != 0)	{
-            setNewData(FileListElement(nextElemInDir, m_fileSize));
+            FileType fileType = FileType::REGULAR_FILE;
+            if (Glib::file_test(path, Glib::FILE_TEST_IS_DIR)) {
+                fileType = FileType::DIRECTORY;
+            }
+            setNewData(FileListElement(nextElemInDir, m_fileSize, fileType));
         }
 	}
-    std::sort(fileDataRead.begin(), fileDataRead.end(), sortByName);
+    std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
     caller->notifyNewDataFromThread();
     gfm_debug("End of reading thread\n");
 }

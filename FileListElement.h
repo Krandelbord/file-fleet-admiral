@@ -9,10 +9,13 @@
  */
 class FileListElement {
     public:
-        FileListElement(const Glib::ustring& fileName, uint64_t fileSizeInBytes);
+        FileListElement(const Glib::ustring& fileName, uint64_t fileSizeInBytes, 
+                FileType fileType);
 
         const Glib::ustring& getFileName() const;
         uint64_t getFileSizeInBytes() const;
+        const FileType getFileType() const;
+
     private:
         Glib::ustring fileName;
         uint64_t fileSizeInBytes;
