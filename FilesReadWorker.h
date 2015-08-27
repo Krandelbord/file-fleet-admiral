@@ -3,6 +3,7 @@
 
 #include <glibmm.h>
 #include "WorkerNotifable.h"
+#include "FileListElement.h"
 #include <vector>
 /**
  * Thread that reads directory content 
@@ -12,16 +13,16 @@ class FilesReadWorker {
         FilesReadWorker(const Glib::ustring& pathToRead);
 
         void threadFunction(WorkerNotifable* caller);
-        const std::vector<Glib::ustring> getDataFromThread();
+        const std::vector<FileListElement> getDataFromThread();
     private:
         Glib::ustring dirToRead;
 
         //mutex for data read/write
         mutable Glib::Threads::Mutex mutexForData;
-        std::vector<Glib::ustring> fileDataRead;
+        std::vector<FileListElement> fileDataRead;
 
         void initializeReturnData();
-        void setNewData(const Glib::ustring& newData);
+        void setNewData(const FileListElement& newData);
 
 };
 #endif /** FILES_READ_WORKER_H **/

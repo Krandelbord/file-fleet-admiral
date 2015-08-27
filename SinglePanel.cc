@@ -2,6 +2,7 @@
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "PanelHeader.h"
+#include "FileListElement.h"
 #include "config.h"
 
 #define PANEL_MARGIN_SIZE 5
@@ -58,9 +59,9 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
 }
 
 void SinglePanel::onNewData() {
-    std::vector<Glib::ustring> dataFromThread = this->readDirWorker->getDataFromThread();
-    for (Glib::ustring oneNewDataElem : dataFromThread) {
-        appendOneFile(this->refListStore, 222, oneNewDataElem);
+    std::vector<FileListElement> dataFromThread = this->readDirWorker->getDataFromThread();
+    for (FileListElement oneNewDataElem : dataFromThread) {
+        appendOneFile(this->refListStore, 222, oneNewDataElem.getFileName());
     }
 }
 
