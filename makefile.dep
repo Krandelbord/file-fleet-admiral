@@ -2,18 +2,20 @@ FileListElement.o: FileListElement.cc FileListElement.h
 FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  Settings.h Rectangle.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
- FileListElement.h
+ FileListElement.h FilesSortType.h
 FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h WorkerNotifable.h \
- FileListElement.h config.h
+ FileListElement.h FilesSortType.h config.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
- FilesNavigationPanel.h Settings.h config.h MenuBar.h
+ FilesNavigationPanel.h Settings.h SinglePanel.h FilesReadWorker.h \
+ WorkerNotifable.h FileListElement.h FilesSortType.h config.h MenuBar.h
 MenuBar.o: MenuBar.cc MenuBar.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadWorker.h \
- WorkerNotifable.h FileListElement.h FilesColumns.h PanelHeader.h \
- config.h
+ WorkerNotifable.h FileListElement.h FilesSortType.h FilesColumns.h \
+ PanelHeader.h config.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
- Settings.h
+ Settings.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
+ FileListElement.h FilesSortType.h

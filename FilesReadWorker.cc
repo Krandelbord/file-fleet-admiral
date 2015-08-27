@@ -2,8 +2,9 @@
 #include "config.h"
 #include <sys/stat.h>
 
-FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead) {
+FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType) {
     this->dirToRead = dirToRead; 
+    this->sortType = aSortType;
 }
 
 void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
