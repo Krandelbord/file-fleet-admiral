@@ -2,6 +2,10 @@
 #include "config.h"
 #include <sys/stat.h>
 
+bool sortByName(FileListElement first, FileListElement second) {
+    return first.getFileName().lowercase() < second.getFileName().lowercase();
+}
+
 FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType) {
     this->dirToRead = dirToRead; 
     this->sortType = aSortType;
@@ -30,9 +34,10 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 	
 		if (nextElemInDir.size() != 0)	{
             setNewData(FileListElement(nextElemInDir, m_fileSize));
-            caller->notifyNewDataFromThread();
         }
 	}
+    std::sort(fileDataRead.begin(), fileDataRead.end(), sortByName);
+    caller->notifyNewDataFromThread();
     gfm_debug("End of reading thread\n");
 }
 
