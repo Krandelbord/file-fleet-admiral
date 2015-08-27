@@ -2,6 +2,7 @@
 #define FILE_LIST_ELEMENT_H
 
 #include <glibmm.h>
+#include "FileType.h"
 
 /**
  * Represents element in file list
@@ -15,6 +16,7 @@ class FileListElement {
     private:
         Glib::ustring fileName;
         uint64_t fileSizeInBytes;
+        FileType fileType;
 };
 
 #endif /** FILE_LIST_ELEMENT_H **/
