@@ -31,6 +31,8 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         Glib::Dispatcher m_Dispatcher;
         FilesReadWorker* readDirWorker;
         Glib::Threads::Thread* workerThread;
+
+        void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
 };
 
 #endif /** SINGLE_PANEL_H */
