@@ -20,6 +20,7 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
     Gtk::TreeView* filesTreeView = createFilesTreeView();
+    filesTreeView->signal_row_activated().connect(sigc::mem_fun(*this, &SinglePanel::onRowActivated));
     scrollWin->add(*filesTreeView);
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
@@ -81,4 +82,13 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int s
 
 const Glib::ustring& SinglePanel::getCurrentDir() const {
     return dirDisplayed;
+}
+
+void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
+    Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+    Gtk::TreeRow selectedRow = *iter;
+
+    FilesColumns filesColumns;
+    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+    gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
 }
