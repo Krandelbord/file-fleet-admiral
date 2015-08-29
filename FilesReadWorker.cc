@@ -1,6 +1,9 @@
 #include "FilesReadWorker.h"
 #include "FileType.h"
+#include "SortChain.h"
 #include "config.h"
+#include "CompareByName.h"
+#include "CompareDirsFirst.h"
 #include <sys/stat.h>
 
 bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
@@ -11,6 +14,10 @@ bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
         return false;
     }
     return first.getFileName().lowercase() < second.getFileName().lowercase();
+}
+
+bool sortBySizeDirsFirst(FileListElement first, FileListElement second) {
+    return first.getFileSizeInBytes() > second.getFileSizeInBytes();    
 }
 
 FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType) {
@@ -44,8 +51,10 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
             }
             setNewData(FileListElement(nextElemInDir, m_fileSize, fileType));
         }
-	}
-    std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
+	}  
+    SortChain *sortChain = new SortChain(new CompareDirsFirst());
+    sortChain->add(new CompareByName());
+    std::sort(fileDataRead.begin(), fileDataRead.end(), *sortChain);
     caller->notifyNewDataFromThread();
     gfm_debug("End of reading thread\n");
 }
