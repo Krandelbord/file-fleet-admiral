@@ -69,7 +69,7 @@ void SinglePanel::onNewData() {
 Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
     FilesColumns filesColumns;
     Glib::RefPtr<Gtk::ListStore> refListStore = Gtk::ListStore::create(filesColumns);
-    appendOneFile(refListStore, 0, "...");
+    appendOneFile(refListStore, 0, "..");
     return refListStore;
 }
 
