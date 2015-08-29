@@ -1,21 +1,32 @@
-FileListElement.o: FileListElement.cc FileListElement.h
+CompareByName.o: CompareByName.cc CompareByName.h CompareFunction.h \
+ CompareResult.h FileListElement.h FileType.h config.h
+CompareDirsFirst.o: CompareDirsFirst.cc CompareDirsFirst.h \
+ CompareFunction.h CompareResult.h FileListElement.h FileType.h
+CompareFunction.o: CompareFunction.cc CompareFunction.h CompareResult.h \
+ FileListElement.h FileType.h
+FileListElement.o: FileListElement.cc FileListElement.h FileType.h
 FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  Settings.h Rectangle.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
- FileListElement.h FilesSortType.h
+ FileListElement.h FileType.h FilesSortType.h
 FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h WorkerNotifable.h \
- FileListElement.h FilesSortType.h config.h
+ FileListElement.h FileType.h FilesSortType.h SortChain.h \
+ CompareFunction.h CompareResult.h config.h CompareByName.h \
+ CompareDirsFirst.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h SinglePanel.h FilesReadWorker.h \
- WorkerNotifable.h FileListElement.h FilesSortType.h config.h MenuBar.h
+ WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h config.h \
+ MenuBar.h
 MenuBar.o: MenuBar.cc MenuBar.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadWorker.h \
- WorkerNotifable.h FileListElement.h FilesSortType.h FilesColumns.h \
- PanelHeader.h config.h
+ WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h \
+ FilesColumns.h PanelHeader.h config.h
+SortChain.o: SortChain.cc SortChain.h CompareFunction.h CompareResult.h \
+ FileListElement.h FileType.h config.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
- FileListElement.h FilesSortType.h
+ FileListElement.h FileType.h FilesSortType.h
