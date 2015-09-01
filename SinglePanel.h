@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include "FilesReadWorker.h"
 #include "WorkerNotifable.h"
+#include "PanelHeader.h"
 
 /**
  * Represents single panel for files
@@ -16,9 +17,11 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         // Called from the worker thread.
         void notifyNewDataFromThread();
     private:
+        void setCurrentDir(const Glib::ustring& newCurrentDir);
+
         Glib::ustring dirDisplayed;
 
-        Gtk::Widget *pathHeader;
+        PanelHeader *pathHeader;
         Glib::RefPtr<Gtk::ListStore> refListStore;
 
         Gtk::TreeView* createFilesTreeView();

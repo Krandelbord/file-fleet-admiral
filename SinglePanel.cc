@@ -11,11 +11,11 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     this->set_margin_start(PANEL_MARGIN_SIZE);
     this->set_margin_end(PANEL_MARGIN_SIZE);
     
-    this->dirDisplayed = Glib::ustring(startDirPath);
-
     Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox()); 
 
     this->pathHeader = Gtk::manage(new PanelHeader(startDirPath));
+    this->setCurrentDir(startDirPath);
+
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
@@ -91,4 +91,12 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     FilesColumns filesColumns;
     Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
     gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
+    Glib::ustring newDirPath = dirDisplayed + "/" + selectedFileName;
+    gfm_debug("new file name is %s\n", newDirPath.c_str());
+    this->setCurrentDir(newDirPath);
+}
+
+void SinglePanel::setCurrentDir(const Glib::ustring& newCurrentDir) {
+    this->dirDisplayed = Glib::ustring(newCurrentDir);
+    this->pathHeader->setCurrentDir(newCurrentDir);
 }

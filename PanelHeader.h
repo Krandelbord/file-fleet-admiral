@@ -5,6 +5,7 @@
 class PanelHeader : public Gtk::HBox {
     public:
         PanelHeader(const Glib::ustring& labelTxt);
+        void setCurrentDir(const Glib::ustring& newLabel);
 
     private:
         Gtk::Label headerLabel;
