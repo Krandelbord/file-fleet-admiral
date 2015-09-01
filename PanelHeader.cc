@@ -6,3 +6,7 @@ PanelHeader::PanelHeader(const Glib::ustring& labelTxt) {
     Gtk::Spinner* spinner = Gtk::manage(new Gtk::Spinner());
     this->add(*spinner);
 }
+
+void PanelHeader::setCurrentDir(const Glib::ustring& newDir) {
+    headerLabel.set_text(newDir);
+}
