@@ -47,7 +47,9 @@ void Settings::saveInteger(const Glib::ustring &name, int value) {
 }
 
 void Settings::saveString(const Glib::ustring &name, const Glib::ustring& value) {
-	return g_key_file_set_string(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value.c_str());
+    if (!value.empty()) {
+    	g_key_file_set_string(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value.c_str());
+    }
 }
 
 
