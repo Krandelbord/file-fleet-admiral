@@ -1,4 +1,5 @@
 #include <vector>
+#include <stdexcept>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "PanelHeader.h"
@@ -50,7 +51,7 @@ void SinglePanel::notifyNewDataFromThread() {
 
 Gtk::TreeView* SinglePanel::createFilesTreeView() {
     FilesColumns filesColumns;
-    this->refListStore = createFakeData(); 
+    createEmptyData(); 
     
     Gtk::TreeView *treeView = Gtk::manage(new Gtk::TreeView());
     treeView->set_model(refListStore);
@@ -66,11 +67,10 @@ void SinglePanel::onNewData() {
     }
 }
 
-Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
+void SinglePanel::createEmptyData() {
     FilesColumns filesColumns;
-    Glib::RefPtr<Gtk::ListStore> refListStore = Gtk::ListStore::create(filesColumns);
+    this->refListStore = Gtk::ListStore::create(filesColumns);
     appendOneFile(refListStore, 0, "..");
-    return refListStore;
 }
 
 void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName) {
@@ -85,6 +85,7 @@ const Glib::ustring& SinglePanel::getCurrentDir() const {
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
+    if (refListStore) {
     Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
     Gtk::TreeRow selectedRow = *iter;
 
@@ -94,6 +95,22 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     Glib::ustring newDirPath = dirDisplayed + "/" + selectedFileName;
     gfm_debug("new file name is %s\n", newDirPath.c_str());
     this->setCurrentDir(newDirPath);
+
+    //start reading
+
+    refListStore->clear();
+    appendOneFile(refListStore, 0, "..");
+    delete this->readDirWorker;
+    gfm_debug("before workerThread->join()\n");
+    workerThread->join(); //closes thread but might block here for some reasone
+    gfm_debug("after workerThread->join()\n");
+    this->readDirWorker = new FilesReadWorker(newDirPath, FilesSortType::SORT_BY_NAME);
+    this->workerThread = Glib::Threads::Thread::create(
+            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
+
+    } else {
+        throw std::runtime_error("list store is completly empty");
+    }
 }
 
 void SinglePanel::setCurrentDir(const Glib::ustring& newCurrentDir) {

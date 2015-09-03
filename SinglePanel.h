@@ -25,7 +25,7 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         Glib::RefPtr<Gtk::ListStore> refListStore;
 
         Gtk::TreeView* createFilesTreeView();
-        Glib::RefPtr<Gtk::ListStore> createFakeData();
+        void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName);
         
         void onNewData();
