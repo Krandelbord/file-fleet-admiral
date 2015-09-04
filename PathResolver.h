@@ -16,5 +16,6 @@ class PathResolver {
         Glib::ustring pathAsString;
 
         void changeDirUp();
+        bool endsWithSlash() const;
 };
 #endif /** PATH_RESOLVER **/

@@ -13,7 +13,9 @@ void PathResolver::changeDirBy(const Glib::ustring& changeDirPath) {
     if (changeDirPath == PARENT_DIR_SYMBOL) {
         changeDirUp();
     } else {
-        this->pathAsString.append(G_DIR_SEPARATOR_S);
+        if (endsWithSlash()) {
+            this->pathAsString.append(G_DIR_SEPARATOR_S);
+        }
         this->pathAsString.append(changeDirPath);
     }
 }
@@ -25,6 +27,15 @@ void PathResolver::changeDirUp() {
         if (this->pathAsString.empty()) {
             this->pathAsString = G_DIR_SEPARATOR_S;
         }
+    }
+}
+
+bool PathResolver::endsWithSlash() const {
+    Glib::ustring lastChar = this->pathAsString.substr(this->pathAsString.size()-1);
+    if (lastChar != G_DIR_SEPARATOR_S) { 
+        return true;
+    } else {
+        return false;
     }
 }
 
