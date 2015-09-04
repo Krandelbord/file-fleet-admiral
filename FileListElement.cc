@@ -18,3 +18,8 @@ uint64_t FileListElement::getFileSizeInBytes() const {
 const FileType FileListElement::getFileType() const {
     return fileType;
 }
+
+FileListElement FileListElement::createParentDir() {
+    FileListElement toParentDir("..", 0, FileType::DIRECTORY);
+    return toParentDir;
+}
