@@ -4,6 +4,7 @@
 #include "FilesColumns.h"
 #include "PanelHeader.h"
 #include "FileListElement.h"
+#include "PathResolver.h"
 #include "config.h"
 
 #define PANEL_MARGIN_SIZE 5
@@ -70,7 +71,7 @@ void SinglePanel::onNewData() {
 void SinglePanel::createEmptyData() {
     FilesColumns filesColumns;
     this->refListStore = Gtk::ListStore::create(filesColumns);
-    appendOneFile(refListStore, 0, "..");
+    appendOneFile(refListStore, 0, PARENT_DIR_SYMBOL);
 }
 
 void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName) {
@@ -99,7 +100,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     //start reading
 
     refListStore->clear();
-    appendOneFile(refListStore, 0, "..");
+    appendOneFile(refListStore, 0, PARENT_DIR_SYMBOL);
     delete this->readDirWorker;
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
