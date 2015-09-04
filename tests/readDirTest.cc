@@ -15,6 +15,6 @@ void checkDirGeneration(const Glib::ustring& startDir, const Glib::ustring& cdCo
 
 int main() {
     checkDirGeneration("/home/emil/Documents", "notes", "/home/emil/Documents/notes");
-    checkDirGeneration("/home/emil/Documents", "..", "/home/emil/");
+    checkDirGeneration("/home/emil/Documents", "..", "/home/emil");
 }
 
