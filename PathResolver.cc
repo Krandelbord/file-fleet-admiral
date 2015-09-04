@@ -22,6 +22,9 @@ void PathResolver::changeDirUp() {
     size_t slashFound = this->pathAsString.find_last_of(G_DIR_SEPARATOR_S);
     if (slashFound != std::string::npos) {
         this->pathAsString.erase(slashFound);
+        if (this->pathAsString.empty()) {
+            this->pathAsString = G_DIR_SEPARATOR_S;
+        }
     }
 }
 
