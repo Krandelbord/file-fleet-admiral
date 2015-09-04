@@ -1,11 +1,12 @@
 #include "FilesTreeView.h"
 #include "FilesColumns.h"
+#include "FileCellRenderer.h"
 
 FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
     FilesColumns filesColumns; 
     this->set_model(filesListStorage);
 
-    Gtk::CellRendererText* cell = Gtk::manage(new Gtk::CellRendererText());
+    Gtk::CellRendererText* cell = Gtk::manage(new FileCellRenderer());
     int cols_count = this->append_column("Name", *cell);
     Gtk::TreeViewColumn* pColumn = this->get_column(cols_count - 1);
     if(pColumn) {
