@@ -92,10 +92,12 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
 
     FilesColumns filesColumns;
     Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+    PathResolver pathResolver(this->dirDisplayed);
+    pathResolver.changeDirBy(selectedFileName);
+
     gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
-    Glib::ustring newDirPath = dirDisplayed + "/" + selectedFileName;
-    gfm_debug("new file name is %s\n", newDirPath.c_str());
-    this->setCurrentDir(newDirPath);
+    gfm_debug("new file name is %s\n", pathResolver.toString().c_str());
+    this->setCurrentDir(pathResolver.toString());
 
     //start reading
 
@@ -105,7 +107,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
     gfm_debug("after workerThread->join()\n");
-    this->readDirWorker = new FilesReadWorker(newDirPath, FilesSortType::SORT_BY_NAME);
+    this->readDirWorker = new FilesReadWorker(pathResolver.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
 
