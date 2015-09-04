@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include "FilesReadWorker.h"
 #include "WorkerNotifable.h"
+#include "FileListElement.h"
 #include "PanelHeader.h"
 
 /**
@@ -26,7 +27,7 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
 
         Gtk::TreeView* createFilesTreeView();
         void createEmptyData();
-        void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName);
+        void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
         
         void onNewData();
 

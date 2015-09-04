@@ -56,29 +56,39 @@ Gtk::TreeView* SinglePanel::createFilesTreeView() {
     
     Gtk::TreeView *treeView = Gtk::manage(new Gtk::TreeView());
     treeView->set_model(refListStore);
-    treeView->append_column("Name", filesColumns.file_name_column);
+
+    Gtk::CellRendererText* cell = Gtk::manage(new Gtk::CellRendererText());
+    int cols_count = treeView->append_column("Name", *cell);
+    Gtk::TreeViewColumn* pColumn = treeView->get_column(cols_count - 1);
+    if(pColumn) {
+        pColumn->add_attribute(cell->property_text(), filesColumns.file_name_column);
+        pColumn->add_attribute(cell->property_weight(), filesColumns.font_weight);
+    }
+
     treeView->append_column("Size", filesColumns.size_column);
     return treeView;
 }
 
 void SinglePanel::onNewData() {
     std::vector<FileListElement> dataFromThread = this->readDirWorker->getDataFromThread();
-    for (FileListElement oneNewDataElem : dataFromThread) {
-        appendOneFile(this->refListStore, oneNewDataElem.getFileSizeInBytes(), oneNewDataElem.getFileName());
+    for (FileListElement& oneNewDataElem : dataFromThread) {
+        appendOneFile(this->refListStore, oneNewDataElem);
     }
 }
 
 void SinglePanel::createEmptyData() {
     FilesColumns filesColumns;
     this->refListStore = Gtk::ListStore::create(filesColumns);
-    appendOneFile(refListStore, 0, PARENT_DIR_SYMBOL);
+    FileListElement parent = FileListElement::createParentDir();
+    appendOneFile(refListStore, parent);
 }
 
-void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName) {
+void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem) {
     FilesColumns filesColumns;
     Gtk::TreeModel::Row row = *(refListStore->append());
-    row[filesColumns.file_name_column] = Glib::ustring(fileName);
-    row[filesColumns.size_column] = size;
+    row[filesColumns.file_name_column] = Glib::ustring(oneNewDataElem.getFileName());
+    row[filesColumns.size_column] = oneNewDataElem.getFileSizeInBytes();
+    row[filesColumns.font_weight] = oneNewDataElem.getFileType() == FileType::DIRECTORY ? 800 : 400;
 }
 
 const Glib::ustring& SinglePanel::getCurrentDir() const {
@@ -102,7 +112,8 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     //start reading
 
     refListStore->clear();
-    appendOneFile(refListStore, 0, PARENT_DIR_SYMBOL);
+    FileListElement parent = FileListElement::createParentDir();
+    appendOneFile(refListStore, parent);
     delete this->readDirWorker;
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
