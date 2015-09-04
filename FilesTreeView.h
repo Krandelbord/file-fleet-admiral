@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 class FilesTreeView : public Gtk::TreeView {
     public :
-        FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStore);
+        FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage);
 };
 
 #endif /** FILES_TREE_VIEW_H **/
