@@ -9,6 +9,8 @@
 #include "config.h"
 
 #define PANEL_MARGIN_SIZE 5
+#define NOT_BOLDED_TXT 400
+#define BOLDED_TXT 2*NOT_BOLDED_TXT
 
 SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     this->set_margin_start(PANEL_MARGIN_SIZE);
@@ -71,7 +73,7 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
     Gtk::TreeModel::Row row = *(refListStore->append());
     row[filesColumns.file_name_column] = Glib::ustring(oneNewDataElem.getFileName());
     row[filesColumns.size_column] = oneNewDataElem.getFileSizeInBytes();
-    row[filesColumns.font_weight] = oneNewDataElem.getFileType() == FileType::DIRECTORY ? 800 : 400;
+    row[filesColumns.font_weight] = oneNewDataElem.getFileType() == FileType::DIRECTORY ? BOLDED_TXT : NOT_BOLDED_TXT;
 }
 
 const Glib::ustring& SinglePanel::getCurrentDir() const {
