@@ -41,6 +41,7 @@ int main() {
     runner.run(checkDirGeneration("/home/emil/Documents", "notes", "/home/emil/Documents/notes"));
     runner.run(checkDirGeneration("/home/emil/Documents", "..", "/home/emil"));
     runner.run(checkDirGeneration("/", "..", "/"));
+    runner.run(checkDirGeneration("/home", "..", "/"));
 
     runner.showStats();
 }
