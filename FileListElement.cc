@@ -1,4 +1,5 @@
 #include "FileListElement.h"
+#include "PathResolver.h"
 
 FileListElement::FileListElement(const Glib::ustring& aFileName, uint64_t aFileSizeInBytes,
         FileType aFileType) {
@@ -20,6 +21,6 @@ const FileType FileListElement::getFileType() const {
 }
 
 FileListElement FileListElement::createParentDir() {
-    FileListElement toParentDir("..", 0, FileType::DIRECTORY);
+    FileListElement toParentDir(PARENT_DIR_SYMBOL, 0, FileType::PARENT_DIR);
     return toParentDir;
 }
