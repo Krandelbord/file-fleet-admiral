@@ -11,11 +11,12 @@ MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  PanelHeader.h config.h MenuBar.h
 MenuBar.o: MenuBar.cc MenuBar.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
+PathResolver.o: PathResolver.cc PathResolver.h
 Rectangle.o: Rectangle.cc Rectangle.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h \
- PanelHeader.h FilesColumns.h config.h
+ PanelHeader.h FilesColumns.h PathResolver.h config.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
