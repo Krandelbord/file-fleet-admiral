@@ -6,7 +6,7 @@ FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  FileListElement.h FileType.h FilesSortType.h PanelHeader.h
 FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h config.h
-FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h
+FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h config.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h \
