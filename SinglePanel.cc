@@ -72,7 +72,11 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
     FilesColumns filesColumns;
     Gtk::TreeModel::Row row = *(refListStore->append());
     row[filesColumns.file_name_column] = Glib::ustring(oneNewDataElem.getFileName());
-    row[filesColumns.size_column] = oneNewDataElem.getFileSizeInBytes();
+    if (oneNewDataElem.getFileType() == FileType::REGULAR_FILE) {
+        row[filesColumns.size_column] = oneNewDataElem.getFileSizeForDisplay();
+    } else {
+        row[filesColumns.size_column] = "<DIR>";
+    }
     row[filesColumns.font_weight] = oneNewDataElem.getFileType() == FileType::DIRECTORY ? BOLDED_TXT : NOT_BOLDED_TXT;
 }
 
