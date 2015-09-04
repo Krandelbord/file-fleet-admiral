@@ -4,6 +4,7 @@
 #include "FilesColumns.h"
 #include "PanelHeader.h"
 #include "FileListElement.h"
+#include "FilesTreeView.h"
 #include "PathResolver.h"
 #include "config.h"
 
@@ -21,7 +22,8 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
-    Gtk::TreeView* filesTreeView = createFilesTreeView();
+    createEmptyData();
+    Gtk::TreeView* filesTreeView = Gtk::manage(new FilesTreeView(refListStore));
     filesTreeView->signal_row_activated().connect(sigc::mem_fun(*this, &SinglePanel::onRowActivated));
     scrollWin->add(*filesTreeView);
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
@@ -48,25 +50,6 @@ void SinglePanel::startReadDataThread() {
 // executed in the GUI thread.
 void SinglePanel::notifyNewDataFromThread() {
     m_Dispatcher.emit();
-}
-
-Gtk::TreeView* SinglePanel::createFilesTreeView() {
-    FilesColumns filesColumns;
-    createEmptyData(); 
-    
-    Gtk::TreeView *treeView = Gtk::manage(new Gtk::TreeView());
-    treeView->set_model(refListStore);
-
-    Gtk::CellRendererText* cell = Gtk::manage(new Gtk::CellRendererText());
-    int cols_count = treeView->append_column("Name", *cell);
-    Gtk::TreeViewColumn* pColumn = treeView->get_column(cols_count - 1);
-    if(pColumn) {
-        pColumn->add_attribute(cell->property_text(), filesColumns.file_name_column);
-        pColumn->add_attribute(cell->property_weight(), filesColumns.font_weight);
-    }
-
-    treeView->append_column("Size", filesColumns.size_column);
-    return treeView;
 }
 
 void SinglePanel::onNewData() {
@@ -110,7 +93,6 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     this->setCurrentDir(pathResolver.toString());
 
     //start reading
-
     refListStore->clear();
     FileListElement parent = FileListElement::createParentDir();
     appendOneFile(refListStore, parent);

@@ -4,6 +4,7 @@
 enum class FileType {
     REGULAR_FILE,
     DIRECTORY,
-    LINK
+    LINK,
+    PARENT_DIR,
 };
 #endif /** FILE_TYPE_H **/
