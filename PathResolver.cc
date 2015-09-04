@@ -1,20 +1,28 @@
 #include "PathResolver.h"
+#include <glib/gfileutils.h>
 
 PathResolver::PathResolver(const Glib::ustring& startPath) {
     this->pathAsString = Glib::ustring(startPath);
 }
 
-PathResolver PathResolver::changeDirBy(const Glib::ustring& changeDirPath) {
-    if (changeDirPath == "..") {
-        size_t slashFound = this->pathAsString.find_last_of("/");
-        if (slashFound != std::string::npos) {
-            this->pathAsString.erase(slashFound);
-        }
+void PathResolver::changeDirBy(const Glib::ustring& changeDirPath) {
+    if (changeDirPath == PARENT_DIR_SYMBOL && this->pathAsString == G_DIR_SEPARATOR_S) {
+        //stay in root dir
+        return;
+    }
+    if (changeDirPath == PARENT_DIR_SYMBOL) {
+        changeDirUp();
     } else {
-        this->pathAsString.append("/");
+        this->pathAsString.append(G_DIR_SEPARATOR_S);
         this->pathAsString.append(changeDirPath);
     }
-    return PathResolver("");
+}
+
+void PathResolver::changeDirUp() {
+    size_t slashFound = this->pathAsString.find_last_of(G_DIR_SEPARATOR_S);
+    if (slashFound != std::string::npos) {
+        this->pathAsString.erase(slashFound);
+    }
 }
 
 Glib::ustring PathResolver::toString() const {
