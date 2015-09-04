@@ -1,3 +1,4 @@
+FileCellRenderer.o: FileCellRenderer.cc FileCellRenderer.h
 FileListElement.o: FileListElement.cc FileListElement.h FileType.h \
  PathResolver.h
 FilesColumns.o: FilesColumns.cc FilesColumns.h
@@ -6,7 +7,8 @@ FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  FileListElement.h FileType.h FilesSortType.h PanelHeader.h
 FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h config.h
-FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h
+FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h \
+ FileCellRenderer.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h \
