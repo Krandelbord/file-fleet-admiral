@@ -20,6 +20,12 @@ const FileType FileListElement::getFileType() const {
     return fileType;
 }
 
+Glib::ustring FileListElement::getFileSizeForDisplay() const {
+    std::ostringstream out;
+    out << fileSizeInBytes;
+    return out.str();
+}
+
 FileListElement FileListElement::createParentDir() {
     FileListElement toParentDir(PARENT_DIR_SYMBOL, 0, FileType::PARENT_DIR);
     return toParentDir;
