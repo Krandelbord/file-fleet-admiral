@@ -3,13 +3,18 @@
 
 #include <glibmm.h>
 
+/** Symbol of parent directory **/
+#define PARENT_DIR_SYMBOL ".."
+
 class PathResolver {
     public:
         PathResolver(const Glib::ustring& startPath);
-        PathResolver changeDirBy(const Glib::ustring& changeDirPath);
+        void changeDirBy(const Glib::ustring& changeDirPath);
         Glib::ustring toString() const;
 
     private:
         Glib::ustring pathAsString;
+
+        void changeDirUp();
 };
 #endif /** PATH_RESOLVER **/
