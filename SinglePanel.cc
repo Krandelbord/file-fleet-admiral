@@ -60,8 +60,12 @@ void SinglePanel::onNewData() {
 }
 
 void SinglePanel::createEmptyData() {
-    FilesColumns filesColumns;
-    this->refListStore = Gtk::ListStore::create(filesColumns);
+    if (refListStore) {
+        refListStore->clear();
+    } else {
+        FilesColumns filesColumns;
+        this->refListStore = Gtk::ListStore::create(filesColumns);
+    }
     FileListElement parent = FileListElement::createParentDir();
     appendOneFile(refListStore, parent);
 }
@@ -101,9 +105,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     this->setCurrentDir(pathResolver.toString());
 
     //start reading
-    refListStore->clear();
-    FileListElement parent = FileListElement::createParentDir();
-    appendOneFile(refListStore, parent);
+    createEmptyData();
     delete this->readDirWorker;
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
