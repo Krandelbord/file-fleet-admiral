@@ -40,6 +40,8 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
 
         void stopProgressIndicator();
+
+        bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
 };
 
 #endif /** SINGLE_PANEL_H */
