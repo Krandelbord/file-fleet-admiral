@@ -1,5 +1,4 @@
 DEBUG='true'
-
 OUT=gfm
 
 ifdef DEBUG
@@ -12,7 +11,9 @@ CXXFLAGS+=-Wall -std=c++11
 CXXFLAGS+=`pkg-config --cflags gtkmm-3.0`
 LDFLAGS+=`pkg-config --libs gtkmm-3.0`
 
-$(OUT): main.o MainWindow.o SinglePanel.o debug.o Settings.o Rectangle.o FilesNavigationPanel.o MenuBar.o
+$(OUT): main.o MainWindow.o SinglePanel.o debug.o Settings.o Rectangle.o FilesNavigationPanel.o \
+	FilesColumns.o MenuBar.o PanelHeader.o FilesReadWorker.o FileListElement.o PathResolver.o \
+	FilesTreeView.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 include makefile.dep
@@ -20,8 +21,17 @@ include makefile.dep
 dep:
 	$(CXX) -MM *.cc >makefile.dep
 
-.PHONY: clean
+.PHONY: clean tests
 
 clean:
 	-rm *.o
 	-rm $(OUT)
+	make -C tests clean
+
+
+#CXXFLAGS+=-I/home/emil/programy/snowhouse/
+tests: 
+	make -C tests
+
+tests2: tests/readDirTest
+	

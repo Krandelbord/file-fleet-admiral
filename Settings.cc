@@ -1,6 +1,7 @@
 #include "Settings.h"
 #include <glibmm/keyfile.h>
 #include "config.h"
+#include <glibmm.h>
 
 #define MAIN_CATEGORY_NAME "main-settings"
 #define NO_ERROR_HANDLER NULL
@@ -9,8 +10,7 @@
 const Glib::ustring CONF_MAIN_WINDOW_SIZE_X = Glib::ustring("main_window_width");
 const Glib::ustring CONF_MAIN_WINDOW_SIZE_Y = Glib::ustring("main_window_height");
 const Glib::ustring CONF_MAIN_PANEL_SPLIT = Glib::ustring("panels_split");
-//const Glib::ustring CONF_LEFT_PANEL_DIR = Glib::ustring("left_panel_last_dir");
-//const Glib::ustring CONF_RIGHT_PANEL_DIR = Glib::ustring("right_panel_last_dir");
+const Glib::ustring CONF_RIGHT_PANEL_DIR = Glib::ustring("right_panel_last_dir");
 
 Settings::Settings() {
     m_key_file = g_key_file_new();
@@ -46,6 +46,13 @@ void Settings::saveInteger(const Glib::ustring &name, int value) {
 	return g_key_file_set_integer(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value);
 }
 
+void Settings::saveString(const Glib::ustring &name, const Glib::ustring& value) {
+    if (!value.empty()) {
+    	g_key_file_set_string(m_key_file, MAIN_CATEGORY_NAME, name.c_str(), value.c_str());
+    }
+}
+
+
 void Settings::saveWindowSize(Rectangle rectToSave) {
     saveInteger(CONF_MAIN_WINDOW_SIZE_X, rectToSave.getWidth());
     saveInteger(CONF_MAIN_WINDOW_SIZE_Y, rectToSave.getHeight());
@@ -66,12 +73,21 @@ int Settings::readPanedPosition() const {
 }
 
 Glib::ustring Settings::readStringConfigValue(const Glib::ustring& paramToRead) const {   
-    return "/read/this/value/somehow";
+    gchar* readStringValue = g_key_file_get_string(m_key_file, MAIN_CATEGORY_NAME, paramToRead.c_str(), NO_ERROR_HANDLER);
+    if (readStringValue != NULL) {
+        return Glib::ustring(readStringValue);
+    } else {
+        return Glib::get_current_dir();
+    }
 }
 
-Glib::ustring Settings::getLeftDirPath() const {
-    //Glib::ustring leftPanelDir = readStringConfigValue("CONF_LEFT_PANEL_DIR"); //TODO: don't know why but it crashes
-    return "/the/dummy/string";
+Glib::ustring Settings::getRightDirPath() const {
+    Glib::ustring rightPanelDir = readStringConfigValue(CONF_RIGHT_PANEL_DIR);
+    return rightPanelDir;
+}
+
+void Settings::saveRightPanelDir(const Glib::ustring& dirToSave) {
+    saveString(CONF_RIGHT_PANEL_DIR, dirToSave);
 }
 
 Settings::~Settings() {
