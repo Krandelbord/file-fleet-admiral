@@ -2,8 +2,6 @@
 #include <stdexcept>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
-#include "PanelHeader.h"
-#include "FileListElement.h"
 #include "FilesTreeView.h"
 #include "PathResolver.h"
 #include "config.h"
