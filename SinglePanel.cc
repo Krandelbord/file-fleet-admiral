@@ -42,14 +42,14 @@ void SinglePanel::startReadDataThread() {
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
    // Connect the handler to the dispatcher.
-   m_Dispatcher.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
+   dispatcherNewData.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
 
 // notify() is called from ExampleWorker::do_work(). It is executed in the worker
 // thread. It triggers a call to on_notification_from_worker_thread(), which is
 // executed in the GUI thread.
 void SinglePanel::notifyNewDataFromThread() {
-    m_Dispatcher.emit();
+    dispatcherNewData.emit();
 }
 
 void SinglePanel::onNewData() {
@@ -57,6 +57,7 @@ void SinglePanel::onNewData() {
     for (FileListElement& oneNewDataElem : dataFromThread) {
         appendOneFile(this->refListStore, oneNewDataElem);
     }
+    this->stopProgressIndicator();
 }
 
 void SinglePanel::createEmptyData() {
@@ -105,6 +106,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
     gfm_debug("after workerThread->join()\n");
+    this->pathHeader->startProgress();
     this->readDirWorker = new FilesReadWorker(currentDir.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
@@ -121,4 +123,8 @@ Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path)
 
 void SinglePanel::updateCurrentDirHeader() {
     this->pathHeader->setCurrentDir(currentDir.toString());
+}
+
+void SinglePanel::stopProgressIndicator() {
+    this->pathHeader->stopProgress();
 }

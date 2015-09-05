@@ -32,12 +32,14 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         void onNewData();
 
         void startReadDataThread();
-        Glib::Dispatcher m_Dispatcher;
+        Glib::Dispatcher dispatcherNewData;
         FilesReadWorker* readDirWorker;
         Glib::Threads::Thread* workerThread;
 
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
+
+        void stopProgressIndicator();
 };
 
 #endif /** SINGLE_PANEL_H */
