@@ -25,7 +25,6 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         PanelHeader *pathHeader;
         Glib::RefPtr<Gtk::ListStore> refListStore;
 
-        Gtk::TreeView* createFilesTreeView();
         void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
         
@@ -37,6 +36,7 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         Glib::Threads::Thread* workerThread;
 
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
+        Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
 };
 
 #endif /** SINGLE_PANEL_H */
