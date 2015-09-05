@@ -92,11 +92,8 @@ const Glib::ustring& SinglePanel::getCurrentDir() const {
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
     Preconditions::checkArgument(refListStore, "list store is completly empty");
 
-    Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
-    Gtk::TreeRow selectedRow = *iter;
+    Glib::ustring selectedFileName = getSelectedFileName(path);
 
-    FilesColumns filesColumns;
-    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
     PathResolver pathResolver(this->dirDisplayed);
     pathResolver.changeDirBy(selectedFileName);
 
@@ -113,6 +110,15 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     this->readDirWorker = new FilesReadWorker(pathResolver.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
+}
+
+Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path) const {
+    Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+    Gtk::TreeRow selectedRow = *iter;
+
+    FilesColumns filesColumns;
+    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+    return selectedFileName;
 }
 
 void SinglePanel::setCurrentDir(const Glib::ustring& newCurrentDir) {
