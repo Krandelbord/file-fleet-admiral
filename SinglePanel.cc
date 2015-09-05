@@ -2,7 +2,6 @@
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "FilesTreeView.h"
-#include "PathResolver.h"
 #include "config.h"
 #include "Preconditions.h"
 
