@@ -12,9 +12,9 @@
  * **/
 class FilesReadWorker {
     public:
-        FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType);
+        FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType, WorkerNotifable* caller);
 
-        void threadFunction(WorkerNotifable* caller);
+        void threadFunction();
         const std::vector<FileListElement> getDataFromThread();
     private:
         Glib::ustring dirToRead;
@@ -24,8 +24,11 @@ class FilesReadWorker {
         mutable Glib::Threads::Mutex mutexForData;
         std::vector<FileListElement> fileDataRead;
 
+        Glib::Threads::Thread* workerThread;
+
         void initializeReturnData();
         void setNewData(const FileListElement& newData);
 
+        WorkerNotifable *objectToNotifyChanges;
 };
 #endif /** FILES_READ_WORKER_H **/

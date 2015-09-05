@@ -12,7 +12,7 @@ FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     this->add2(*rightPanel);
 }
 
-const Glib::ustring& FilesNavigationPanel::getRightPanelDir() const {
+const Glib::ustring FilesNavigationPanel::getRightPanelDir() const {
     return rightPanel->getCurrentDir();
 }
 

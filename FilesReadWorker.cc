@@ -13,12 +13,15 @@ bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
     return first.getFileName().lowercase() < second.getFileName().lowercase();
 }
 
-FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType) {
+FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType, WorkerNotifable* caller) {
     this->dirToRead = dirToRead; 
     this->sortType = aSortType;
+    this->objectToNotifyChanges = caller;
+    this->workerThread = Glib::Threads::Thread::create(sigc::mem_fun(this, &FilesReadWorker::threadFunction));
+    // Connect the handler to the dispatcher.
 }
 
-void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
+void FilesReadWorker::threadFunction() {
     gfm_debug("Inside thread function \n");
   	Glib::Dir dir(dirToRead);
 	for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
@@ -46,7 +49,10 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
         }
 	}
     std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
-    caller->notifyNewDataFromThread();
+    objectToNotifyChanges->notifyNewDataFromThread();
+
+    gfm_debug("before workerThread->join()\n");
+    workerThread->join();
     gfm_debug("End of reading thread\n");
 }
 
