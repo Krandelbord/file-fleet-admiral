@@ -10,15 +10,16 @@
 #define NOT_BOLDED_TXT 400
 #define BOLDED_TXT 2*NOT_BOLDED_TXT
 
-SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
+SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
+        currentDir(startDirPath) {
+
     this->set_margin_start(PANEL_MARGIN_SIZE);
     this->set_margin_end(PANEL_MARGIN_SIZE);
     
     Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox()); 
 
     this->pathHeader = Gtk::manage(new PanelHeader(startDirPath));
-    this->setCurrentDir(startDirPath);
-
+    this->updateCurrentDirHeader();
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
@@ -38,7 +39,7 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->readDirWorker = new FilesReadWorker(dirDisplayed, FilesSortType::SORT_BY_NAME);
+    this->readDirWorker = new FilesReadWorker(currentDir.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
    // Connect the handler to the dispatcher.
@@ -85,21 +86,19 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
     row[filesColumns.font_weight] = oneNewDataElem.getFileType() == FileType::DIRECTORY ? BOLDED_TXT : NOT_BOLDED_TXT;
 }
 
-const Glib::ustring& SinglePanel::getCurrentDir() const {
-    return dirDisplayed;
+const Glib::ustring SinglePanel::getCurrentDir() const {
+    return currentDir.toString();
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
     Preconditions::checkArgument(refListStore, "list store is completly empty");
 
     Glib::ustring selectedFileName = getSelectedFileName(path);
-
-    PathResolver pathResolver(this->dirDisplayed);
-    pathResolver.changeDirBy(selectedFileName);
+    currentDir.changeDirBy(selectedFileName);
 
     gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
-    gfm_debug("new file name is %s\n", pathResolver.toString().c_str());
-    this->setCurrentDir(pathResolver.toString());
+    gfm_debug("new file name is %s\n", currentDir.toString().c_str());
+    this->updateCurrentDirHeader();
 
     //start reading
     createEmptyData();
@@ -107,7 +106,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
     gfm_debug("after workerThread->join()\n");
-    this->readDirWorker = new FilesReadWorker(pathResolver.toString(), FilesSortType::SORT_BY_NAME);
+    this->readDirWorker = new FilesReadWorker(currentDir.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
 }
@@ -121,7 +120,6 @@ Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path)
     return selectedFileName;
 }
 
-void SinglePanel::setCurrentDir(const Glib::ustring& newCurrentDir) {
-    this->dirDisplayed = Glib::ustring(newCurrentDir);
-    this->pathHeader->setCurrentDir(newCurrentDir);
+void SinglePanel::updateCurrentDirHeader() {
+    this->pathHeader->setCurrentDir(currentDir.toString());
 }
