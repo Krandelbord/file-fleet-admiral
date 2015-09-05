@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 #include "config.h"
-#include "Settings.h"
-#include "Rectangle.h"
 #include "MenuBar.h"
 
 MainWindow::MainWindow() {

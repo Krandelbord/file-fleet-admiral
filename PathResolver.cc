@@ -1,5 +1,4 @@
 #include "PathResolver.h"
-#include <glib/gfileutils.h>
 
 PathResolver::PathResolver(const Glib::ustring& startPath) {
     this->pathAsString = Glib::ustring(startPath);
