@@ -29,7 +29,7 @@ set(SOURCE_FILES main.cc
         debug.cc
         MenuBar.cc
         Rectangle.cc
-)
+        Preconditions.cc)
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager
