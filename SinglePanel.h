@@ -6,6 +6,7 @@
 #include "WorkerNotifable.h"
 #include "FileListElement.h"
 #include "PanelHeader.h"
+#include "PathResolver.h"
 
 /**
  * Represents single panel for files
@@ -13,14 +14,14 @@
 class SinglePanel : public Gtk::Frame, public WorkerNotifable {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
-        const Glib::ustring& getCurrentDir() const;
+        const Glib::ustring getCurrentDir() const;
 
         // Called from the worker thread.
         void notifyNewDataFromThread();
     private:
-        void setCurrentDir(const Glib::ustring& newCurrentDir);
+        void updateCurrentDirHeader();
 
-        Glib::ustring dirDisplayed;
+        PathResolver currentDir;
 
         PanelHeader *pathHeader;
         Glib::RefPtr<Gtk::ListStore> refListStore;
