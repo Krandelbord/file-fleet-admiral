@@ -15,7 +15,21 @@ link_directories(
 include_directories(
         ${GTKMM_INCLUDE_DIRS}  )
 
-set(SOURCE_FILES debug.cc  FilesNavigationPanel.cc  main.cc  MainWindow.cc  MenuBar.cc  Rectangle.cc  Settings.cc SinglePanel.cc)
+set(SOURCE_FILES main.cc
+        FilesTreeView.cc
+        MainWindow.cc
+        PanelHeader.cc
+        PathResolver.cc
+        Settings.cc
+        SinglePanel.cc
+        FileListElement.cc
+        FilesColumns.cc
+        FilesNavigationPanel.cc
+        FilesReadWorker.cc
+        debug.cc
+        MenuBar.cc
+        Rectangle.cc
+)
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager

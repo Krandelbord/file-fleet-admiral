@@ -29,6 +29,8 @@ void MainWindow::saveSettings() const {
     gfm_debug("Window size is %d x %d\n", winSize.getWidth(), winSize.getHeight());
     settings.saveWindowSize(winSize);
     settings.savePanedPosition(this->getPanedPosition());
+
+    settings.saveRightPanelDir(filesPanel->getRightPanelDir());
 }
 
 Rectangle MainWindow::getWindowSize() const {
