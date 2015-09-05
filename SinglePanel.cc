@@ -1,10 +1,10 @@
 #include <vector>
-#include <stdexcept>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "FilesTreeView.h"
 #include "PathResolver.h"
 #include "config.h"
+#include "Preconditions.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
@@ -86,7 +86,8 @@ const Glib::ustring& SinglePanel::getCurrentDir() const {
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
-    if (refListStore) {
+    Preconditions::checkArgument(refListStore, "list store is completly empty");
+
     Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
     Gtk::TreeRow selectedRow = *iter;
 
@@ -110,10 +111,6 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     this->readDirWorker = new FilesReadWorker(pathResolver.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
-
-    } else {
-        throw std::runtime_error("list store is completly empty");
-    }
 }
 
 void SinglePanel::setCurrentDir(const Glib::ustring& newCurrentDir) {
