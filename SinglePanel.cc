@@ -83,7 +83,12 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
         row[filesColumns.size_column] = "<DIR>";
     }
 
-    row[filesColumns.font_weight] = oneNewDataElem.getFileType() == FileType::DIRECTORY ? BOLDED_TXT : NOT_BOLDED_TXT;
+    row[filesColumns.font_weight] = shouldBeBolded(oneNewDataElem) ? BOLDED_TXT : NOT_BOLDED_TXT;
+}
+
+bool SinglePanel::shouldBeBolded(const FileListElement &oneNewDataElem) const {
+    const FileType &typeToCheck = oneNewDataElem.getFileType();
+    return typeToCheck == FileType::DIRECTORY || typeToCheck == FileType::PARENT_DIR;
 }
 
 const Glib::ustring SinglePanel::getCurrentDir() const {
