@@ -34,8 +34,9 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 		int err = stat(path.c_str(), &statFile);
 		if (err != 0) {
 			m_fileSize = 0;
-		} 
-		m_fileSize = statFile.st_size;
+		} else {
+            m_fileSize = statFile.st_size;
+        }
 	
 		if (nextElemInDir.size() != 0)	{
             FileType fileType = FileType::REGULAR_FILE;
