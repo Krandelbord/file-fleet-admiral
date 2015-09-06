@@ -23,7 +23,7 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
     createEmptyData();
-    Gtk::TreeView* filesTreeView = Gtk::manage(new FilesTreeView(refListStore));
+    this->filesTreeView = Gtk::manage(new FilesTreeView(refListStore));
     filesTreeView->signal_row_activated().connect(sigc::mem_fun(*this, &SinglePanel::onRowActivated));
     scrollWin->add(*filesTreeView);
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
@@ -58,6 +58,7 @@ void SinglePanel::onNewData() {
         appendOneFile(this->refListStore, oneNewDataElem);
     }
     this->stopProgressIndicator();
+    this->putFocusOnTopOfTreeview();
 }
 
 void SinglePanel::createEmptyData() {
@@ -131,4 +132,9 @@ void SinglePanel::updateCurrentDirHeader() {
 
 void SinglePanel::stopProgressIndicator() {
     this->pathHeader->stopProgress();
+}
+
+void SinglePanel::putFocusOnTopOfTreeview() {
+    const Gtk::TreeModel::Path& pathToFirstRow = Gtk::TreePath("0");
+    filesTreeView->set_cursor(pathToFirstRow);
 }
