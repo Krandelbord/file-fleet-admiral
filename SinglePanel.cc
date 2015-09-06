@@ -1,10 +1,10 @@
 #include <vector>
+#include <memory>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "FilesTreeView.h"
 #include "config.h"
 #include "Preconditions.h"
-
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
 #define BOLDED_TXT 2*NOT_BOLDED_TXT
@@ -38,9 +38,9 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->readDirWorker = new FilesReadWorker(currentDir.toString(), FilesSortType::SORT_BY_NAME);
+    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
+            sigc::bind(sigc::mem_fun(readDirWorker.get(), &FilesReadWorker::threadFunction), this));
    // Connect the handler to the dispatcher.
    dispatcherNewData.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
@@ -107,14 +107,13 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
 
     //start reading
     createEmptyData();
-    delete this->readDirWorker;
     gfm_debug("before workerThread->join()\n");
     workerThread->join(); //closes thread but might block here for some reasone
     gfm_debug("after workerThread->join()\n");
     this->pathHeader->startProgress();
-    this->readDirWorker = new FilesReadWorker(currentDir.toString(), FilesSortType::SORT_BY_NAME);
+    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME);
     this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
+            sigc::bind(sigc::mem_fun(readDirWorker.get(), &FilesReadWorker::threadFunction), this));
 }
 
 Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path) const {
