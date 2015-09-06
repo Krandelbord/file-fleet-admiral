@@ -33,7 +33,7 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
 
         void startReadDataThread();
         Glib::Dispatcher dispatcherNewData;
-        FilesReadWorker* readDirWorker;
+        std::shared_ptr<FilesReadWorker> readDirWorker;
         Glib::Threads::Thread* workerThread;
 
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
