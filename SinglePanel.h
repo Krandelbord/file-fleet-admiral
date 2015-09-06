@@ -7,6 +7,7 @@
 #include "FileListElement.h"
 #include "PanelHeader.h"
 #include "PathResolver.h"
+#include "FilesTreeView.h"
 
 /**
  * Represents single panel for files
@@ -25,10 +26,11 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
 
         PanelHeader *pathHeader;
         Glib::RefPtr<Gtk::ListStore> refListStore;
+        FilesTreeView *filesTreeView;
 
         void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
-        
+ 
         void onNewData();
 
         void startReadDataThread();
@@ -42,6 +44,7 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         void stopProgressIndicator();
 
         bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
+        void putFocusOnTopOfTreeview();
 };
 
 #endif /** SINGLE_PANEL_H */
