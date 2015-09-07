@@ -8,8 +8,11 @@ class FilesTreeView : public Gtk::TreeView {
         FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage);
 
     private:
-    void addStyleByTypeTxtColumn(const Gtk::TreeModelColumn<Glib::ustring> &columnToAdd,
+    Gtk::CellRendererText * addStyleByTypeTxtColumn(const Gtk::TreeModelColumn<Glib::ustring> &columnToAdd,
                                  const Glib::ustring &columnTitle);
+
+    void addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> column, const Glib::ustring &columnTitle,
+                             int sizeInChars);
 };
 
 #endif /** FILES_TREE_VIEW_H **/
