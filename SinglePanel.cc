@@ -10,7 +10,7 @@
 #define BOLDED_TXT 2*NOT_BOLDED_TXT
 
 SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
-        currentDir(startDirPath) {
+        currentDir(startDirPath), selectionHistory(startDirPath) {
 
     this->set_margin_start(PANEL_MARGIN_SIZE);
     this->set_margin_end(PANEL_MARGIN_SIZE);
@@ -101,6 +101,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
 
     Glib::ustring selectedFileName = getSelectedFileName(path);
     currentDir.changeDirBy(selectedFileName);
+    selectionHistory.changeDirBy(selectedFileName);
 
     gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
     gfm_debug("new file name is %s\n", currentDir.toString().c_str());
@@ -135,6 +136,8 @@ void SinglePanel::stopProgressIndicator() {
 }
 
 void SinglePanel::putFocusOnTopOfTreeview() {
+    std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
+    gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
     const Gtk::TreeModel::Path& pathToFirstRow = Gtk::TreePath("0");
     filesTreeView->set_cursor(pathToFirstRow);
 }
