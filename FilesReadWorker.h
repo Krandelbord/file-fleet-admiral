@@ -13,7 +13,7 @@
 class FilesReadWorker {
     public:
         FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType);
-        virtual ~FilesReadWorker() {}
+        virtual ~FilesReadWorker();
 
         void threadFunction(WorkerNotifable* caller);
         const std::vector<FileListElement> getDataFromThread();

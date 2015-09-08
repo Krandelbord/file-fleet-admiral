@@ -61,3 +61,7 @@ const std::vector<FileListElement> FilesReadWorker::getDataFromThread() {
     fileDataRead.clear(); //empty output quueue
     return copyToReturn;
 }
+
+FilesReadWorker::~FilesReadWorker() {
+    gfm_debug("Destructor of worker for %s\n", this->dirToRead.c_str());
+}
