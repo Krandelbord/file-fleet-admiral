@@ -47,6 +47,8 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
 
         bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
         void putFocusOnTopOfTreeview();
+
+        const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
 };
 
 #endif /** SINGLE_PANEL_H */

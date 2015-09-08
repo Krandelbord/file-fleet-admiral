@@ -1,8 +1,8 @@
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
-#include "FilesTreeView.h"
 #include "config.h"
 #include "Preconditions.h"
 #define PANEL_MARGIN_SIZE 5
@@ -137,7 +137,19 @@ void SinglePanel::stopProgressIndicator() {
 
 void SinglePanel::putFocusOnTopOfTreeview() {
     std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
+    auto foundPath = findByFileName(selectionShouldBe);
     gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
-    const Gtk::TreeModel::Path& pathToFirstRow = Gtk::TreePath("0");
-    filesTreeView->set_cursor(pathToFirstRow);
+    filesTreeView->set_cursor(foundPath);
+}
+
+const Gtk::TreeModel::Path SinglePanel::findByFileName(std::string fileNameToFind) {
+    FilesColumns filesColumns;
+    for (Gtk::TreeRow row : refListStore->children()) {
+        const Glib::ustring &fileName = row->get_value(filesColumns.file_name_column);
+        if (fileName == fileNameToFind) {
+            return Gtk::TreePath(row);
+        }
+    }
+    //first element in list
+    return Gtk::TreePath("0");
 }
