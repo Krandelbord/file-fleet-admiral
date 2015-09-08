@@ -3,6 +3,9 @@
 #include "../PathResolver.h"
 #include "../SelectionHistory.h"
 
+#define COLOR_RESET "\x1b[0m"
+#define COLOR_RED   "\x1b[31;1m"
+#define COLOR_GREEN "\x1b[32;1m"
 /**
  * Returns true for cussess 
  */
@@ -52,7 +55,12 @@ class Runner {
         }
 
         void showStats() {
-            std::cout << "Tests finished. Success " << successCount << " of " << totalCount << std::endl;
+            if (totalCount == successCount) {
+               std::cout << COLOR_GREEN;
+            } else {
+               std::cout << COLOR_RED;
+            }
+	    std::cout << "Tests finished. Success " << successCount << " of " << totalCount << COLOR_RESET << std::endl ;
         }
     private :
         unsigned int totalCount = 0;
