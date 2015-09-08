@@ -1,8 +1,7 @@
-#include <snowhouse/snowhouse.h>
+#include <iostream>
+#include "Asserts.h"
 #include "../PathResolver.h"
 #include "../SelectionHistory.h"
-
-using namespace snowhouse;
 
 /**
  * Returns true for cussess 
@@ -11,13 +10,7 @@ bool checkDirGeneration(const Glib::ustring& startDir, const Glib::ustring& cdCo
     PathResolver path(startDir);
     path.changeDirBy(cdCommand);
 
-    try {
-        Assert::That(path.toString(), Equals(expected));
-    } catch (AssertionException& ex) {
-        std::cout << ex.GetMessage() << std::endl;
-        return false;
-    }
-    return true;
+    return Asserts::assertEquals("Values not equal", path.toString(), expected);
 }
 
 bool shouldPersist3LevelSelection() {
@@ -27,13 +20,7 @@ bool shouldPersist3LevelSelection() {
     selHistory.changeDirBy("CD2");
 
     Glib::ustring expectedSelection("Judas Priest");
-    try {
-        Assert::That(selHistory.getSelectionForDir("/home/emil/music"), Equals(expectedSelection));
-    } catch (AssertionException& ex) {
-        std::cout << ex.GetMessage() << std::endl;
-        return false;
-    }
-    return true;
+    return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/music"), expectedSelection);
 }
 
 bool shouldPersistDirUpSelection() {
@@ -43,13 +30,7 @@ bool shouldPersistDirUpSelection() {
     selHistory.changeDirBy("..");
 
     Glib::ustring expectedSelection("1993 - Metal Works");
-    try {
-        Assert::That(selHistory.getSelectionForDir("/home/emil/music/Judas Priest"), Equals(expectedSelection));
-    } catch (AssertionException& ex) {
-        std::cout << ex.GetMessage() << std::endl;
-        return false;
-    }
-    return true;
+    return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/music/Judas Priest"), expectedSelection);
 }
 
 bool shouldPersistSelection() {
@@ -57,13 +38,8 @@ bool shouldPersistSelection() {
     selHistory.changeDirBy("drawings");
 
     Glib::ustring expectedSelection("drawings");
-    try {
-        Assert::That(selHistory.getSelectionForDir("/home/emil/Documents"), Equals(expectedSelection));
-    } catch (AssertionException& ex) {
-        std::cout << ex.GetMessage() << std::endl;
-        return false;
-    }
-    return true;
+
+    return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/Documents"), expectedSelection);
 }
 
 class Runner {
