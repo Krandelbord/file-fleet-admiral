@@ -1,3 +1,5 @@
 gfm
 .o$
 ^zm.diff$
+^tests/readDirTest$
+

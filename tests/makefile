@@ -8,7 +8,7 @@ LDFLAGS+=`pkg-config --libs gtkmm-3.0`
 #$(OBJDIR)/%.o: %.cc | $(OBJDIR)
 #	$(COMPILE.cc) $(OUTPUT_OPTION) $<
 
-readDirTest: readDirTest.o ../PathResolver.o ../SelectionHistory.o ../debug.o
+readDirTest: Asserts.o readDirTest.o ../PathResolver.o ../SelectionHistory.o ../debug.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 	./$@
 
