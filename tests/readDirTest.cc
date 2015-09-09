@@ -47,11 +47,9 @@ bool shouldPersistSelection() {
 
 class Runner {
     public :
-        void run(bool runResultWasSuccess) {
-            totalCount++;
-            if (runResultWasSuccess) {
-                successCount++;
-            }
+       
+        void run(std::function<bool()> oneTestFunction) {
+            doRun(oneTestFunction());
         }
 
         void showStats() {
@@ -65,20 +63,31 @@ class Runner {
     private :
         unsigned int totalCount = 0;
         unsigned int successCount = 0;
+
+        void doRun(bool runResultWasSuccess) {
+            totalCount++;
+            if (runResultWasSuccess) {
+                successCount++;
+            }
+        }
+
 };
 
 int main() {
+    std::vector<std::function<bool()>> testsToRun;
+    testsToRun.push_back(std::bind(checkDirGeneration, "/home/emil/Documents", "notes", "/home/emil/Documents/notes"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/home/emil/Documents", "..", "/home/emil"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/", "..", "/"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/home", "..", "/"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/", "home", "/home"));
+    testsToRun.push_back(shouldPersistSelection);
+    testsToRun.push_back(shouldPersist3LevelSelection);
+    testsToRun.push_back(shouldPersistDirUpSelection);
     Runner runner;
+    for (auto oneTestToRun : testsToRun) {
+         runner.run(oneTestToRun);
+    }
 
-    runner.run(checkDirGeneration("/home/emil/Documents", "notes", "/home/emil/Documents/notes"));
-    runner.run(checkDirGeneration("/home/emil/Documents", "..", "/home/emil"));
-    runner.run(checkDirGeneration("/", "..", "/"));
-    runner.run(checkDirGeneration("/home", "..", "/"));
-    runner.run(checkDirGeneration("/", "home", "/home"));
-
-    runner.run(shouldPersistSelection());
-    runner.run(shouldPersist3LevelSelection());
-    runner.run(shouldPersistDirUpSelection());
     runner.showStats();
 }
 
