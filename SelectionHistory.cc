@@ -1,18 +1,15 @@
 #include "SelectionHistory.h"
 #include "config.h"
 
-SelectionHistory::SelectionHistory(const Glib::ustring& currentDir) {
-    history[currentDir] = "..";
-    lastVisitedDir = currentDir;
+SelectionHistory::SelectionHistory(const Glib::ustring& currentDir) : lastVisitedDir(currentDir) {
+    history[currentDir] = PARENT_DIR_SYMBOL;
 }
 
 Glib::ustring SelectionHistory::getSelectionForDir(const Glib::ustring &dirToSearchSelection) const {
-    gfm_debug("Searching for history of %s\n", dirToSearchSelection.c_str());
     std::unordered_map<std::string, std::string>::const_iterator got = history.find(dirToSearchSelection);
     if (got == history.end()) {
-        gfm_debug("not found niestety \n");
-        //not found -- default is dir UP
-        return "..";
+        //not history entry found
+        return PARENT_DIR_SYMBOL;
     } else {
         return got->second;
     }
@@ -23,9 +20,10 @@ Glib::ustring SelectionHistory::getSelectionForDir(const PathResolver& pathToSea
 }
 
 void SelectionHistory::changeDirBy(const Glib::ustring &dirToChange) {
-    gfm_debug("dodanie do klucza %s wartosci %s\n", lastVisitedDir.c_str(), dirToChange.c_str());
-    history[lastVisitedDir] = Glib::ustring(dirToChange);
-    lastVisitedDir = lastVisitedDir+"/"+dirToChange;
+    if (dirToChange != PARENT_DIR_SYMBOL) {
+        history[lastVisitedDir.toString()] = Glib::ustring(dirToChange);
+    }
+    lastVisitedDir.changeDirBy(dirToChange);
 }
 
 void SelectionHistory::changeDirUp() {

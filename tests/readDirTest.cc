@@ -45,6 +45,16 @@ bool shouldPersistSelection() {
     return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/Documents"), expectedSelection);
 }
 
+bool shouldPersistGoingBackToSomeRoot() { 
+    SelectionHistory selHistory("/home/emil/music");
+    selHistory.changeDirBy("Judas Priest");
+    selHistory.changeDirBy("..");
+    selHistory.changeDirBy("Iron Maiden");
+    selHistory.changeDirBy("..");
+
+    return Asserts::assertEquals("Values not equal", "Iron Maiden", selHistory.getSelectionForDir("/home/emil/music"));
+}
+
 class Runner {
     public :
        
@@ -83,6 +93,7 @@ int main() {
     testsToRun.push_back(shouldPersistSelection);
     testsToRun.push_back(shouldPersist3LevelSelection);
     testsToRun.push_back(shouldPersistDirUpSelection);
+    testsToRun.push_back(shouldPersistGoingBackToSomeRoot);
     Runner runner;
     for (auto oneTestToRun : testsToRun) {
          runner.run(oneTestToRun);
