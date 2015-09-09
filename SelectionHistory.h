@@ -16,6 +16,6 @@ class SelectionHistory {
 
     private:
         std::unordered_map<std::string, std::string> history;
-        Glib::ustring lastVisitedDir = "";
+        PathResolver lastVisitedDir;
 };
 #endif /** SELECTION_HISTORY_H */
