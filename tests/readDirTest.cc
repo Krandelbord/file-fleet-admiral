@@ -13,7 +13,7 @@ bool checkDirGeneration(const Glib::ustring& startDir, const Glib::ustring& cdCo
     PathResolver path(startDir);
     path.changeDirBy(cdCommand);
 
-    return Asserts::assertEquals("Values not equal", path.toString(), expected);
+    return Asserts::assertEquals("Values not equal", expected, path.toString());
 }
 
 bool shouldPersist3LevelSelection() {
@@ -22,8 +22,7 @@ bool shouldPersist3LevelSelection() {
     selHistory.changeDirBy("1993 - Metal Works");
     selHistory.changeDirBy("CD2");
 
-    Glib::ustring expectedSelection("Judas Priest");
-    return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/music"), expectedSelection);
+    return Asserts::assertEquals("Values not equal", "Judas Priest", selHistory.getSelectionForDir("/home/emil/music"));
 }
 
 bool shouldPersistDirUpSelection() {
@@ -32,17 +31,14 @@ bool shouldPersistDirUpSelection() {
     selHistory.changeDirBy("1993 - Metal Works");
     selHistory.changeDirBy("..");
 
-    Glib::ustring expectedSelection("1993 - Metal Works");
-    return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/music/Judas Priest"), expectedSelection);
+    return Asserts::assertEquals("Values not equal", "1993 - Metal Works", selHistory.getSelectionForDir("/home/emil/music/Judas Priest"));
 }
 
 bool shouldPersistSelection() {
     SelectionHistory selHistory("/home/emil/Documents");
     selHistory.changeDirBy("drawings");
 
-    Glib::ustring expectedSelection("drawings");
-
-    return Asserts::assertEquals("Values not equal", selHistory.getSelectionForDir("/home/emil/Documents"), expectedSelection);
+    return Asserts::assertEquals("Values not equal", "drawings", selHistory.getSelectionForDir("/home/emil/Documents"));
 }
 
 bool shouldPersistGoingBackToSomeRoot() { 
