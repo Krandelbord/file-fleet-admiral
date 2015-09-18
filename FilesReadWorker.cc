@@ -19,7 +19,7 @@ FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType a
 }
 
 void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
-    gfm_debug("Inside thread function \n");
+    gfm_debug("Inside thread function for dir %s \n", dirToRead.c_str());
     if (!Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
         caller->notifyNewDataFromThread();
         return;
@@ -28,7 +28,7 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 	for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
         std::string nextElemInDir = *dirIter;
 		std::string path = Glib::build_filename(dirToRead, nextElemInDir);
-		//Glib::usleep(101000);
+		Glib::usleep(101000);
 
 		struct stat statFile;
         int m_fileSize = 0;
@@ -49,7 +49,7 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 	}
     std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
     caller->notifyNewDataFromThread();
-    gfm_debug("End of reading thread\n");
+    gfm_debug("End of reading thread for dir %s\n", dirToRead.c_str());
 }
 
 void FilesReadWorker::setNewData(const FileListElement& newData) {
