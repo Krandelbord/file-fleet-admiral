@@ -9,5 +9,5 @@ What features should version 1.0 have
 5) Quick View
 6) Colouring based on mc.ini
 7) Find option
-
+8) Configuration window: categories on the left searchable, modfied panels become marked blue on left
 File Fleet Admiral
