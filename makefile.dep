@@ -4,26 +4,29 @@ FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  Settings.h Rectangle.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h config.h PanelHeader.h \
- PathResolver.h FilesTreeView.h
+ PathResolver.h FilesTreeView.h SelectionHistory.h
 FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h config.h
 FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h config.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h config.h \
- PanelHeader.h PathResolver.h FilesTreeView.h MenuBar.h
+ PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
+ MenuBar.h
 MenuBar.o: MenuBar.cc MenuBar.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 PathResolver.o: PathResolver.cc PathResolver.h
 Preconditions.o: Preconditions.cc Preconditions.h
 Rectangle.o: Rectangle.cc Rectangle.h
+SelectionHistory.o: SelectionHistory.cc SelectionHistory.h PathResolver.h \
+ config.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h config.h \
- PanelHeader.h PathResolver.h FilesTreeView.h FilesColumns.h \
- Preconditions.h
+ PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
+ FilesColumns.h Preconditions.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h PanelHeader.h \
- PathResolver.h FilesTreeView.h
+ PathResolver.h FilesTreeView.h SelectionHistory.h
