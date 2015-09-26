@@ -20,6 +20,10 @@ FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType a
 
 void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
     gfm_debug("Inside thread function \n");
+    if (!Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
+        caller->notifyNewDataFromThread();
+        return;
+    }
   	Glib::Dir dir(dirToRead);
 	for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
         std::string nextElemInDir = *dirIter;

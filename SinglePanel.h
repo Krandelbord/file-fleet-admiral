@@ -8,6 +8,7 @@
 #include "PanelHeader.h"
 #include "PathResolver.h"
 #include "FilesTreeView.h"
+#include "SelectionHistory.h"
 
 /**
  * Represents single panel for files
@@ -40,11 +41,14 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
 
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
+        SelectionHistory selectionHistory;
 
         void stopProgressIndicator();
 
         bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
         void putFocusOnTopOfTreeview();
+
+        const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
 };
 
 #endif /** SINGLE_PANEL_H */
