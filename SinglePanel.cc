@@ -38,11 +38,9 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME);
-    this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(readDirWorker.get(), &FilesReadWorker::threadFunction), this));
-   // Connect the handler to the dispatcher.
-   dispatcherNewData.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
+    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME, this);
+    // Connect the handler to the dispatcher.
+    dispatcherNewData.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
 
 // notify() is called from ExampleWorker::do_work(). It is executed in the worker
@@ -109,13 +107,8 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
 
     //start reading
     createEmptyData();
-    gfm_debug("before workerThread->join()\n");
-    workerThread->join(); //closes thread but might block here for some reasone
-    gfm_debug("after workerThread->join()\n");
     this->pathHeader->startProgress();
-    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME);
-    this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(readDirWorker.get(), &FilesReadWorker::threadFunction), this));
+    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME, this);
 }
 
 Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path) const {

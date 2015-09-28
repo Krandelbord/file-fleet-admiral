@@ -9,19 +9,19 @@
  */
 class FileListElement {
     public:
-        FileListElement(const Glib::ustring& fileName, uint64_t fileSizeInBytes, 
+        FileListElement(const Glib::ustring& fileName, __off_t fileSizeInBytes,
                 FileType fileType);
 
         static FileListElement createParentDir();
 
         const Glib::ustring& getFileName() const;
-        uint64_t getFileSizeInBytes() const;
+        __off_t getFileSizeInBytes() const;
         Glib::ustring getFileSizeForDisplay() const;
         const FileType getFileType() const;
 
     private:
         Glib::ustring fileName;
-        uint64_t fileSizeInBytes;
+        __off_t fileSizeInBytes;
         FileType fileType;
 };
 
