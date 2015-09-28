@@ -2,4 +2,5 @@ gfm
 .o$
 ^zm.diff$
 ^tests/readDirTest$
+^tests/readMultiThreadDirs
 

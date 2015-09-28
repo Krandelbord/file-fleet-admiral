@@ -37,7 +37,6 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         void startReadDataThread();
         Glib::Dispatcher dispatcherNewData;
         std::shared_ptr<FilesReadWorker> readDirWorker;
-        Glib::Threads::Thread* workerThread;
 
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
