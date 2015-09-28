@@ -1,10 +1,11 @@
-//
-// Created by enowak on 28.09.15.
-//
-
 #ifndef RUNNER_H
 #define RUNNER_H
 
+#include <functional>
+
+/**
+ * Test runner.
+ */
 class Runner {
 public :
     void run(std::function<bool()> oneTestFunction);
