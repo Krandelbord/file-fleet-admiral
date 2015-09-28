@@ -1,7 +1,7 @@
 #include "FilesReadWorker.h"
-#include "FileType.h"
 #include "config.h"
 #include <sys/stat.h>
+#include <iostream>
 
 bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
     //dirs first
@@ -13,9 +13,11 @@ bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
     return first.getFileName().lowercase() < second.getFileName().lowercase();
 }
 
-FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType) {
+FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType, WorkerNotifable* caller) {
     this->dirToRead = dirToRead; 
     this->sortType = aSortType;
+    this->workerThread = Glib::Threads::Thread::create(
+            sigc::bind(sigc::mem_fun(this, &FilesReadWorker::threadFunction), caller));
 }
 
 void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
@@ -31,7 +33,7 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
 		Glib::usleep(101000);
 
 		struct stat statFile;
-        int m_fileSize = 0;
+        __off_t m_fileSize = 0;
 		int err = stat(path.c_str(), &statFile);
 		if (err != 0) {
 			m_fileSize = 0;
@@ -62,6 +64,10 @@ void FilesReadWorker::setNewData(const FileListElement& newData) {
 const std::vector<FileListElement> FilesReadWorker::getDataFromThread() {
     Glib::Threads::Mutex::Lock lock(mutexForData);
     std::vector<FileListElement> copyToReturn = fileDataRead;
-    fileDataRead.clear(); //empty output quueue
+    fileDataRead.clear(); //empty output queue
     return copyToReturn;
+}
+
+FilesReadWorker::~FilesReadWorker() {
+    std::cout << "Destructor of files read worker for dir " << std::endl;
 }

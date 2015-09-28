@@ -12,8 +12,8 @@
  * **/
 class FilesReadWorker {
     public:
-        FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType);
-        virtual ~FilesReadWorker() {}
+        FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType, WorkerNotifable* caller);
+        virtual ~FilesReadWorker();
 
         void threadFunction(WorkerNotifable* caller);
         const std::vector<FileListElement> getDataFromThread();
@@ -24,8 +24,9 @@ class FilesReadWorker {
         //mutex for data read/write
         mutable Glib::Threads::Mutex mutexForData;
         std::vector<FileListElement> fileDataRead;
+        //actual thread where computatation happens
+        Glib::Threads::Thread* workerThread;
 
-        void initializeReturnData();
         void setNewData(const FileListElement& newData);
 
 };
