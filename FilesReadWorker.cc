@@ -49,7 +49,11 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
             setNewData(FileListElement(nextElemInDir, m_fileSize, fileType));
         }
 	}
+    
+    Glib::Threads::Mutex::Lock lock(mutexForData);
     std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
+    lock.release();
+
     caller->notifyNewDataFromThread();
     gfm_debug("End of reading thread for dir %s\n", dirToRead.c_str());
 }
@@ -71,3 +75,4 @@ const std::vector<FileListElement> FilesReadWorker::getDataFromThread() {
 FilesReadWorker::~FilesReadWorker() {
     std::cout << "Destructor of files read worker for dir " << std::endl;
 }
+
