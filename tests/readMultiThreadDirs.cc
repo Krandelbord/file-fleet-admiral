@@ -16,7 +16,7 @@ bool shouldReadMultiDirsInMultiThread() {
     WorkerNotifable *notifer = new NotiferForTests();
     for (int i=0; i<1000; ++i) {
         gfm_debug("Iteracja nr %d\n", i);
-        FilesReadWorker worker("/home/emil", FilesSortType::UNSORTED, notifer);
+        FilesReadWorker worker("/usr/share/doc", FilesSortType::UNSORTED, notifer);
     }
     return false;
 }
