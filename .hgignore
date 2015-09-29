@@ -3,4 +3,4 @@ gfm
 ^zm.diff$
 ^tests/readDirTest$
 ^tests/readMultiThreadDirs
-
+.cccc/
