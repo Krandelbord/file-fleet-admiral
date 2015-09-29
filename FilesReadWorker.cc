@@ -14,7 +14,7 @@ bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
 }
 
 FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType, WorkerNotifable* caller) {
-    this->dirToRead = dirToRead; 
+    this->dirToRead = Glib::ustring(dirToRead); 
     this->sortType = aSortType;
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(this, &FilesReadWorker::threadFunction), caller));
@@ -54,7 +54,9 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
     std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
     lock.release();
 
-    caller->notifyNewDataFromThread();
+    if (caller != nullptr) {
+        caller->notifyNewDataFromThread();
+    }
     gfm_debug("End of reading thread for dir %s\n", dirToRead.c_str());
 }
 
