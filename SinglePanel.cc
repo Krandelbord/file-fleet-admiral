@@ -112,7 +112,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     //start reading
     createEmptyData();
     this->pathHeader->startProgress();
-    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME, this);
+    startReadDataThread();
 }
 
 Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path) const {
