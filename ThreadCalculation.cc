@@ -15,7 +15,7 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
         for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
             std::string nextElemInDir = *dirIter;
             std::string path = Glib::build_filename(dirToRead, nextElemInDir);
-            Glib::usleep(101000);
+            //Glib::usleep(101000);
 
             if (nextElemInDir.size()!=0) {
                 __off_t sizeInBytes = readFileSize(path);
