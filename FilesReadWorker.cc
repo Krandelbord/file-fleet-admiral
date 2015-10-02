@@ -3,27 +3,16 @@
 #include <sys/stat.h>
 #include <iostream>
 
-bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
-    //dirs first
-    if (first.getFileType() == FileType::DIRECTORY && second.getFileType() == FileType::REGULAR_FILE) {
-        return true;
-    } else if (first.getFileType() == FileType::REGULAR_FILE && second.getFileType() == FileType::DIRECTORY) {
-        return false;
-    }
-    return first.getFileName().lowercase() < second.getFileName().lowercase();
-}
 
-FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType, WorkerNotifable* caller) {
+
+FilesReadWorker::FilesReadWorker(const Glib::ustring& dirToRead, FilesSortType aSortType) {
     this->dirToRead = Glib::ustring(dirToRead); 
     this->sortType = aSortType;
-    this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(this, &FilesReadWorker::threadFunction), caller));
 }
 
-void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
+void FilesReadWorker::threadFunction() {
     gfm_debug("Inside thread function for dir %s \n", dirToRead.c_str());
     if (!Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
-        caller->notifyNewDataFromThread();
         return;
     }
   	Glib::Dir dir(dirToRead);
@@ -50,13 +39,6 @@ void FilesReadWorker::threadFunction(WorkerNotifable* caller) {
         }
 	}
     
-    Glib::Threads::Mutex::Lock lock(mutexForData);
-    std::sort(fileDataRead.begin(), fileDataRead.end(), sortByNameDirsFirst);
-    lock.release();
-
-    if (caller != nullptr) {
-        caller->notifyNewDataFromThread();
-    }
     gfm_debug("End of reading thread for dir %s\n", dirToRead.c_str());
 }
 

@@ -47,13 +47,6 @@ void SinglePanel::startReadDataThread() {
     threadMsng->connectWorkFinishedSignal(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
 
-// notify() is called from ExampleWorker::do_work(). It is executed in the worker
-// thread. It triggers a call to on_notification_from_worker_thread(), which is
-// executed in the GUI thread.
-void SinglePanel::notifyNewDataFromThread() {
-    dispatcherNewData.emit();
-}
-
 void SinglePanel::onNewData() {
     std::vector<FileListElement> dataFromThread = guiDataReader.getCalculatedData();
     for (FileListElement& oneNewDataElem : dataFromThread) {

@@ -3,7 +3,6 @@
 
 #include <gtkmm.h>
 #include "FilesReadWorker.h"
-#include "WorkerNotifable.h"
 #include "FileListElement.h"
 #include "PanelHeader.h"
 #include "PathResolver.h"
@@ -14,13 +13,10 @@
 /**
  * Represents single panel for files
 **/
-class SinglePanel : public Gtk::Frame, public WorkerNotifable {
+class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
         const Glib::ustring getCurrentDir() const;
-
-        // Called from the worker thread.
-        void notifyNewDataFromThread();
     private:
         void updateCurrentDirHeader();
 
@@ -36,8 +32,6 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         void onNewData();
 
         void startReadDataThread();
-        Glib::Dispatcher dispatcherNewData;
-        std::shared_ptr<FilesReadWorker> readDirWorker;
 
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
@@ -49,7 +43,6 @@ class SinglePanel : public Gtk::Frame, public WorkerNotifable {
         void putFocusOnTopOfTreeview();
 
         const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
-
 
         GuiReader guiDataReader;
 };

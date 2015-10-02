@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <glibmm.h>
-#include "WorkerNotifable.h"
 #include "FileListElement.h"
 #include "FilesSortType.h"
 #include "config.h"
@@ -12,10 +11,10 @@
  * **/
 class FilesReadWorker {
     public:
-        FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType, WorkerNotifable* caller);
+        FilesReadWorker(const Glib::ustring& pathToRead, FilesSortType sortType);
         virtual ~FilesReadWorker();
 
-        void threadFunction(WorkerNotifable* caller);
+        void threadFunction();
         const std::vector<FileListElement> getDataFromThread();
     private:
         Glib::ustring dirToRead;

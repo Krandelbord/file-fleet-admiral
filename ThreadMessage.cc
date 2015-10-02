@@ -26,6 +26,16 @@ void ThreadMessage::addNewDataAsync(FileListElement newFileElement) {
    lock.release();
 }
 
+void ThreadMessage::addNewDataAsync(std::vector<FileListElement> newFileElements) {
+   Glib::Threads::Mutex::Lock lock(mutexForData);
+   gfm_debug("adding bunch of file elements");
+   for (auto newElem : newFileElements) {
+       calculatedData.push_back(newElem);
+   }
+   
+   lock.release();
+}
+
 const Glib::ustring ThreadMessage::getDirToRead() {
     return dirToRead;
 }
