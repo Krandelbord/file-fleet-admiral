@@ -5,6 +5,8 @@
 #include "FilesColumns.h"
 #include "config.h"
 #include "Preconditions.h"
+#include "GuiReader.h"
+
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
 #define BOLDED_TXT 2*NOT_BOLDED_TXT

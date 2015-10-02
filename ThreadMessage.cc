@@ -26,6 +26,14 @@ const Glib::ustring ThreadMessage::getDirToRead() {
     return dirToRead;
 }
 
+void ThreadMessage::notifyAllThreadsOfWorkFinish() {
+    dispatcherWorkFinished.emit();
+}
+
+void ThreadMessage::connectWorkFinishedSignal(const sigc::slot<void>& slot) {
+    dispatcherWorkFinished.connect(slot);
+}
+
 ThreadMessage::~ThreadMessage() {
     gfm_debug("Destructor of ThreadMessage for %s\n", dirToRead.c_str());
 }

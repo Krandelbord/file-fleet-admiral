@@ -16,9 +16,13 @@ class ThreadMessage {
         void addNewDataAsync(FileListElement newFileElement);
 
         const Glib::ustring getDirToRead();
-
+        void notifyAllThreadsOfWorkFinish();
+        void connectWorkFinishedSignal(const sigc::slot<void>& slot);
         ~ThreadMessage();
     private:
+        //inter-thread notifications
+        Glib::Dispatcher dispatcherWorkFinished;
+
         //mutex for data read/write
         mutable Glib::Threads::Mutex mutexForData;
 
