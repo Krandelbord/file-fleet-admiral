@@ -3,6 +3,7 @@
 
 #include <glibmm.h>
 #include "FileListElement.h"
+#include "PathResolver.h"
 
 /**
  * Message send to thread what to execute, and to receive back information from worker thread.
@@ -11,6 +12,8 @@
 class ThreadMessage {
     public:
         ThreadMessage(const Glib::ustring aDirToRead);
+        ThreadMessage(const PathResolver aDirToRead);
+
         void cancelWork();
         std::vector<FileListElement> getCaluclatedData();
         void addNewDataAsync(FileListElement newFileElement);

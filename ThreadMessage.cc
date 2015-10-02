@@ -5,6 +5,10 @@ ThreadMessage::ThreadMessage(const Glib::ustring aDirToRead) {
     this->dirToRead = Glib::ustring(aDirToRead);
 }
 
+ThreadMessage::ThreadMessage(const PathResolver aDirToRead) {
+    this->dirToRead = Glib::ustring(aDirToRead.toString());
+}
+
 void ThreadMessage::cancelWork() {
     gfm_debug("cancel work for dir %s\n", dirToRead.c_str());
 }
