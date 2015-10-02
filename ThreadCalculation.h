@@ -13,6 +13,7 @@ class ThreadCalculation {
     private:
         __off_t readFileSize(const std::string& filePathToReadSize);
         FileType readFileType(const std::string& pathToReadFileType);
+        void sortData(std::vector<FileListElement>& dataToSort);
 };
 
 #endif /** THREAD_CALCULATION_H */

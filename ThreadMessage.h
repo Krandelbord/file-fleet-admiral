@@ -17,6 +17,7 @@ class ThreadMessage {
         void cancelWork();
         std::vector<FileListElement> getCaluclatedData();
         void addNewDataAsync(FileListElement newFileElement);
+        void addNewDataAsync(std::vector<FileListElement> newFileElement);
 
         const Glib::ustring getDirToRead();
         void notifyAllThreadsOfWorkFinish();
