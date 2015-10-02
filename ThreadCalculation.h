@@ -10,6 +10,9 @@
 class ThreadCalculation {
     public:
         void threadFunction(std::shared_ptr<ThreadMessage> threadMessage);
+    private:
+        __off_t readFileSize(const std::string& filePathToReadSize);
+        FileType readFileType(const std::string& pathToReadFileType);
 };
 
 #endif /** THREAD_CALCULATION_H */
