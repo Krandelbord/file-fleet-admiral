@@ -11,17 +11,20 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
     //this is heavy work spearate thread function
     if (Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
         Glib::Dir dir(dirToRead);
-
         for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
             std::string nextElemInDir = *dirIter;
             std::string path = Glib::build_filename(dirToRead, nextElemInDir);
-            //Glib::usleep(101000);
+            Glib::usleep(101000);
 
             if (nextElemInDir.size()!=0) {
                 __off_t sizeInBytes = readFileSize(path);
                 FileType fileType = readFileType(path);
+                gfm_debug("read file %s\n", nextElemInDir.c_str());
                 dirContent.push_back(FileListElement(nextElemInDir, sizeInBytes, fileType));
                 readPositionsCount++;
+            }
+            if (threadMessage->shouldCancelWorkAsync()) {
+                return;
             }
         }
     }

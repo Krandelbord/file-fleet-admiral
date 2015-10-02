@@ -22,14 +22,15 @@ class ThreadMessage {
         const Glib::ustring getDirToRead();
         void notifyAllThreadsOfWorkFinish();
         void connectWorkFinishedSignal(const sigc::slot<void>& slot);
+        bool shouldCancelWorkAsync();
         ~ThreadMessage();
     private:
         //inter-thread notifications
         Glib::Dispatcher dispatcherWorkFinished;
 
-        //mutex for data read/write
+        //mutex for data read/write - all data below are handled by this mutex
         mutable Glib::Threads::Mutex mutexForData;
-
+        bool cancelWorkValue = false;
         Glib::ustring dirToRead;
         std::vector<FileListElement> calculatedData;
 };
