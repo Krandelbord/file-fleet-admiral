@@ -24,6 +24,8 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
             readPositionsCount++;
         }
     }
+
+    threadMessage->notifyAllThreadsOfWorkFinish();
     gfm_debug("finish of calculation for dir %s, found %d\n", dirToRead.c_str(), readPositionsCount);
 }
 
