@@ -23,6 +23,7 @@ readMultiThreadDirs: Asserts.o Runner.o readMultiThreadDirs.o ../PathResolver.o 
 clean:
 	-rm *.o
 	-rm readDirTest
+	-rm readMultiThreadDirs
 
 .PHONY: readDirTest clean
 
