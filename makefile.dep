@@ -4,17 +4,18 @@ FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  Settings.h Rectangle.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h config.h PanelHeader.h \
- PathResolver.h FilesTreeView.h SelectionHistory.h
+ PathResolver.h FilesTreeView.h SelectionHistory.h GuiReader.h \
+ ThreadMessage.h
 FilesReadWorker.o: FilesReadWorker.cc FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h config.h
 FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h config.h
 GuiReader.o: GuiReader.cc GuiReader.h ThreadMessage.h FileListElement.h \
- FileType.h ThreadCalculation.h config.h
+ FileType.h PathResolver.h ThreadCalculation.h config.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h config.h \
  PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
- MenuBar.h
+ GuiReader.h ThreadMessage.h MenuBar.h
 MenuBar.o: MenuBar.cc MenuBar.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 PathResolver.o: PathResolver.cc PathResolver.h
@@ -26,13 +27,14 @@ Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FilesReadWorker.h \
  WorkerNotifable.h FileListElement.h FileType.h FilesSortType.h config.h \
  PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
- FilesColumns.h Preconditions.h GuiReader.h ThreadMessage.h
+ GuiReader.h ThreadMessage.h FilesColumns.h Preconditions.h
 ThreadCalculation.o: ThreadCalculation.cc ThreadCalculation.h \
- ThreadMessage.h FileListElement.h FileType.h config.h
+ ThreadMessage.h FileListElement.h FileType.h PathResolver.h config.h
 ThreadMessage.o: ThreadMessage.cc ThreadMessage.h FileListElement.h \
- FileType.h config.h
+ FileType.h PathResolver.h config.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h SinglePanel.h FilesReadWorker.h WorkerNotifable.h \
  FileListElement.h FileType.h FilesSortType.h PanelHeader.h \
- PathResolver.h FilesTreeView.h SelectionHistory.h
+ PathResolver.h FilesTreeView.h SelectionHistory.h GuiReader.h \
+ ThreadMessage.h

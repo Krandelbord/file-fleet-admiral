@@ -40,9 +40,11 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->readDirWorker = std::make_shared<FilesReadWorker>(currentDir.toString(), FilesSortType::SORT_BY_NAME, this);
+    
+    std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(currentDir);
+    guiDataReader.commandReadThis(threadMsng);
     // Connect the handler to the dispatcher.
-    dispatcherNewData.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
+    threadMsng->connectWorkFinishedSignal(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
 
 // notify() is called from ExampleWorker::do_work(). It is executed in the worker
@@ -53,7 +55,7 @@ void SinglePanel::notifyNewDataFromThread() {
 }
 
 void SinglePanel::onNewData() {
-    std::vector<FileListElement> dataFromThread = this->readDirWorker->getDataFromThread();
+    std::vector<FileListElement> dataFromThread = guiDataReader.getCalculatedData();
     for (FileListElement& oneNewDataElem : dataFromThread) {
         appendOneFile(this->refListStore, oneNewDataElem);
     }
