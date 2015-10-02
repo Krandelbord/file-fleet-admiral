@@ -5,7 +5,7 @@
 #include "FileType.h"
 
 /**
- * Represents element in file list
+ * Represents element in file list GUI
  */
 class FileListElement {
     public:

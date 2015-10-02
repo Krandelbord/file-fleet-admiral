@@ -11,6 +11,7 @@ class GuiReader {
     public:
         void commandReadThis(std::shared_ptr<ThreadMessage> msgToSendDataTo);
         void waitForFinishWork();
+        std::vector<FileListElement> getCalculatedData();
 
         //synchornous method for reading data
         std::vector<FileListElement> executeCommandAndWaitForData(std::shared_ptr<ThreadMessage> msgToSendDataTo);

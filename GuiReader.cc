@@ -8,17 +8,22 @@ void GuiReader::commandReadThis(std::shared_ptr<ThreadMessage> msgToSendDataTo) 
         lastMessageSend->cancelWork();
     }
     this->lastMessageSend = msgToSendDataTo;
-
+    gfm_debug("new reading command for %s\n", msgToSendDataTo->getDirToRead().c_str());
     ThreadCalculation threadObj;
     this->workerThread = Glib::Threads::Thread::create(
             sigc::bind(sigc::mem_fun(threadObj, &ThreadCalculation::threadFunction), lastMessageSend));
 }
 
 void GuiReader::waitForFinishWork() {
+    this->workerThread->join();
 }
 
 std::vector<FileListElement> GuiReader::executeCommandAndWaitForData(std::shared_ptr<ThreadMessage> msgToSendDataTo) {
     commandReadThis(msgToSendDataTo);
     waitForFinishWork();
+    return getCalculatedData();
+}
+
+std::vector<FileListElement> GuiReader::getCalculatedData() {
     return lastMessageSend->getCaluclatedData();
 }

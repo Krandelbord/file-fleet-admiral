@@ -10,12 +10,22 @@ void ThreadMessage::cancelWork() {
 }
 
 std::vector<FileListElement> ThreadMessage::getCaluclatedData() {
-    std::vector<FileListElement> dataReturned;
-    dataReturned.push_back(FileListElement("someName", 123, FileType::DIRECTORY));
-    return dataReturned;
+    Glib::Threads::Mutex::Lock lock(mutexForData);
+    return calculatedData;
+}
+
+void ThreadMessage::addNewDataAsync(FileListElement newFileElement) {
+   Glib::Threads::Mutex::Lock lock(mutexForData);
+   gfm_debug("adding new FileListElement=%s\n", newFileElement.getFileName().c_str());
+   calculatedData.push_back(newFileElement);
+   
+   lock.release();
+}
+
+const Glib::ustring ThreadMessage::getDirToRead() {
+    return dirToRead;
 }
 
 ThreadMessage::~ThreadMessage() {
-    gfm_debug("the desctructor of ThreadMessage\n");
-    gfm_debug("Destructor of message for %s\n", dirToRead.c_str());
+    gfm_debug("Destructor of ThreadMessage for %s\n", dirToRead.c_str());
 }

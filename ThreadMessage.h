@@ -13,10 +13,17 @@ class ThreadMessage {
         ThreadMessage(const Glib::ustring aDirToRead);
         void cancelWork();
         std::vector<FileListElement> getCaluclatedData();
+        void addNewDataAsync(FileListElement newFileElement);
+
+        const Glib::ustring getDirToRead();
 
         ~ThreadMessage();
     private:
+        //mutex for data read/write
+        mutable Glib::Threads::Mutex mutexForData;
+
         Glib::ustring dirToRead;
+        std::vector<FileListElement> calculatedData;
 };
 
 #endif /** THREAD_MESSAGE_H **/
