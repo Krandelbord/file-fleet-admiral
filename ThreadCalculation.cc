@@ -4,27 +4,24 @@
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
     Glib::ustring dirToRead = threadMessage->getDirToRead();
-    //this is heavy work spearate thread function
-    if (!Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
-        //threadMessage->notifyNewDataFromThread();
-        return;
-    }
-  	
-    Glib::Dir dir(dirToRead);
     int readPositionsCount = 0;
-	for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
-        std::string nextElemInDir = *dirIter;
-		std::string path = Glib::build_filename(dirToRead, nextElemInDir);
-		Glib::usleep(101000);
+    //this is heavy work spearate thread function
+    if (Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
+        Glib::Dir dir(dirToRead);
 
-        if (nextElemInDir.size()!=0) {
-            __off_t sizeInBytes = readFileSize(path);
-            FileType fileType = readFileType(path);
-            threadMessage->addNewDataAsync(FileListElement(nextElemInDir, sizeInBytes, fileType));
-            readPositionsCount++;
+        for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
+            std::string nextElemInDir = *dirIter;
+            std::string path = Glib::build_filename(dirToRead, nextElemInDir);
+            Glib::usleep(101000);
+
+            if (nextElemInDir.size()!=0) {
+                __off_t sizeInBytes = readFileSize(path);
+                FileType fileType = readFileType(path);
+                threadMessage->addNewDataAsync(FileListElement(nextElemInDir, sizeInBytes, fileType));
+                readPositionsCount++;
+            }
         }
     }
-
     threadMessage->notifyAllThreadsOfWorkFinish();
     gfm_debug("finish of calculation for dir %s, found %d\n", dirToRead.c_str(), readPositionsCount);
 }
