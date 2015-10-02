@@ -25,16 +25,19 @@ bool shouldReadMultiDirsInMultiThread() {
 }
 
 bool doNewWork() {
+    Glib::ustring testedDirectory = "/var/lib/";
     GuiReader guiReader;
-    std::vector<FileListElement> dirContent = guiReader.executeCommandAndWaitForData(std::make_shared<ThreadMessage>("/usr/share/doc"));
+    std::vector<FileListElement> dirContent = guiReader.executeCommandAndWaitForData(std::make_shared<ThreadMessage>(testedDirectory));
 
     for (auto oneDirElement : dirContent) {
-        gfm_debug("once again \n");
         //thoused of times we change mind which directoy we will read
-        std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(oneDirElement.getFileName());        
+        Glib::ustring newDirToRead = testedDirectory + oneDirElement.getFileName();
+        std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(newDirToRead);        
         guiReader.commandReadThis(threadMsng);
     }
     guiReader.waitForFinishWork();
+
+    //it is success if it didn't crashed
     return true;
 }
 
