@@ -12,7 +12,7 @@ CXXFLAGS+=`pkg-config --cflags gtkmm-3.0`
 LDFLAGS+=`pkg-config --libs gtkmm-3.0`
 
 $(OUT): main.o MainWindow.o SinglePanel.o debug.o Settings.o Rectangle.o FilesNavigationPanel.o \
-	FilesColumns.o MenuBar.o PanelHeader.o FilesReadWorker.o FileListElement.o PathResolver.o \
+	FilesColumns.o MenuBar.o PanelHeader.o FileListElement.o PathResolver.o \
 	FilesTreeView.o Preconditions.o SelectionHistory.o ThreadCalculation.o GuiReader.o ThreadMessage.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
