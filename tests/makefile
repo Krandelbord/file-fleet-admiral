@@ -1,5 +1,5 @@
 #include ../makefile.dep
-CXXFLAGS+=-Wall -std=c++11 -DDEBUG
+CXXFLAGS+=-Wall -std=c++11 -DDEBUG -g3
 
 CXXFLAGS+=-I/home/emil/programy/snowhouse/
 CXXFLAGS+=`pkg-config --cflags gtkmm-3.0`
@@ -17,7 +17,7 @@ readDirTest: Asserts.o Runner.o readDirTest.o ../PathResolver.o ../SelectionHist
 
 
 readMultiThreadDirs: Asserts.o Runner.o readMultiThreadDirs.o ../PathResolver.o ../SelectionHistory.o ../debug.o \
-	../FilesReadWorker.o ../FileListElement.o
+	../FilesReadWorker.o ../FileListElement.o ../ThreadMessage.o ../GuiReader.o ../ThreadCalculation.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 clean:
