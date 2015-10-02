@@ -12,6 +12,8 @@ ThreadMessage::ThreadMessage(const PathResolver aDirToRead) {
 
 void ThreadMessage::cancelWork() {
     gfm_debug("cancel work for dir %s\n", dirToRead.c_str());
+    Glib::Threads::Mutex::Lock lock(mutexForData);
+    this->cancelWorkValue = true;
 }
 
 std::vector<FileListElement> ThreadMessage::getCaluclatedData() {
@@ -47,6 +49,11 @@ void ThreadMessage::notifyAllThreadsOfWorkFinish() {
 
 void ThreadMessage::connectWorkFinishedSignal(const sigc::slot<void>& slot) {
     dispatcherWorkFinished.connect(slot);
+}
+
+bool ThreadMessage::shouldCancelWorkAsync() {
+    Glib::Threads::Mutex::Lock lock(mutexForData);
+    return cancelWorkValue;
 }
 
 ThreadMessage::~ThreadMessage() {
