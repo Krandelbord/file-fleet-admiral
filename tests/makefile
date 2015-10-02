@@ -17,7 +17,7 @@ readDirTest: Asserts.o Runner.o readDirTest.o ../PathResolver.o ../SelectionHist
 
 
 readMultiThreadDirs: Asserts.o Runner.o readMultiThreadDirs.o ../PathResolver.o ../SelectionHistory.o ../debug.o \
-	../FilesReadWorker.o ../FileListElement.o ../ThreadMessage.o ../GuiReader.o ../ThreadCalculation.o
+	../FileListElement.o ../ThreadMessage.o ../GuiReader.o ../ThreadCalculation.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 clean:

@@ -5,24 +5,9 @@
 #include <functional>
 #include <memory>
 #include "Runner.h"
-#include "../FilesReadWorker.h"
 #include "../ThreadMessage.h"
 #include "../GuiReader.h"
 
-class NotiferForTests : public WorkerNotifable {
-    void notifyNewDataFromThread() {
-        gfm_debug("Nothing \n");
-    }
-};
-
-bool shouldReadMultiDirsInMultiThread() {
-    std::shared_ptr<WorkerNotifable> notifer = std::make_shared<NotiferForTests>();
-    for (int i=0; i<1000; ++i) {
-        gfm_debug("Iteracja nr %d\n", i);
-        FilesReadWorker worker("/usr/share/doc", FilesSortType::UNSORTED, notifer.get());
-    }
-    return true;
-}
 
 bool doNewWork() {
     Glib::ustring testedDirectory = "/var/lib/";
@@ -43,7 +28,6 @@ bool doNewWork() {
 
 int main() {
     std::vector<std::function<bool()>> testsToRun;
-    //testsToRun.push_back(shouldReadMultiDirsInMultiThread);
     testsToRun.push_back(doNewWork);
 
     Runner runner;

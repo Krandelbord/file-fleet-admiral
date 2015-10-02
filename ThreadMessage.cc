@@ -1,5 +1,6 @@
 #include "ThreadMessage.h"
 #include "config.h"
+#include <iostream>
 
 ThreadMessage::ThreadMessage(const Glib::ustring aDirToRead) {
     this->dirToRead = Glib::ustring(aDirToRead);

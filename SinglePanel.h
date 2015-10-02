@@ -2,7 +2,6 @@
 #define SINGLE_PANEL_H
 
 #include <gtkmm.h>
-#include "FilesReadWorker.h"
 #include "FileListElement.h"
 #include "PanelHeader.h"
 #include "PathResolver.h"
