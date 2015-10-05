@@ -11,6 +11,9 @@ FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
 
     addEllipsizedColumn(filesColumns.file_name_column, _("Name"), NAME_COLUMN_SIZE_IN_CHARS);
     addStyleByTypeTxtColumn(filesColumns.size_column, _("Size"));
+
+    this->signal_focus_in_event().connect(sigc::mem_fun(*this, &FilesTreeView::onFocusIn));
+    this->signal_focus_out_event().connect(sigc::mem_fun(*this, &FilesTreeView::onFocusOut));
 }
 
 /**
@@ -36,3 +39,18 @@ void FilesTreeView::addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> colu
     cellAdded->property_ellipsize().set_value(Pango::EllipsizeMode::ELLIPSIZE_MIDDLE);
     cellAdded->property_width_chars().set_value(sizeInChars);
 }
+
+bool FilesTreeView::onFocusOut(GdkEventFocus* widget) {
+    Glib::RefPtr<Gtk::TreeSelection> currentSelection = this->get_selection();
+    lastlySelectedRow = currentSelection->get_selected_rows();
+    currentSelection->unselect_all();
+    return true; //to propage signal 
+}
+
+bool FilesTreeView::onFocusIn(GdkEventFocus* directionType) {
+    for (auto oneSelectedRow : lastlySelectedRow) {
+        this->set_cursor(oneSelectedRow);
+    }
+    return true; //to propage signal 
+}
+

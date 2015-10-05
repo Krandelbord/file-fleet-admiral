@@ -13,6 +13,14 @@ class FilesTreeView : public Gtk::TreeView {
 
     void addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> column, const Glib::ustring &columnTitle,
                              int sizeInChars);
+
+    //when tree view gets it's focus
+    bool onFocusIn(GdkEventFocus* widget);
+    //when treeview loses it's focus
+    bool onFocusOut(GdkEventFocus* widget);
+
+
+    std::vector<Gtk::TreeModel::Path> lastlySelectedRow;
 };
 
 #endif /** FILES_TREE_VIEW_H **/
