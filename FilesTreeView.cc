@@ -11,6 +11,7 @@ FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
 
     addEllipsizedColumn(filesColumns.file_name_column, _("Name"), NAME_COLUMN_SIZE_IN_CHARS);
     addStyleByTypeTxtColumn(filesColumns.size_column, _("Size"));
+    this->get_selection()->set_mode(Gtk::SELECTION_NONE);
 }
 
 /**
@@ -36,3 +37,4 @@ void FilesTreeView::addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> colu
     cellAdded->property_ellipsize().set_value(Pango::EllipsizeMode::ELLIPSIZE_MIDDLE);
     cellAdded->property_width_chars().set_value(sizeInChars);
 }
+
