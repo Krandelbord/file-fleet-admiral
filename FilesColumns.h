@@ -8,7 +8,7 @@ class FilesColumns : public Gtk::TreeModel::ColumnRecord {
         FilesColumns();
 
         /** When adding new columns we need to add them to constructor as well **/
-        Gtk::TreeModelColumn<int> size_column;
+        Gtk::TreeModelColumn<Glib::ustring> size_column;
         Gtk::TreeModelColumn<Glib::ustring> file_name_column;
         Gtk::TreeModelColumn<int> font_weight;
 };
