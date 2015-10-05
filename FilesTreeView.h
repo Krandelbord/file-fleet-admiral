@@ -13,6 +13,8 @@ class FilesTreeView : public Gtk::TreeView {
 
     void addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> column, const Glib::ustring &columnTitle,
                              int sizeInChars);
+
+    std::vector<Gtk::TreeModel::Path> lastlySelectedRow;
 };
 
 #endif /** FILES_TREE_VIEW_H **/
