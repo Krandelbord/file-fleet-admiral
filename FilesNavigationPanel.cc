@@ -1,5 +1,4 @@
 #include "FilesNavigationPanel.h"
-#include "SinglePanel.h"
 
 FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     this->set_position(settingsToRead.readPanedPosition());
@@ -12,7 +11,7 @@ FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     this->add2(*rightPanel);
 }
 
-const Glib::ustring& FilesNavigationPanel::getRightPanelDir() const {
+const Glib::ustring FilesNavigationPanel::getRightPanelDir() const {
     return rightPanel->getCurrentDir();
 }
 

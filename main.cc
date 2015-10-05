@@ -1,5 +1,4 @@
 #include "config.h"
-#include <iostream>
 #include "MainWindow.h"
 
 int main(int argc, char **argv) {

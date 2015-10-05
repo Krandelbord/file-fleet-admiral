@@ -1,6 +1,8 @@
-#include <snowhouse/snowhouse.h>
+#include <iostream>
+#include "Asserts.h"
 #include "../PathResolver.h"
-using namespace snowhouse;
+#include "../SelectionHistory.h"
+#include "Runner.h"
 
 /**
  * Returns true for cussess 
@@ -9,40 +11,59 @@ bool checkDirGeneration(const Glib::ustring& startDir, const Glib::ustring& cdCo
     PathResolver path(startDir);
     path.changeDirBy(cdCommand);
 
-    try {
-        Assert::That(path.toString(), Equals(expected));
-    } catch (AssertionException& ex) {
-        std::cout << ex.GetMessage() << std::endl;
-        return false;
-    }
-    return true;
+    return Asserts::assertEquals("Values not equal", expected, path.toString());
 }
 
-class Runner {
-    public :
-        void run(bool runResultWasSuccess) {
-            totalCount++;
-            if (runResultWasSuccess) {
-                successCount++;
-            }
-        }
+bool shouldPersist3LevelSelection() {
+    SelectionHistory selHistory("/home/emil/music");
+    selHistory.changeDirBy("Judas Priest");
+    selHistory.changeDirBy("1993 - Metal Works");
+    selHistory.changeDirBy("CD2");
 
-        void showStats() {
-            std::cout << "Tests finished. Success " << successCount << " of " << totalCount << std::endl;
-        }
-    private :
-        unsigned int totalCount = 0;
-        unsigned int successCount = 0;
-};
+    return Asserts::assertEquals("Values not equal", "Judas Priest", selHistory.getSelectionForDir("/home/emil/music"));
+}
+
+bool shouldPersistDirUpSelection() {
+    SelectionHistory selHistory("/home/emil/music");
+    selHistory.changeDirBy("Judas Priest");
+    selHistory.changeDirBy("1993 - Metal Works");
+    selHistory.changeDirBy("..");
+
+    return Asserts::assertEquals("Values not equal", "1993 - Metal Works", selHistory.getSelectionForDir("/home/emil/music/Judas Priest"));
+}
+
+bool shouldPersistSelection() {
+    SelectionHistory selHistory("/home/emil/Documents");
+    selHistory.changeDirBy("drawings");
+
+    return Asserts::assertEquals("Values not equal", "drawings", selHistory.getSelectionForDir("/home/emil/Documents"));
+}
+
+bool shouldPersistGoingBackToSomeRoot() { 
+    SelectionHistory selHistory("/home/emil/music");
+    selHistory.changeDirBy("Judas Priest");
+    selHistory.changeDirBy("..");
+    selHistory.changeDirBy("Iron Maiden");
+    selHistory.changeDirBy("..");
+
+    return Asserts::assertEquals("Values not equal", "Iron Maiden", selHistory.getSelectionForDir("/home/emil/music"));
+}
 
 int main() {
+    std::vector<std::function<bool()>> testsToRun;
+    testsToRun.push_back(std::bind(checkDirGeneration, "/home/emil/Documents", "notes", "/home/emil/Documents/notes"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/home/emil/Documents", "..", "/home/emil"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/", "..", "/"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/home", "..", "/"));
+    testsToRun.push_back(std::bind(checkDirGeneration, "/", "home", "/home"));
+    testsToRun.push_back(shouldPersistSelection);
+    testsToRun.push_back(shouldPersist3LevelSelection);
+    testsToRun.push_back(shouldPersistDirUpSelection);
+    testsToRun.push_back(shouldPersistGoingBackToSomeRoot);
     Runner runner;
-
-    runner.run(checkDirGeneration("/home/emil/Documents", "notes", "/home/emil/Documents/notes"));
-    runner.run(checkDirGeneration("/home/emil/Documents", "..", "/home/emil"));
-    runner.run(checkDirGeneration("/", "..", "/"));
-    runner.run(checkDirGeneration("/home", "..", "/"));
-    runner.run(checkDirGeneration("/", "home", "/home"));
+    for (auto oneTestToRun : testsToRun) {
+         runner.run(oneTestToRun);
+    }
 
     runner.showStats();
 }
