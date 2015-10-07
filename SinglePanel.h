@@ -2,35 +2,48 @@
 #define SINGLE_PANEL_H
 
 #include <gtkmm.h>
-#include "FilesReadWorker.h"
-#include "WorkerNotifable.h"
+#include "FileListElement.h"
+#include "PanelHeader.h"
+#include "PathResolver.h"
+#include "FilesTreeView.h"
+#include "SelectionHistory.h"
+#include "GuiReader.h"
 
 /**
  * Represents single panel for files
 **/
-class SinglePanel : public Gtk::Frame, public WorkerNotifable {
+class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
-        const Glib::ustring& getCurrentDir() const;
-
-        // Called from the worker thread.
-        void notifyNewDataFromThread();
+        const Glib::ustring getCurrentDir() const;
     private:
-        Glib::ustring dirDisplayed;
+        void updateCurrentDirHeader();
 
-        Gtk::Widget *pathHeader;
+        PathResolver currentDir;
+
+        PanelHeader *pathHeader;
         Glib::RefPtr<Gtk::ListStore> refListStore;
+        FilesTreeView *filesTreeView;
 
-        Gtk::TreeView* createFilesTreeView();
-        Glib::RefPtr<Gtk::ListStore> createFakeData();
-        void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName);
-        
+        void createEmptyData();
+        void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
+ 
         void onNewData();
 
         void startReadDataThread();
-        Glib::Dispatcher m_Dispatcher;
-        FilesReadWorker* readDirWorker;
-        Glib::Threads::Thread* workerThread;
+
+        void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
+        Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
+        SelectionHistory selectionHistory;
+
+        void stopProgressIndicator();
+
+        bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
+        void putFocusOnTopOfTreeview();
+
+        const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
+
+        GuiReader guiDataReader;
 };
 
 #endif /** SINGLE_PANEL_H */

@@ -2,7 +2,6 @@
 #include <glib.h>
 #include <glibmm/date.h>
 #include <glibmm/datetime.h>
-#include <iostream>
 
 void debug_with_time() {
     Glib::DateTime right_now = Glib::DateTime::create_now_local();
