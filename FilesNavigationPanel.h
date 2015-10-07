@@ -8,7 +8,7 @@
 class FilesNavigationPanel : public Gtk::HPaned {
     public:
         FilesNavigationPanel(const Settings &settings);
-        const Glib::ustring& getRightPanelDir() const;
+        const Glib::ustring getRightPanelDir() const;
 
     private:
         SinglePanel* rightPanel;

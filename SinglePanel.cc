@@ -1,25 +1,32 @@
 #include <vector>
+#include <memory>
+#include <iostream>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
-#include "PanelHeader.h"
-#include "FileListElement.h"
 #include "config.h"
+#include "Preconditions.h"
+#include "GuiReader.h"
 
 #define PANEL_MARGIN_SIZE 5
+#define NOT_BOLDED_TXT 400
+#define BOLDED_TXT 2*NOT_BOLDED_TXT
 
-SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
+SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
+        currentDir(startDirPath), selectionHistory(startDirPath) {
+
     this->set_margin_start(PANEL_MARGIN_SIZE);
     this->set_margin_end(PANEL_MARGIN_SIZE);
     
-    this->dirDisplayed = Glib::ustring(startDirPath);
-
     Gtk::Box *mainFilesBox = Gtk::manage(new Gtk::VBox()); 
 
     this->pathHeader = Gtk::manage(new PanelHeader(startDirPath));
+    this->updateCurrentDirHeader();
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
-    Gtk::TreeView* filesTreeView = createFilesTreeView();
+    createEmptyData();
+    this->filesTreeView = Gtk::manage(new FilesTreeView(refListStore));
+    filesTreeView->signal_row_activated().connect(sigc::mem_fun(*this, &SinglePanel::onRowActivated));
     scrollWin->add(*filesTreeView);
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
@@ -33,52 +40,106 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) {
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    this->readDirWorker = new FilesReadWorker(dirDisplayed, FilesSortType::SORT_BY_NAME);
-    this->workerThread = Glib::Threads::Thread::create(
-            sigc::bind(sigc::mem_fun(readDirWorker, &FilesReadWorker::threadFunction), this));
-   // Connect the handler to the dispatcher.
-   m_Dispatcher.connect(sigc::mem_fun(*this, &SinglePanel::onNewData));
-}
-
-// notify() is called from ExampleWorker::do_work(). It is executed in the worker
-// thread. It triggers a call to on_notification_from_worker_thread(), which is
-// executed in the GUI thread.
-void SinglePanel::notifyNewDataFromThread() {
-    m_Dispatcher.emit();
-}
-
-Gtk::TreeView* SinglePanel::createFilesTreeView() {
-    FilesColumns filesColumns;
-    this->refListStore = createFakeData(); 
     
-    Gtk::TreeView *treeView = Gtk::manage(new Gtk::TreeView());
-    treeView->set_model(refListStore);
-    treeView->append_column("Name", filesColumns.file_name_column);
-    treeView->append_column("Size", filesColumns.size_column);
-    return treeView;
+    std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(currentDir);
+    guiDataReader.commandReadThis(threadMsng);
+    // Connect the handler to the dispatcher.
+    threadMsng->connectWorkFinishedSignal(sigc::mem_fun(*this, &SinglePanel::onNewData));
 }
 
 void SinglePanel::onNewData() {
-    std::vector<FileListElement> dataFromThread = this->readDirWorker->getDataFromThread();
-    for (FileListElement oneNewDataElem : dataFromThread) {
-        appendOneFile(this->refListStore, oneNewDataElem.getFileSizeInBytes(), oneNewDataElem.getFileName());
+    std::vector<FileListElement> dataFromThread = guiDataReader.getCalculatedData();
+    for (FileListElement& oneNewDataElem : dataFromThread) {
+        appendOneFile(this->refListStore, oneNewDataElem);
     }
+    this->stopProgressIndicator();
+    this->putFocusOnTopOfTreeview();
 }
 
-Glib::RefPtr<Gtk::ListStore> SinglePanel::createFakeData() {
-    FilesColumns filesColumns;
-    Glib::RefPtr<Gtk::ListStore> refListStore = Gtk::ListStore::create(filesColumns);
-    appendOneFile(refListStore, 0, "...");
-    return refListStore;
+void SinglePanel::createEmptyData() {
+    if (refListStore) {
+        refListStore->clear();
+    } else {
+        FilesColumns filesColumns;
+        this->refListStore = Gtk::ListStore::create(filesColumns);
+    }
+    FileListElement parent = FileListElement::createParentDir();
+    appendOneFile(refListStore, parent);
 }
 
-void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, int size, const Glib::ustring& fileName) {
+void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem) {
     FilesColumns filesColumns;
     Gtk::TreeModel::Row row = *(refListStore->append());
-    row[filesColumns.file_name_column] = Glib::ustring(fileName);
-    row[filesColumns.size_column] = size;
+    
+    row[filesColumns.file_name_column] = Glib::ustring(oneNewDataElem.getFileName());
+    
+    if (oneNewDataElem.getFileType() == FileType::REGULAR_FILE) {
+        row[filesColumns.size_column] = oneNewDataElem.getFileSizeForDisplay();
+    } else {
+        row[filesColumns.size_column] = "<DIR>";
+    }
+
+    row[filesColumns.font_weight] = shouldBeBolded(oneNewDataElem) ? BOLDED_TXT : NOT_BOLDED_TXT;
 }
 
-const Glib::ustring& SinglePanel::getCurrentDir() const {
-    return dirDisplayed;
+bool SinglePanel::shouldBeBolded(const FileListElement &oneNewDataElem) const {
+    const FileType &typeToCheck = oneNewDataElem.getFileType();
+    return typeToCheck == FileType::DIRECTORY || typeToCheck == FileType::PARENT_DIR;
+}
+
+const Glib::ustring SinglePanel::getCurrentDir() const {
+    return currentDir.toString();
+}
+
+void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
+    Preconditions::checkArgument(refListStore, "list store is completly empty");
+
+    Glib::ustring selectedFileName = getSelectedFileName(path);
+    currentDir.changeDirBy(selectedFileName);
+    selectionHistory.changeDirBy(selectedFileName);
+
+    gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
+    gfm_debug("new file name is %s\n", currentDir.toString().c_str());
+    this->updateCurrentDirHeader();
+
+    //start reading
+    createEmptyData();
+    this->pathHeader->startProgress();
+    startReadDataThread();
+}
+
+Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path) const {
+    Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+    Gtk::TreeRow selectedRow = *iter;
+
+    FilesColumns filesColumns;
+    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+    return selectedFileName;
+}
+
+void SinglePanel::updateCurrentDirHeader() {
+    this->pathHeader->setCurrentDir(currentDir.toString());
+}
+
+void SinglePanel::stopProgressIndicator() {
+    this->pathHeader->stopProgress();
+}
+
+void SinglePanel::putFocusOnTopOfTreeview() {
+    std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
+    auto foundPath = findByFileName(selectionShouldBe);
+    gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
+    filesTreeView->set_cursor(foundPath);
+}
+
+const Gtk::TreeModel::Path SinglePanel::findByFileName(std::string fileNameToFind) {
+    FilesColumns filesColumns;
+    for (Gtk::TreeRow row : refListStore->children()) {
+        const Glib::ustring &fileName = row->get_value(filesColumns.file_name_column);
+        if (fileName == fileNameToFind) {
+            return Gtk::TreePath(row);
+        }
+    }
+    //first element in list
+    return Gtk::TreePath("0");
 }
