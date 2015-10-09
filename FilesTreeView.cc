@@ -1,6 +1,7 @@
 #include "FilesTreeView.h"
 #include "FilesColumns.h"
 #include "config.h"
+#include <iostream>
 
 /** Size of column "File name" in chars **/
 #define NAME_COLUMN_SIZE_IN_CHARS 70
@@ -11,7 +12,23 @@ FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
 
     addEllipsizedColumn(filesColumns.file_name_column, _("Name"), NAME_COLUMN_SIZE_IN_CHARS);
     addStyleByTypeTxtColumn(filesColumns.size_column, _("Size"));
-    this->get_selection()->set_mode(Gtk::SELECTION_NONE);
+    //this->get_selection()->set_mode(Gtk::SELECTION_NONE);
+    //this->override_cursor(Gdk::RGBA("DarkSlateGray"), Gdk::RGBA("DarkSlateGray"));
+
+    Glib::RefPtr<Gtk::StyleContext> style = Gtk::StyleContext::create();
+    style->add_class("GtkWindow {  background-color: red; }");
+
+    Glib::RefPtr<Gtk::CssProvider> css = Gtk::CssProvider::create();
+    css->load_from_data("GtkWidget {  background-color: red; }");
+
+    
+    Glib::RefPtr<Gtk::StyleContext> treeViewCtx = this->get_style_context();
+    treeViewCtx->add_provider( Glib::RefPtr<Gtk::StyleProvider>::cast_static(css), 1);
+    std::cout << std::endl << std::endl;
+    std::cout << "takie cos: " << this->get_style_context() << "koniec." << std::endl;
+    std::cout << std::endl << std::endl;
+    std::cout << std::endl << std::endl;
+    
 }
 
 /**
