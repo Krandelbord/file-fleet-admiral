@@ -25,7 +25,9 @@ set(SOURCE_FILES main.cc
         FileListElement.cc
         FilesColumns.cc
         FilesNavigationPanel.cc
-        FilesReadWorker.cc
+        ThreadCalculation.cc
+        ThreadMessage.cc
+        GuiReader.cc
         debug.cc
         MenuBar.cc
         Rectangle.cc
