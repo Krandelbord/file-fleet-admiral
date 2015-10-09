@@ -1,0 +1,2 @@
+#To start gtk inspector run
+export GTK_DEBUG=interactive 
