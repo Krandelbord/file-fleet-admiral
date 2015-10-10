@@ -31,7 +31,7 @@ void ThreadMessage::addNewDataAsync(FileListElement newFileElement) {
 
 void ThreadMessage::addNewDataAsync(std::vector<FileListElement> newFileElements) {
    Glib::Threads::Mutex::Lock lock(mutexForData);
-   gfm_debug("adding bunch of file elements");
+   gfm_debug("adding bunch of file elements\n");
    for (auto newElem : newFileElements) {
        calculatedData.push_back(newElem);
    }
