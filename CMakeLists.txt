@@ -15,22 +15,31 @@ link_directories(
 include_directories(
         ${GTKMM_INCLUDE_DIRS}  )
 
-set(SOURCE_FILES main.cc
-        FilesTreeView.cc
-        MainWindow.cc
-        PanelHeader.cc
-        PathResolver.cc
-        Settings.cc
-        SinglePanel.cc
-        FileListElement.cc
-        FilesColumns.cc
-        FilesNavigationPanel.cc
-        FilesReadWorker.cc
+set(SOURCE_FILES
+        config.h
         debug.cc
-        MenuBar.cc
-        Rectangle.cc
-        Preconditions.cc
-        SelectionHistory.cc)
+        debug.h
+        FileListElement.cc FileListElement.h
+        FilePanelFooter.cc FilePanelFooter.h
+        FilesColumns.cc FilesColumns.h
+        FilesNavigationPanel.cc FilesNavigationPanel.h
+        FilesSortType.h
+        FilesTreeView.cc FilesTreeView.h
+        FileType.h
+        GuiReader.cc GuiReader.h
+        main.cc
+        MainWindow.cc MainWindow.h
+        MenuBar.cc MenuBar.h
+        PanelHeader.cc PanelHeader.h
+        PathResolver.cc PathResolver.h
+        Preconditions.cc Preconditions.h
+        Rectangle.cc Rectangle.h
+        SelectionHistory.cc SelectionHistory.h
+        Settings.cc Settings.h
+        SinglePanel.cc SinglePanel.h
+        ThreadCalculation.cc ThreadCalculation.h
+        ThreadMessage.cc ThreadMessage.h
+)
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager

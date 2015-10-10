@@ -11,3 +11,7 @@ What features should version 1.0 have
 7) Find option
 8) Configuration window: categories on the left searchable, modfied panels become marked blue on left
 File Fleet Admiral
+
+
+To debug criticals
+export G_DEBUG=fatal_warnings
