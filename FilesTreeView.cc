@@ -56,7 +56,7 @@ Gtk::TreeModel::Path FilesTreeView::getHighlitedElement() {
 void FilesTreeView::onCursorChanged() {
     Gtk::TreeModel::Path currentlySelected = getHighlitedElement();
 
-    if (lastlySelectedPath && lastlySelectedPath == currentlySelected) {
+    if (!lastlySelectedPath.empty() & !currentlySelected.empty() && (lastlySelectedPath == currentlySelected)) {
         //same thing selected twice
         return;
     } else {
@@ -73,7 +73,10 @@ void FilesTreeView::changeColor(Gtk::TreeModel::Path pathToChangeColor, const Gd
     if (pathToChangeColor) {
         Gtk::TreeModel::iterator iter = this->get_model()->get_iter(pathToChangeColor);
         FilesColumns filesColumns;
-        (*iter).set_value(filesColumns.backgroundColor, newBgRowColor);
+
+        if (iter) {
+            (*iter).set_value(filesColumns.backgroundColor, newBgRowColor);
+        }
     }
 }
 
