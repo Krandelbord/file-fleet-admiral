@@ -14,6 +14,12 @@ private:
 
     void addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> column, const Glib::ustring &columnTitle,
                              int sizeInChars);
+
+    void onCursorChanged();
+
+    void changeColor(Gtk::TreeModel::Path pathToChangeColor, Gdk::RGBA newBgRowColor);
+
+    Gtk::TreeModel::Path lastlySelectedPath;
 };
 
 #endif /** FILES_TREE_VIEW_H **/
