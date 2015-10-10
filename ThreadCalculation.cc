@@ -1,5 +1,4 @@
 #include "ThreadCalculation.h"
-#include "FilesSortType.h"
 #include <sys/stat.h>
 #include "config.h"
 
@@ -8,7 +7,7 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
     int readPositionsCount = 0;
 
     std::vector<FileListElement> dirContent;
-    //this is heavy work spearate thread function
+    //this is heavy work separate thread function
     if (Glib::file_test(dirToRead, Glib::FileTest::FILE_TEST_IS_DIR)) {
         Glib::Dir dir(dirToRead);
         for (Glib::DirIterator dirIter = dir.begin(); dirIter != dir.end(); ++dirIter) {
@@ -19,7 +18,6 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
             if (nextElemInDir.size()!=0) {
                 __off_t sizeInBytes = readFileSize(path);
                 FileType fileType = readFileType(path);
-                gfm_debug("read file %s\n", nextElemInDir.c_str());
                 dirContent.push_back(FileListElement(nextElemInDir, sizeInBytes, fileType));
                 readPositionsCount++;
             }
