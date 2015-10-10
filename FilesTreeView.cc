@@ -60,7 +60,9 @@ void FilesTreeView::onCursorChanged() {
         //same thing selected twice
         return;
     } else {
-        changeColor(currentlySelected, getActiveBarColor());
+        if (this->has_focus()) {
+            changeColor(currentlySelected, getActiveBarColor());
+        }
         changeColor(lastlySelectedPath, getNotActiveBarColor());
 
         lastlySelectedPath = Gtk::TreeModel::Path(currentlySelected);
@@ -77,7 +79,6 @@ void FilesTreeView::changeColor(Gtk::TreeModel::Path pathToChangeColor, const Gd
 
 bool FilesTreeView::onFocusOut(const GdkEventFocus* eventFocus) {
     const Gtk::TreeModel::Path highlitedElement = getHighlitedElement();
-    
     changeColor(highlitedElement, getFocusOutBarColor());
     return false;
 } 
