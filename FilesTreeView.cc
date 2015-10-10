@@ -38,3 +38,11 @@ void FilesTreeView::addEllipsizedColumn(Gtk::TreeModelColumn<Glib::ustring> colu
     cellAdded->property_width_chars().set_value(sizeInChars);
 }
 
+
+
+Gtk::TreeModel::Path FilesTreeView::getHighlitedElement() {
+    Gtk::TreeModel::Path path;
+    Gtk::TreeViewColumn *focusColumn;
+    this->get_cursor(path, *&focusColumn);
+    return path;
+}
