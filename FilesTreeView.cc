@@ -13,6 +13,9 @@ FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
     addEllipsizedColumn(filesColumns.file_name_column, _("Name"), NAME_COLUMN_SIZE_IN_CHARS);
     addStyleByTypeTxtColumn(filesColumns.size_column, _("Size"));
     this->get_selection()->set_mode(Gtk::SELECTION_NONE);
+
+    this->signal_focus_out_event().connect(sigc::mem_fun(*this, &FilesTreeView::onFocusOut));
+    this->signal_focus_in_event().connect(sigc::mem_fun(*this, &FilesTreeView::onFocusIn));
 }
 
 /**
@@ -57,17 +60,46 @@ void FilesTreeView::onCursorChanged() {
         //same thing selected twice
         return;
     } else {
-        changeColor(currentlySelected, Gdk::RGBA("lightblue"));
-        changeColor(lastlySelectedPath, Gdk::RGBA("white"));
+        changeColor(currentlySelected, getActiveBarColor());
+        changeColor(lastlySelectedPath, getNotActiveBarColor());
 
         lastlySelectedPath = Gtk::TreeModel::Path(currentlySelected);
     }
 }
 
-void FilesTreeView::changeColor(Gtk::TreeModel::Path pathToChangeColor, Gdk::RGBA newBgRowColor) {
+void FilesTreeView::changeColor(Gtk::TreeModel::Path pathToChangeColor, const Gdk::RGBA newBgRowColor) {
     if (pathToChangeColor) {
         Gtk::TreeModel::iterator iter = this->get_model()->get_iter(pathToChangeColor);
         FilesColumns filesColumns;
         (*iter).set_value(filesColumns.backgroundColor, newBgRowColor);
     }
+}
+
+bool FilesTreeView::onFocusOut(const GdkEventFocus* eventFocus) {
+    const Gtk::TreeModel::Path highlitedElement = getHighlitedElement();
+    
+    changeColor(highlitedElement, getFocusOutBarColor());
+    return false;
+} 
+
+bool FilesTreeView::onFocusIn(const GdkEventFocus* eventFocus) {
+    const Gtk::TreeModel::Path highlitedElement = getHighlitedElement();
+    changeColor(highlitedElement, getActiveBarColor());
+    return false;
+}
+
+const Gdk::RGBA FilesTreeView::getActiveBarColor() {
+    const Glib::RefPtr<Gtk::StyleContext> &style = this->get_style_context();
+    return style->get_background_color(Gtk::StateFlags::STATE_FLAG_SELECTED);
+}
+
+const Gdk::RGBA FilesTreeView::getNotActiveBarColor() {
+    const Glib::RefPtr<Gtk::StyleContext> &style = this->get_style_context();
+    return style->get_background_color(Gtk::StateFlags::STATE_FLAG_NORMAL);
+}
+
+const Gdk::RGBA FilesTreeView::getFocusOutBarColor() {
+    Gdk::RGBA focusOutColor = Gdk::RGBA(getActiveBarColor());
+    focusOutColor.set_alpha(FOCUS_OUT_TRANSPARENCY_BAR);
+    return focusOutColor;
 }
