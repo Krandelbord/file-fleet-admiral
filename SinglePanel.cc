@@ -146,10 +146,12 @@ const Gtk::TreeModel::Path SinglePanel::findByFileName(std::string fileNameToFin
 
 void SinglePanel::onCursorChanged() {
     Gtk::TreeModel::Path path = filesTreeView->getHighlitedElement();
-    Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
-    Gtk::TreeRow selectedRow = *iter;
+    if (!path.empty()) {
+        Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+        Gtk::TreeRow selectedRow = *iter;
 
-    FilesColumns filesColumns;
-    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
-    filePanelFooter.changeFooterValue(selectedFileName);
+        FilesColumns filesColumns;
+        Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+        filePanelFooter.changeFooterValue(selectedFileName);
+    }
 }
