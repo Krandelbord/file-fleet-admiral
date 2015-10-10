@@ -22,7 +22,8 @@ set(SOURCE_FILES main.cc
         PathResolver.cc
         Settings.cc
         SinglePanel.cc
-        FileListElement.cc
+        FileListElement.cc FileListElement.h
+        FilePanelFooter.cpp FilePanelFooter.h
         FilesColumns.cc
         FilesNavigationPanel.cc
         ThreadCalculation.cc

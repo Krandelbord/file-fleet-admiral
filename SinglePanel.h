@@ -8,6 +8,7 @@
 #include "FilesTreeView.h"
 #include "SelectionHistory.h"
 #include "GuiReader.h"
+#include "FilePanelFooter.h"
 
 /**
  * Represents single panel for files
@@ -42,8 +43,11 @@ class SinglePanel : public Gtk::Frame {
         void putFocusOnTopOfTreeview();
 
         const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
+        FilePanelFooter filePanelFooter;
 
         GuiReader guiDataReader;
+
+        void onCursorChanged();
 };
 
 #endif /** SINGLE_PANEL_H */

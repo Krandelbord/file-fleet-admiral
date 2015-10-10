@@ -5,7 +5,6 @@
 #include "FilesColumns.h"
 #include "config.h"
 #include "Preconditions.h"
-#include "GuiReader.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
@@ -22,16 +21,17 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
     this->pathHeader = Gtk::manage(new PanelHeader(startDirPath));
     this->updateCurrentDirHeader();
     mainFilesBox->pack_start(*this->pathHeader, Gtk::PackOptions::PACK_SHRINK);
+    mainFilesBox->pack_end(filePanelFooter, Gtk::PackOptions::PACK_SHRINK);
 
     Gtk::ScrolledWindow* scrollWin = Gtk::manage(new Gtk::ScrolledWindow());
     createEmptyData();
     this->filesTreeView = Gtk::manage(new FilesTreeView(refListStore));
     filesTreeView->signal_row_activated().connect(sigc::mem_fun(*this, &SinglePanel::onRowActivated));
+    filesTreeView->signal_cursor_changed().connect(sigc::mem_fun(*this, &SinglePanel::onCursorChanged));
     scrollWin->add(*filesTreeView);
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     this->add(*mainFilesBox);
-
     //singal launched after GUI is rendered
     Glib::signal_idle().connect(
             sigc::bind_return(sigc::mem_fun(*this, &SinglePanel::startReadDataThread), false));
@@ -142,4 +142,14 @@ const Gtk::TreeModel::Path SinglePanel::findByFileName(std::string fileNameToFin
     }
     //first element in list
     return Gtk::TreePath("0");
+}
+
+void SinglePanel::onCursorChanged() {
+    Gtk::TreeModel::Path path = filesTreeView->getHighlitedElement();
+    Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+    Gtk::TreeRow selectedRow = *iter;
+
+    FilesColumns filesColumns;
+    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+    filePanelFooter.changeFooterValue(selectedFileName);
 }
