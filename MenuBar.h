@@ -6,11 +6,12 @@ using namespace Gtk::Menu_Helpers;
 
 class MenuBar : public Gtk::MenuBar {
     public :
-        MenuBar();
+        MenuBar(Gtk::Window* parentWindow);
     private:
-        Gtk::MenuItem* createFileMenu();
+        Gtk::MenuItem* createFileMenu(Gtk::Window* parentWindow);
         Gtk::MenuItem* createHelpMenu();
         void onQuitMenuItem();
+        void onShowSettings(Gtk::Window* parentWindow);
 };
 
 #endif /** MENU_BAR_H */
