@@ -1,6 +1,9 @@
 #ifndef FILES_TREE_VIEW_H
 #define FILES_TREE_VIEW_H
 
+/** Transparency of bar in files view when out-of-focus **/
+static const double FOCUS_OUT_TRANSPARENCY_BAR = 0.2;
+
 #include <gtkmm.h>
 
 class FilesTreeView : public Gtk::TreeView {
@@ -17,9 +20,19 @@ private:
 
     void onCursorChanged();
 
-    void changeColor(Gtk::TreeModel::Path pathToChangeColor, Gdk::RGBA newBgRowColor);
+    void changeColor(Gtk::TreeModel::Path pathToChangeColor, const Gdk::RGBA newBgRowColor);
 
     Gtk::TreeModel::Path lastlySelectedPath;
+
+    bool onFocusOut(const GdkEventFocus* eventFocus);
+
+    bool onFocusIn(const GdkEventFocus* eventFocus);
+
+    const Gdk::RGBA getActiveBarColor();
+
+    const Gdk::RGBA getNotActiveBarColor();
+
+    const Gdk::RGBA getFocusOutBarColor();
 };
 
 #endif /** FILES_TREE_VIEW_H **/
