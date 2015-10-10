@@ -14,7 +14,7 @@ MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FileType.h PanelHeader.h PathResolver.h FilesTreeView.h \
  SelectionHistory.h GuiReader.h ThreadMessage.h FilePanelFooter.h \
  config.h MenuBar.h
-MenuBar.o: MenuBar.cc MenuBar.h config.h
+MenuBar.o: MenuBar.cc MenuBar.h SettingsWindow.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 PathResolver.o: PathResolver.cc PathResolver.h
 Preconditions.o: Preconditions.cc Preconditions.h
@@ -22,6 +22,7 @@ Rectangle.o: Rectangle.cc Rectangle.h
 SelectionHistory.o: SelectionHistory.cc SelectionHistory.h PathResolver.h \
  config.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
+SettingsWindow.o: SettingsWindow.cc SettingsWindow.h config.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FileListElement.h FileType.h \
  PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
  GuiReader.h ThreadMessage.h FilePanelFooter.h FilesColumns.h config.h \

@@ -12,7 +12,7 @@ MainWindow::MainWindow() {
 
     Gtk::Box *mainContainer = Gtk::manage(new Gtk::VBox());
 
-    MenuBar *menuBar = Gtk::manage(new MenuBar());
+    MenuBar *menuBar = Gtk::manage(new MenuBar(this));
     mainContainer->pack_start(*menuBar, Gtk::PackOptions::PACK_SHRINK);
  
     this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));

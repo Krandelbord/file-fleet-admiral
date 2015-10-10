@@ -36,6 +36,7 @@ set(SOURCE_FILES
         Rectangle.cc Rectangle.h
         SelectionHistory.cc SelectionHistory.h
         Settings.cc Settings.h
+        SettingsWindow.cc SettingsWindow.h
         SinglePanel.cc SinglePanel.h
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
