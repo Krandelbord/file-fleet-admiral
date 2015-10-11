@@ -24,6 +24,11 @@ ADD_EXECUTABLE( readDirTest readDirTest.cc
         ../SelectionHistory.h ../SelectionHistory.cc)
 
 ADD_EXECUTABLE( readMultiThreadDirs readMultiThreadDirs.cc
-        Asserts.cc Asserts.h)
+        ${TEST_SOURCES_COMMON})
+
+ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
+        ../SizeFormatter.h ../SizeFormatter.cc
+        ${TEST_SOURCES_COMMON})
 
 target_link_libraries(readDirTest ${GTKMM_LIBRARIES}  )
+target_link_libraries(sizeDisplayTest ${GTKMM_LIBRARIES}  )
