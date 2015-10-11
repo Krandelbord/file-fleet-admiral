@@ -15,6 +15,8 @@ link_directories(
 include_directories(
         ${GTKMM_INCLUDE_DIRS}  )
 
+ADD_SUBDIRECTORY( tests )
+
 set(SOURCE_FILES
         config.h
         debug.cc
@@ -40,7 +42,7 @@ set(SOURCE_FILES
         SinglePanel.cc SinglePanel.h
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
-)
+        SizeFormatter.cc SizeFormatter.h)
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager
