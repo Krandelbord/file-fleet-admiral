@@ -40,9 +40,11 @@ set(SOURCE_FILES
         Settings.cc Settings.h
         SettingsWindow.cc SettingsWindow.h
         SinglePanel.cc SinglePanel.h
+        SizeDisplayFormat.h
+        SizeFormatter.cc SizeFormatter.h
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
-        SizeFormatter.cc SizeFormatter.h)
+        )
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager
