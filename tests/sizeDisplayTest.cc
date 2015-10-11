@@ -2,8 +2,11 @@
 #include <string>
 #include "Asserts.h"
 #include "Runner.h"
+#include "../SizeFormatter.h"
 
 bool checkSizeFormatting(size_t sizeToFormatInBytes, const std::string expectedOut) {
+    const std::string formattedSize = SizeFormatter::formatSize(sizeToFormatInBytes, SizeDisplayFormat::IN_BYTES);
+    Asserts::assertEquals("Size not formated as expected", expectedOut, formattedSize);
     return true;
 }
 
