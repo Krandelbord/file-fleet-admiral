@@ -30,7 +30,7 @@ ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
         ../SizeFormatter.h
         ../SizeFormatterSimple.h ../SizeFormatterSimple.cc
         ../SizeFormatterSpaces.cc ../SizeFormatterSpaces.h
-        ${TEST_SOURCES_COMMON})
+        ${TEST_SOURCES_COMMON} ../SizeFormatterHr.cc ../SizeFormatterHr.h)
 
 target_link_libraries(readDirTest ${GTKMM_LIBRARIES}  )
 target_link_libraries(sizeDisplayTest ${GTKMM_LIBRARIES}  )

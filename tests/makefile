@@ -21,7 +21,7 @@ readMultiThreadDirs: Asserts.o Runner.o readMultiThreadDirs.o ../PathResolver.o 
 	../FileListElement.o ../ThreadMessage.o ../GuiReader.o ../ThreadCalculation.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
-sizeDisplayTest: Asserts.o Runner.o sizeDisplayTest.o ../SizeFormatterSimple.o ../SizeFormatter.o
+sizeDisplayTest: Asserts.o Runner.o sizeDisplayTest.o ../SizeFormatterSimple.o 
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 clean:
