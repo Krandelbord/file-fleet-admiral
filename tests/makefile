@@ -8,9 +8,10 @@ LDFLAGS+=`pkg-config --libs gtkmm-3.0`
 #$(OBJDIR)/%.o: %.cc | $(OBJDIR)
 #	$(COMPILE.cc) $(OUTPUT_OPTION) $<
 
-runTests: readDirTest readMultiThreadDirs
+runTests: readDirTest readMultiThreadDirs sizeDisplayTest
 	./readDirTest
 	./readMultiThreadDirs
+	./sizeDisplayTest
 
 readDirTest: Asserts.o Runner.o readDirTest.o ../PathResolver.o ../SelectionHistory.o ../debug.o
 	$(CXX) $(LDFLAGS) $^ -o $@
@@ -20,10 +21,14 @@ readMultiThreadDirs: Asserts.o Runner.o readMultiThreadDirs.o ../PathResolver.o 
 	../FileListElement.o ../ThreadMessage.o ../GuiReader.o ../ThreadCalculation.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
+sizeDisplayTest: Asserts.o Runner.o sizeDisplayTest.o ../SizeFormatterSimple.o ../SizeFormatter.o
+	$(CXX) $(LDFLAGS) $^ -o $@
+
 clean:
 	-rm *.o
 	-rm readDirTest
 	-rm readMultiThreadDirs
+	-rm sizeDisplayTest
 
 .PHONY: readDirTest clean
 

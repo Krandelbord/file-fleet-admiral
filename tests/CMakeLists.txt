@@ -27,7 +27,8 @@ ADD_EXECUTABLE( readMultiThreadDirs readMultiThreadDirs.cc
         ${TEST_SOURCES_COMMON})
 
 ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
-        ../SizeFormatter.h ../SizeFormatter.cc
+        ../SizeFormatter.h
+        ../SizeFormatterSimple.h ../SizeFormatterSimple.cc
         ${TEST_SOURCES_COMMON})
 
 target_link_libraries(readDirTest ${GTKMM_LIBRARIES}  )

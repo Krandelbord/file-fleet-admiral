@@ -3,21 +3,23 @@
 #include "Asserts.h"
 #include "Runner.h"
 #include "../SizeFormatter.h"
+#include "../SizeFormatterSimple.h"
+#include <iostream>
+bool checkSizeFormatting(SizeFormatter* formatter, size_t sizeToFormatInBytes, const std::string expectedOut) {
 
-bool checkSizeFormatting(size_t sizeToFormatInBytes, const std::string expectedOut) {
-    const std::string formattedSize = SizeFormatter::formatSize(sizeToFormatInBytes, SizeDisplayFormat::IN_BYTES);
-    Asserts::assertEquals("Size not formated as expected", expectedOut, formattedSize);
-    return true;
+    const std::string formattedSize = formatter->formatSize(sizeToFormatInBytes);
+    return Asserts::assertEquals("Size not formated as expected", expectedOut, formattedSize);
 }
 
 int main() {
     std::vector<std::function<bool()>> testsToRun;
-    testsToRun.push_back(std::bind(checkSizeFormatting, 12345, "12 345"));
-
+    SizeFormatter *sizeFormatterSimple = new SizeFormatterSimple();
+    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSimple, 12345, "12 345"));
     Runner runner;
     for (auto oneTestToRun : testsToRun) {
         runner.run(oneTestToRun);
     }
 
     runner.showStats();
+    std::cout << "The end";
 }
