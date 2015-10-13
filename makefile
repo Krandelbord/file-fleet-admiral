@@ -14,7 +14,8 @@ LDFLAGS+=`pkg-config --libs gtkmm-3.0`
 $(OUT): debug.o FileListElement.o FilePanelFooter.o FilesColumns.o FilesNavigationPanel.o \
 	FilesTreeView.o GuiReader.o main.o MainWindow.o MenuBar.o PanelHeader.o PathResolver.o \
 	Preconditions.o Rectangle.o SelectionHistory.o Settings.o SettingsWindow.o \
-	SinglePanel.o ThreadCalculation.o ThreadMessage.o
+	SinglePanel.o ThreadCalculation.o ThreadMessage.o SizeFormatterFactory.o \
+	SizeFormatterHr.o SizeFormatterSpaces.o SizeFormatterSimple.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 include makefile.dep

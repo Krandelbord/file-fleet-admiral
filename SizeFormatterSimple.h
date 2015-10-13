@@ -3,9 +3,11 @@
 
 #include "SizeFormatter.h"
 
-class SizeFormatterSimple : public SizeFormatter {
+/**
+ * Simple formatter just numbers without unit for example output will be "233344"
+ */
+class SizeFormatterSimple : public SizeFormatter, public std::shared_ptr<::SizeFormatter> {
 public:
-    std::string formatSize(size_t bytes);
+    virtual std::string formatSize(size_t bytes) const override;
 };
-
 #endif //SIZE_FORMATTER_SIMPLE_H

@@ -4,7 +4,7 @@
 #include "SizeFormatterFactory.h"
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
-    const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromString("");
+    const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromConfig();
     Glib::ustring dirToRead = threadMessage->getDirToRead();
     int readPositionsCount = 0;
 

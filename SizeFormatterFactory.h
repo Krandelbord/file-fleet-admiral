@@ -6,6 +6,7 @@
 class SizeFormatterFactory {
 public:
     static std::shared_ptr<SizeFormatter> createFromString(std::string inString);
+    static std::shared_ptr<SizeFormatter> createFromConfig();
 };
 
 

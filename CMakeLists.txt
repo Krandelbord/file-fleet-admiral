@@ -42,10 +42,13 @@ set(SOURCE_FILES
         SinglePanel.cc SinglePanel.h
         SizeDisplayFormat.h SizeDisplayFormat.cc
         SizeFormatterSpaces.cc SizeFormatterSpaces.h
+        SizeFormatterSimple.cc SizeFormatterSimple.h
+        SizeFormatterHr.cc SizeFormatterHr.h
         SizeFormatter.h
+        SizeFormatterFactory.cc SizeFormatterFactory.h
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
-        SizeFormatterHr.cc SizeFormatterHr.h SizeFormatterFactory.cc SizeFormatterFactory.h)
+        )
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager
