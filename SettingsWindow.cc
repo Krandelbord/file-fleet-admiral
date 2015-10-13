@@ -8,10 +8,10 @@ SettingsWindow::SettingsWindow(Gtk::Window& parent) : Gtk::Dialog(_("Settings Wi
     Gtk::Label *sizeDisplayFormatLabel = Gtk::manage(new Gtk::Label(_("File size display format: ")));
     labelValueBox->add(*sizeDisplayFormatLabel);
     Gtk::ComboBoxText *sizeDisplayFormatCombo = Gtk::manage(new Gtk::ComboBoxText());
-    sizeDisplayFormatCombo->append(convertSizeDFToString(SizeDisplayFormat::IN_BYTES), _("In bytes (for example 12345)"));
-    sizeDisplayFormatCombo->append(convertSizeDFToString(SizeDisplayFormat::SPACE_SEPARATED), _("Space separated (for example 12 345)"));
-    sizeDisplayFormatCombo->append(convertSizeDFToString(SizeDisplayFormat::HR_ROUNDED), _("Human readable simple (for example 12kB)"));
-    sizeDisplayFormatCombo->append(convertSizeDFToString(SizeDisplayFormat::HR_FULL), _("Human readable full (for example 12kB 57B)"));
+    sizeDisplayFormatCombo->append("IN_BYTES", _("In bytes (for example 12345)"));
+    sizeDisplayFormatCombo->append("SPACE_SEPARATED", _("Space separated (for example 12 345)"));
+    sizeDisplayFormatCombo->append("HR_ROUNDED", _("Human readable simple (for example 12kB)"));
+    sizeDisplayFormatCombo->append("HR_FULL", _("Human readable full (for example 12kB 57B)"));
     sizeDisplayFormatCombo->set_active(0);
     labelValueBox->add(*sizeDisplayFormatCombo);
 
