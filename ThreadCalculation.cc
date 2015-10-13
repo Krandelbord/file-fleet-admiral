@@ -1,8 +1,10 @@
 #include "ThreadCalculation.h"
 #include <sys/stat.h>
 #include "config.h"
+#include "SizeFormatterFactory.h"
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
+    const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromString("");
     Glib::ustring dirToRead = threadMessage->getDirToRead();
     int readPositionsCount = 0;
 
@@ -18,7 +20,8 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
             if (nextElemInDir.size()!=0) {
                 __off_t sizeInBytes = readFileSize(path);
                 FileType fileType = readFileType(path);
-                dirContent.push_back(FileListElement(nextElemInDir, sizeInBytes, fileType));
+                const std::string formattedSize = sizeFormatter->formatSize(sizeInBytes);
+                dirContent.push_back(FileListElement(nextElemInDir, sizeInBytes, fileType, formattedSize));
                 readPositionsCount++;
             }
             if (threadMessage->shouldCancelWorkAsync()) {

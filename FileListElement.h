@@ -10,7 +10,7 @@
 class FileListElement {
     public:
         FileListElement(const Glib::ustring& fileName, __off_t fileSizeInBytes,
-                FileType fileType);
+                FileType fileType, std::string sizeFormatted);
 
         static FileListElement createParentDir();
 
@@ -23,6 +23,7 @@ class FileListElement {
         Glib::ustring fileName;
         __off_t fileSizeInBytes;
         FileType fileType;
+        std::string fileSizeForDisplay;
 };
 
 #endif /** FILE_LIST_ELEMENT_H **/

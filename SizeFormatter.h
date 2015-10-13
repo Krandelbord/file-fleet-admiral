@@ -8,7 +8,7 @@
  */
 class SizeFormatter {
 public:
-    virtual std::string formatSize(size_t bytes) = 0;
+    virtual std::string formatSize(size_t bytes) const = 0;
 };
 
 #endif //SIZE_FORMATTER_H

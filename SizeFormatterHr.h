@@ -5,12 +5,12 @@
 #include "SizeFormatter.h"
 
 /**
- * Human readable size formater. Generated values like 23,45MB
+ * Human readable size formatter. Generated values like 23,45MB
  */
-class SizeFormatterHr : public SizeFormatter {
+class SizeFormatterHr : public SizeFormatter, public std::shared_ptr<::SizeFormatter> {
 
 public:
-    virtual std::string formatSize(size_t bytes) override;
+    virtual std::string formatSize(size_t bytes) const override;
 };
 
 

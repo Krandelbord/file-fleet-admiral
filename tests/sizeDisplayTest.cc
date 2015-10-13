@@ -14,6 +14,9 @@ bool checkSizeFormatting(SizeFormatter* formatter, size_t sizeToFormatInBytes, c
 }
 
 int main() {
+    std::locale::global(std::locale(std::locale("pl_PL.UTF-8"), "C", std::locale::numeric));
+    std::setlocale(LC_ALL, "pl_PL.UTF-8");
+
     std::vector<std::function<bool()>> testsToRun;
     SizeFormatter *sizeFormatterSimple = new SizeFormatterSimple();
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSimple, 12345, "12345"));
