@@ -26,6 +26,7 @@ int main() {
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 99999, "99 999"));
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 99999212, "99 999 212"));
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 12, "12"));
+    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 4096, "4 096"));
 
     SizeFormatter *sizeFormatterHr = new SizeFormatterHr();
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99, "99 B"));

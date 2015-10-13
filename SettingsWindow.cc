@@ -1,6 +1,7 @@
 #include "SettingsWindow.h"
 #include "SizeDisplayFormat.h"
 #include "config.h"
+#include "Settings.h"
 
 SettingsWindow::SettingsWindow(Gtk::Window& parent) : Gtk::Dialog(_("Settings Window"), parent) {
     Gtk::HBox *labelValueBox = Gtk::manage(new Gtk::HBox());
@@ -11,12 +12,18 @@ SettingsWindow::SettingsWindow(Gtk::Window& parent) : Gtk::Dialog(_("Settings Wi
     sizeDisplayFormatCombo->append("IN_BYTES", _("In bytes (for example 12345)"));
     sizeDisplayFormatCombo->append("SPACE_SEPARATED", _("Space separated (for example 12 345)"));
     sizeDisplayFormatCombo->append("HUMAN_READABLE", _("Human readable (for example 12kB)"));
+    Settings settings;
+    const std::string &sizeFormat = settings.readSizeFormat();
+    gfm_debug("Value from settings is %s\n", sizeFormat.c_str());
+
     sizeDisplayFormatCombo->set_active(0);
     labelValueBox->add(*sizeDisplayFormatCombo);
 
     this->get_vbox()->add(*labelValueBox);
     addImageButton("cancel", _("Cancel"));
-    addImageButton("document-save", _("Save settings"));
+    Gtk::Button *saveButton = addImageButton("document-save", _("Save settings"));
+    saveButton->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &SettingsWindow::onSaveClicked), 
+                                                    sizeDisplayFormatCombo));
     this->show_all();
 }
 
@@ -29,4 +36,11 @@ Gtk::Button* SettingsWindow::addImageButton(const Glib::ustring &iconName, const
     buttonBeingAdded->set_label(label);
     this->get_action_area()->add(*buttonBeingAdded);
     return buttonBeingAdded;
+}
+
+void SettingsWindow::onSaveClicked(Gtk::ComboBoxText *sizeDisplayFormatCombo) {
+    const Glib::ustring &selectedSizeFormat = sizeDisplayFormatCombo->get_active_id();
+    Settings settings;
+    settings.saveSizeFormat(selectedSizeFormat);
+    gfm_debug("Clicked save selected values is %s\n", selectedSizeFormat.c_str());
 }
