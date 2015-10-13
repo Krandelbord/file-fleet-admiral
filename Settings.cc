@@ -109,3 +109,7 @@ Settings::~Settings() {
 std::string Settings::readSizeFormat() {
     return readStringConfigValue(CONF_SIZE_FORMAT);
 }
+
+void Settings::saveSizeFormat(const Glib::ustring newSizeFormatToSave) {
+    saveString(CONF_SIZE_FORMAT, newSizeFormatToSave);
+}

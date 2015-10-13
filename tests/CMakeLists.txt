@@ -16,7 +16,8 @@ include_directories(
         ${GTKMM_INCLUDE_DIRS}  )
 
 set(TEST_SOURCES_COMMON
-        Asserts.cc Asserts.h Runner.h Runner.cc)
+        Asserts.cc Asserts.h Runner.h Runner.cc
+        ../debug.cc ../debug.h)
 
 ADD_EXECUTABLE( readDirTest readDirTest.cc
         ${TEST_SOURCES_COMMON}
