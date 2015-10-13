@@ -45,7 +45,7 @@ set(SOURCE_FILES
         SizeFormatter.h
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
-        SizeFormatterHr.cc SizeFormatterHr.h)
+        SizeFormatterHr.cc SizeFormatterHr.h SizeFormatterFactory.cc SizeFormatterFactory.h)
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
 target_link_libraries(gtkmm-file-manager

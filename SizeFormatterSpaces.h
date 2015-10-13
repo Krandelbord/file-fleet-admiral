@@ -12,7 +12,7 @@ class SizeFormatterSpaces : public SizeFormatter {
     static const int SPACE_SEPARATOR_EVERY = 3;
 
 public:
-    virtual std::string formatSize(size_t bytes) override;
+    virtual std::string formatSize(size_t bytes) const override;
 };
 
 

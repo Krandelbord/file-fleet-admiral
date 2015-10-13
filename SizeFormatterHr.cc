@@ -9,9 +9,8 @@ std::vector<std::string> const UnitTypes(std::begin(HW), std::end(HW));
 /**
  * Format size into human readable format
  */
-std::string SizeFormatterHr::formatSize(size_t sizeInBytes) {
-    std::locale::global(std::locale(std::locale("pl_PL.UTF-8"), "C", std::locale::numeric));
-    std::setlocale(LC_ALL, "pl_PL.UTF-8");
+std::string SizeFormatterHr::formatSize(size_t sizeInBytes) const {
+
     char printBuffer[300];
     double sizeDividedByUnit;
     if (sizeInBytes >= 0) {
