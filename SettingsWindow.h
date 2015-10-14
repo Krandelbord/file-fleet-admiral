@@ -12,5 +12,7 @@ class SettingsWindow : public Gtk::Dialog {
         void onSaveClicked(Gtk::ComboBoxText *combo);
 
     void closeSettingsWindow();
+
+    void setActiveElementFromConfigFile(Gtk::ComboBoxText *sizeDisplayFormatCombo) const;
 };
 #endif /** SETTINGS_WINDOW_H **/
