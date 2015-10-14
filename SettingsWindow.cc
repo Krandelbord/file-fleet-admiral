@@ -20,7 +20,8 @@ SettingsWindow::SettingsWindow(Gtk::Window& parent) : Gtk::Dialog(_("Settings Wi
     labelValueBox->add(*sizeDisplayFormatCombo);
 
     this->get_vbox()->add(*labelValueBox);
-    addImageButton("cancel", _("Cancel"));
+    Gtk::Button *cancelButton = addImageButton("cancel", _("Cancel"));
+    cancelButton->signal_clicked().connect(sigc::mem_fun(*this, &SettingsWindow::closeSettingsWindow));
     Gtk::Button *saveButton = addImageButton("document-save", _("Save settings"));
     saveButton->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &SettingsWindow::onSaveClicked), 
                                                     sizeDisplayFormatCombo));
@@ -42,5 +43,7 @@ void SettingsWindow::onSaveClicked(Gtk::ComboBoxText *sizeDisplayFormatCombo) {
     const Glib::ustring &selectedSizeFormat = sizeDisplayFormatCombo->get_active_id();
     Settings settings;
     settings.saveSizeFormat(selectedSizeFormat);
-    gfm_debug("Clicked save selected values is %s\n", selectedSizeFormat.c_str());
+    closeSettingsWindow();
 }
+
+void SettingsWindow::closeSettingsWindow() { close(); }

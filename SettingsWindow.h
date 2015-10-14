@@ -10,5 +10,7 @@ class SettingsWindow : public Gtk::Dialog {
     private:
         Gtk::Button* addImageButton(const Glib::ustring &iconName, const Glib::ustring& label);
         void onSaveClicked(Gtk::ComboBoxText *combo);
+
+    void closeSettingsWindow();
 };
 #endif /** SETTINGS_WINDOW_H **/
