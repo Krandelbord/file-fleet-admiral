@@ -23,13 +23,24 @@ SelectionHistory.o: SelectionHistory.cc SelectionHistory.h PathResolver.h \
  config.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
 SettingsWindow.o: SettingsWindow.cc SettingsWindow.h SizeDisplayFormat.h \
- config.h
+ config.h Settings.h Rectangle.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FileListElement.h FileType.h \
  PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
  GuiReader.h ThreadMessage.h FilePanelFooter.h FilesColumns.h config.h \
  Preconditions.h
+SizeDisplayFormat.o: SizeDisplayFormat.cc SizeDisplayFormat.h
+SizeFormatterFactory.o: SizeFormatterFactory.cc SizeFormatterFactory.h \
+ SizeFormatter.h SizeDisplayFormat.h SizeFormatterHr.h Settings.h \
+ Rectangle.h SizeFormatterSimple.h SizeFormatterSpaces.h
+SizeFormatterHr.o: SizeFormatterHr.cc SizeFormatterHr.h SizeFormatter.h \
+ SizeDisplayFormat.h
+SizeFormatterSimple.o: SizeFormatterSimple.cc SizeFormatterSimple.h \
+ SizeFormatter.h SizeDisplayFormat.h
+SizeFormatterSpaces.o: SizeFormatterSpaces.cc SizeFormatterSpaces.h \
+ SizeFormatter.h SizeDisplayFormat.h
 ThreadCalculation.o: ThreadCalculation.cc ThreadCalculation.h \
- ThreadMessage.h FileListElement.h FileType.h PathResolver.h config.h
+ ThreadMessage.h FileListElement.h FileType.h PathResolver.h config.h \
+ SizeFormatterFactory.h SizeFormatter.h SizeDisplayFormat.h
 ThreadMessage.o: ThreadMessage.cc ThreadMessage.h FileListElement.h \
  FileType.h PathResolver.h config.h
 debug.o: debug.cc debug.h
