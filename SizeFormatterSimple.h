@@ -2,6 +2,7 @@
 #define SIZE_FORMATTER_SIMPLE_H
 
 #include "SizeFormatter.h"
+#include <memory>
 
 /**
  * Simple formatter just numbers without unit for example output will be "233344"

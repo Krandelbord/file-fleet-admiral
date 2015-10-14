@@ -40,7 +40,6 @@ set(SOURCE_FILES
         Settings.cc Settings.h
         SettingsWindow.cc SettingsWindow.h
         SinglePanel.cc SinglePanel.h
-        SizeDisplayFormat.h SizeDisplayFormat.cc
         SizeFormatterSpaces.cc SizeFormatterSpaces.h
         SizeFormatterSimple.cc SizeFormatterSimple.h
         SizeFormatterHr.cc SizeFormatterHr.h

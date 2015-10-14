@@ -1,7 +1,7 @@
 #ifndef SIZE_FORMATTER_H
 #define SIZE_FORMATTER_H
 
-#include "SizeDisplayFormat.h"
+#include <string>
 
 /**
  * Format size from bytes to given format
