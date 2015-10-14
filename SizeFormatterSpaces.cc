@@ -1,4 +1,5 @@
 #include "SizeFormatterSpaces.h"
+#include <sstream>
 
 std::string SizeFormatterSpaces::formatSize(size_t bytes) const {
     std::stringstream strStream;

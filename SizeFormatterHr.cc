@@ -1,4 +1,5 @@
 #include "SizeFormatterHr.h"
+#include <vector>
 
 /* bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes, exabytes,
   * zettabytes, yottabytes.

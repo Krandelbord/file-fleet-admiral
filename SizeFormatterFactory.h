@@ -2,6 +2,7 @@
 #define SIZE_FORMATTER_FACTORY_H
 
 #include "SizeFormatter.h"
+#include <memory>
 
 class SizeFormatterFactory {
 public:

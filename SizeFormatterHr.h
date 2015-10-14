@@ -3,6 +3,7 @@
 #define SIZE_FORMATTER_HR_H
 
 #include "SizeFormatter.h"
+#include <memory>
 
 /**
  * Human readable size formatter. Generated values like 23,45MB
