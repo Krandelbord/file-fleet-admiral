@@ -1,6 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+static const char *const SIZE_FORMAT_IN_BYTES = "IN_BYTES";
+
 #include <glibmm/ustring.h>
 #include "Rectangle.h"
 
@@ -27,6 +29,7 @@ private:
         GKeyFile *m_key_file;
         char *m_file;
 
+        std::string readStringConfigValueWithDfault(const Glib::ustring keyToRead, const Glib::ustring defaultValue);
 };
 
 #endif /** SETTINGS_H */

@@ -75,15 +75,18 @@ int Settings::readPanedPosition() const {
 
 Glib::ustring Settings::readStringConfigValue(const Glib::ustring& paramToRead) const {   
     gchar* readStringValue = g_key_file_get_string(m_key_file, MAIN_CATEGORY_NAME, paramToRead.c_str(), NO_ERROR_HANDLER);
-    if (readStringValue != NULL) {
+    if (readStringValue!=NULL) {
         return Glib::ustring(readStringValue);
     } else {
-        return Glib::get_current_dir();
+        return "";
     }
 }
 
 Glib::ustring Settings::getRightDirPath() const {
     Glib::ustring rightPanelDir = readStringConfigValue(CONF_RIGHT_PANEL_DIR);
+    if (rightPanelDir.empty()) {
+        return Glib::get_current_dir();
+    }
     return rightPanelDir;
 }
 
@@ -107,9 +110,18 @@ Settings::~Settings() {
 }
 
 std::string Settings::readSizeFormat() {
-    return readStringConfigValue(CONF_SIZE_FORMAT);
+    return readStringConfigValueWithDfault(CONF_SIZE_FORMAT, SIZE_FORMAT_IN_BYTES);
 }
 
 void Settings::saveSizeFormat(const Glib::ustring newSizeFormatToSave) {
     saveString(CONF_SIZE_FORMAT, newSizeFormatToSave);
+}
+
+std::string Settings::readStringConfigValueWithDfault(const Glib::ustring keyToRead, const Glib::ustring defaultValue) {
+    const Glib::ustring &valueRead = readStringConfigValue(keyToRead);
+    if (valueRead.empty()) {
+        return defaultValue;
+    } else {
+        return valueRead;
+    }
 }
