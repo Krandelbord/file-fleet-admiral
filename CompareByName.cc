@@ -14,4 +14,5 @@ CompareResult CompareByName::compare(const FileListElement& first, const FileLis
 }
 
 CompareByName::~CompareByName() {
+    gfm_debug("Destructor of CompareByName\n");
 }
