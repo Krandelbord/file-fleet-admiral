@@ -1,7 +1,11 @@
 #include "SortChain.h"
 #include "config.h"
 
-
+/**
+ * Class that implements SortChain.
+ * The only problem with that class is that it create COPY of itself every comparsion.
+ *
+ */
 SortChain::SortChain(std::shared_ptr<CompareFunction> compareFunction) {
     this->comparatorList.push_back(compareFunction);
 }
@@ -21,7 +25,7 @@ bool SortChain::operator()(const FileListElement& first, const FileListElement& 
     return !normalOrder;
 }
 
-void SortChain::add(std::shared_ptr<CompareFunction> compareFunctionToAdd) {
+void SortChain::addSorting(std::shared_ptr<CompareFunction> compareFunctionToAdd) {
     this->comparatorList.push_back(compareFunctionToAdd);
 }
 

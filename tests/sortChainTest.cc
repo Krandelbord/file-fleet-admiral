@@ -40,7 +40,7 @@ bool shouldSortFilesByName() {
 
 bool shouldSortDirsFirst() {
     SortChain sortChain(std::make_shared<CompareDirsFirst>());
-    sortChain.add(std::make_shared<CompareByName>());
+    sortChain.addSorting(std::make_shared<CompareByName>());
     std::vector<FileListElement> toSort;
     toSort.push_back(FileListElement("firstFile.jpg", 0, FileType::REGULAR_FILE, ""));
     toSort.push_back(FileListElement("SOME_DIR", 0, FileType::DIRECTORY, ""));
@@ -57,7 +57,7 @@ bool shouldSortDirsFirst() {
 
 bool shouldSortInReverseOrder() {
     SortChain sortChain(std::make_shared<CompareDirsFirst>());
-    sortChain.add(std::make_shared<CompareByName>());
+    sortChain.addSorting(std::make_shared<CompareByName>());
     sortChain.reverseOrder();
     std::vector<FileListElement> toSort;
     toSort.push_back(FileListElement("firstFile.jpg", 0, FileType::REGULAR_FILE, ""));
@@ -74,7 +74,7 @@ bool shouldSortInReverseOrder() {
 
 bool shouldSortBySizeDirsFirst() {
     SortChain sortChain(std::make_shared<CompareDirsFirst>());
-    sortChain.add(std::make_shared<CompareBySize>());
+    sortChain.addSorting(std::make_shared<CompareBySize>());
     sortChain.reverseOrder();
     std::vector<FileListElement> toSort;
     toSort.push_back(FileListElement("firstFile.jpg", 150, FileType::REGULAR_FILE, ""));
