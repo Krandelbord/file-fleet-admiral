@@ -6,6 +6,7 @@
 #include "Asserts.h"
 #include "Runner.h"
 #include "../CompareDirsFirst.h"
+#include "../CompareBySize.h"
 
 bool shouldSortFilesByName();
 
@@ -54,7 +55,7 @@ bool shouldSortDirsFirst() {
                               "secondFile.jpg\n", toSort);
 }
 
-bool shouldSorInReverseOrder() {
+bool shouldSortInReverseOrder() {
     SortChain sortChain(std::make_shared<CompareDirsFirst>());
     sortChain.add(std::make_shared<CompareByName>());
     sortChain.reverseOrder();
@@ -71,12 +72,29 @@ bool shouldSorInReverseOrder() {
             "SOME_DIR\n", toSort);
 }
 
+bool shouldSortBySizeDirsFirst() {
+    SortChain sortChain(std::make_shared<CompareDirsFirst>());
+    sortChain.add(std::make_shared<CompareBySize>());
+    sortChain.reverseOrder();
+    std::vector<FileListElement> toSort;
+    toSort.push_back(FileListElement("firstFile.jpg", 150, FileType::REGULAR_FILE, ""));
+    toSort.push_back(FileListElement("SOME_DIR", 0, FileType::DIRECTORY, ""));
+    toSort.push_back(FileListElement("secondFile.jpg", 200, FileType::REGULAR_FILE, ""));
+    toSort.push_back(FileListElement("anotherFile.jpg", 400, FileType::REGULAR_FILE, ""));
+
+    sortChain.sort(toSort);
+    return assertElementOrder("anotherFile.jpg\n"
+                                      "secondFile.jpg\n"
+                                      "firstFile.jpg\n"
+                                      "SOME_DIR\n", toSort);
+}
 
 int main() {
     Runner testRunner;
     testRunner.run(shouldSortFilesByName);
     testRunner.run(shouldSortDirsFirst);
-    testRunner.run(shouldSorInReverseOrder);
+    testRunner.run(shouldSortInReverseOrder);
+    testRunner.run(shouldSortBySizeDirsFirst);
     testRunner.showStats();
     return 0;
 }
