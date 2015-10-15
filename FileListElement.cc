@@ -29,3 +29,7 @@ FileListElement FileListElement::createParentDir() {
     FileListElement toParentDir(PARENT_DIR_SYMBOL, 0, FileType::PARENT_DIR, "");
     return toParentDir;
 }
+
+const std::string FileListElement::toString() const {
+    return fileName;
+}
