@@ -37,6 +37,7 @@ ADD_EXECUTABLE(sortChainTest sortChainTest.cc
         ../SortChain.h ../SortChain.cc
         ../FileListElement.h ../FileListElement.cc
         ../CompareByName.h ../CompareByName.cc
+        ../CompareDirsFirst.h ../CompareDirsFirst.cc
         ${TEST_SOURCES_COMMON}
 )
 
