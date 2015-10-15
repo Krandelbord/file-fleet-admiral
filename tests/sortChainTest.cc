@@ -4,6 +4,9 @@
 #include "../SortChain.h"
 #include "../CompareByName.h"
 #include "Asserts.h"
+#include "Runner.h"
+
+bool shouldSortFilesByName();
 
 const Glib::ustring convertVectorToString(std::vector<FileListElement> dataToConcatenate) {
     std::stringstream concatenatedFiles;
@@ -13,7 +16,13 @@ const Glib::ustring convertVectorToString(std::vector<FileListElement> dataToCon
     return concatenatedFiles.str();
 }
 
-int main() {
+const bool assertElementOrder(const std::string &expectedOrder, std::vector<FileListElement> &toCheck) {
+    return Asserts::assertEquals("Elements sort order not correct",
+                                 expectedOrder,
+                                 convertVectorToString(toCheck));
+}
+
+bool shouldSortFilesByName() {
     SortChain sortChain(std::make_shared<CompareByName>());
     std::vector<FileListElement> toSort;
     toSort.push_back(FileListElement("firstFile.jpg", 0, FileType::REGULAR_FILE, ""));
@@ -21,7 +30,15 @@ int main() {
     toSort.push_back(FileListElement("anotherFile.jpg", 0, FileType::REGULAR_FILE, ""));
 
     sortChain.sort(toSort);
-    Asserts::assertEquals("Elements sort order not correct", "oko", convertVectorToString(toSort));
-    return 0;
+
+    return assertElementOrder("anotherFile.jpg\n"
+                               "firstFile.jpg\n"
+                               "secondFile.jpg\n", toSort);
 }
 
+int main() {
+    Runner testRunner;
+    testRunner.run(shouldSortFilesByName);
+    testRunner.showStats();
+    return 0;
+}
