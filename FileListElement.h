@@ -19,7 +19,9 @@ class FileListElement {
         Glib::ustring getFileSizeForDisplay() const;
         const FileType getFileType() const;
 
-    private:
+        const std::string toString() const;
+
+private:
         Glib::ustring fileName;
         __off_t fileSizeInBytes;
         FileType fileType;

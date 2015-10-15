@@ -33,5 +33,13 @@ ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
         ../SizeFormatterSpaces.cc ../SizeFormatterSpaces.h
         ${TEST_SOURCES_COMMON} ../SizeFormatterHr.cc ../SizeFormatterHr.h)
 
+ADD_EXECUTABLE(sortChainTest sortChainTest.cc
+        ../SortChain.h ../SortChain.cc
+        ../FileListElement.h ../FileListElement.cc
+        ../CompareByName.h ../CompareByName.cc
+        ${TEST_SOURCES_COMMON}
+)
+
 target_link_libraries(readDirTest ${GTKMM_LIBRARIES}  )
 target_link_libraries(sizeDisplayTest ${GTKMM_LIBRARIES}  )
+target_link_libraries(sortChainTest ${GTKMM_LIBRARIES}  )
