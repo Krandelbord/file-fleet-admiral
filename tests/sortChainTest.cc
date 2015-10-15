@@ -54,11 +54,29 @@ bool shouldSortDirsFirst() {
                               "secondFile.jpg\n", toSort);
 }
 
+bool shouldSorInReverseOrder() {
+    SortChain sortChain(std::make_shared<CompareDirsFirst>());
+    sortChain.add(std::make_shared<CompareByName>());
+    sortChain.reverseOrder();
+    std::vector<FileListElement> toSort;
+    toSort.push_back(FileListElement("firstFile.jpg", 0, FileType::REGULAR_FILE, ""));
+    toSort.push_back(FileListElement("SOME_DIR", 0, FileType::DIRECTORY, ""));
+    toSort.push_back(FileListElement("secondFile.jpg", 0, FileType::REGULAR_FILE, ""));
+    toSort.push_back(FileListElement("anotherFile.jpg", 0, FileType::REGULAR_FILE, ""));
+
+    sortChain.sort(toSort);
+    return assertElementOrder("secondFile.jpg\n"
+            "firstFile.jpg\n"
+            "anotherFile.jpg\n"
+            "SOME_DIR\n", toSort);
+}
+
 
 int main() {
     Runner testRunner;
     testRunner.run(shouldSortFilesByName);
     testRunner.run(shouldSortDirsFirst);
+    testRunner.run(shouldSorInReverseOrder);
     testRunner.showStats();
     return 0;
 }

@@ -11,14 +11,14 @@ bool SortChain::operator()(const FileListElement& first, const FileListElement& 
         gfm_debug("Sorotwanie %s i %s \n", first.toString().c_str(), second.toString().c_str());
         const CompareResult &compareResult = oneOfCmpFunction->compare(first, second);
         if (compareResult == CompareResult::FIRST_IS_LESS) {
-            return false;
+            return !normalOrder;
         } else if (compareResult == CompareResult::SECOND_IS_LESS) {
-            return true;
+            return normalOrder;
         }
         //else nothing will move to another comparator in chain will check
     }
     gfm_debug("Compare result undefined for %s and %s\n", first.toString().c_str(), second.toString().c_str());
-    return false;
+    return !normalOrder;
 }
 
 void SortChain::add(std::shared_ptr<CompareFunction> compareFunctionToAdd) {
@@ -32,4 +32,8 @@ SortChain::~SortChain() {
 
 void SortChain::sort(std::vector<FileListElement>& dataToSort) {
     std::sort(dataToSort.begin(), dataToSort.end(), *this);
+}
+
+void SortChain::reverseOrder() {
+    this->normalOrder = false;
 }
