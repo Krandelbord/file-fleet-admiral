@@ -4,3 +4,4 @@ gfm
 ^tests/readDirTest$
 ^tests/readMultiThreadDirs
 .cccc/
+.idea/
