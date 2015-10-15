@@ -12,7 +12,6 @@ SortChain::SortChain(std::shared_ptr<CompareFunction> compareFunction) {
 
 bool SortChain::operator()(const FileListElement& first, const FileListElement& second) const {
     for (std::shared_ptr<CompareFunction> oneOfCmpFunction : comparatorList) {
-        gfm_debug("Sorotwanie %s i %s \n", first.toString().c_str(), second.toString().c_str());
         const CompareResult &compareResult = oneOfCmpFunction->compare(first, second);
         if (compareResult == CompareResult::FIRST_IS_LESS) {
             return !normalOrder;
@@ -21,7 +20,6 @@ bool SortChain::operator()(const FileListElement& first, const FileListElement& 
         }
         //else nothing will move to another comparator in chain will check
     }
-    gfm_debug("Compare result undefined for %s and %s\n", first.toString().c_str(), second.toString().c_str());
     return !normalOrder;
 }
 
