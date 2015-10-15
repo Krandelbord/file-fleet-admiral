@@ -5,8 +5,12 @@
 using namespace Gtk::Menu_Helpers;
 
 MenuBar::MenuBar(Gtk::Window* parentWindow) {
+    this->append(*createFilePanelMenu(_("_Left")));
+
     this->append(*createFileMenu(parentWindow));
     this->append(*createHelpMenu());
+
+    this->append(*createFilePanelMenu(_("_Right")));
 }
 
 Gtk::MenuItem* MenuBar::createFileMenu(Gtk::Window* parentWindow) {
@@ -29,13 +33,13 @@ Gtk::MenuItem* MenuBar::createFileMenu(Gtk::Window* parentWindow) {
 }
 
 Gtk::MenuItem* MenuBar::createHelpMenu() {
-    Gtk::MenuItem* item2 = Gtk::manage(new Gtk::MenuItem(_("_Help"), true));
+    Gtk::MenuItem*rootHelpMenu = Gtk::manage(new Gtk::MenuItem(_("_Help"), true));
     Gtk::Menu* submenu2 = Gtk::manage(new Gtk::Menu);
-    Gtk::MenuItem* subitem2 = Gtk::manage(new Gtk::MenuItem(_("About")));
-    submenu2->append(*subitem2);
-    item2->set_submenu(*submenu2);
+    Gtk::MenuItem*aboutMenuItem = Gtk::manage(new Gtk::MenuItem(_("About")));
+    submenu2->append(*aboutMenuItem);
+    rootHelpMenu->set_submenu(*submenu2);
 
-    return item2;
+    return rootHelpMenu;
 }
 
 void MenuBar::onQuitMenuItem() {
@@ -46,4 +50,15 @@ void MenuBar::onQuitMenuItem() {
 void MenuBar::onShowSettings(Gtk::Window* parentWindow) {
     SettingsWindow settingsDialog(*parentWindow);
     settingsDialog.run();
+}
+
+Gtk::MenuItem* MenuBar::createFilePanelMenu(Glib::ustring panelName) {
+    Gtk::MenuItem*rootPanelMenu = Gtk::manage(new Gtk::MenuItem(panelName, true));
+    Gtk::Menu* rootPanelSubMenu = Gtk::manage(new Gtk::Menu);
+    rootPanelMenu->set_submenu(*rootPanelSubMenu);
+
+    Gtk::MenuItem* sortOrderMenu = Gtk::manage(new Gtk::MenuItem(_("Sort order...")));
+    rootPanelSubMenu->append(*sortOrderMenu);
+
+    return rootPanelMenu;
 }

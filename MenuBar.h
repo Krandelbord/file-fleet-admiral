@@ -10,6 +10,8 @@ class MenuBar : public Gtk::MenuBar {
     private:
         Gtk::MenuItem* createFileMenu(Gtk::Window* parentWindow);
         Gtk::MenuItem* createHelpMenu();
+        Gtk::MenuItem* createFilePanelMenu(Glib::ustring string);
+
         void onQuitMenuItem();
         void onShowSettings(Gtk::Window* parentWindow);
 };
