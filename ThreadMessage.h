@@ -4,6 +4,7 @@
 #include <glibmm.h>
 #include "FileListElement.h"
 #include "PathResolver.h"
+#include "SortChain.h"
 
 /**
  * Message send to thread what to execute, and to receive back information from worker thread.
@@ -11,8 +12,8 @@
  */
 class ThreadMessage {
     public:
-        ThreadMessage(const Glib::ustring aDirToRead);
-        ThreadMessage(const PathResolver aDirToRead);
+        ThreadMessage(const Glib::ustring aDirToRead, SortChain sortChain);
+        ThreadMessage(const PathResolver aDirToRead, SortChain sortChain);
 
         void cancelWork();
         std::vector<FileListElement> getCaluclatedData();
@@ -23,7 +24,9 @@ class ThreadMessage {
         void notifyAllThreadsOfWorkFinish();
         void connectWorkFinishedSignal(const sigc::slot<void>& slot);
         bool shouldCancelWorkAsync();
-        ~ThreadMessage();
+        SortChain getSortChain();
+
+    ~ThreadMessage();
     private:
         //inter-thread notifications
         Glib::Dispatcher dispatcherWorkFinished;
@@ -33,6 +36,7 @@ class ThreadMessage {
         bool cancelWorkValue = false;
         Glib::ustring dirToRead;
         std::vector<FileListElement> calculatedData;
+        SortChain sortChain;
 };
 
 #endif /** THREAD_MESSAGE_H **/

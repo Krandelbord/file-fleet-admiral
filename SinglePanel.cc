@@ -5,6 +5,8 @@
 #include "FilesColumns.h"
 #include "config.h"
 #include "Preconditions.h"
+#include "CompareBySize.h"
+#include "CompareDirsFirst.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
@@ -40,8 +42,10 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
 
 void SinglePanel::startReadDataThread() {
     gfm_debug("reading files data starts here\n");
-    
-    std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(currentDir);
+
+    SortChain sortChain(std::make_shared<CompareDirsFirst>());
+    sortChain.addSorting(std::make_shared<CompareBySize>());
+    std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(currentDir, sortChain);
     guiDataReader.commandReadThis(threadMsng);
     // Connect the handler to the dispatcher.
     threadMsng->connectWorkFinishedSignal(sigc::mem_fun(*this, &SinglePanel::onNewData));

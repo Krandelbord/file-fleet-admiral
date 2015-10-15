@@ -29,7 +29,7 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
             }
         }
     }
-    sortData(dirContent);
+    threadMessage->getSortChain().sort(dirContent);
     threadMessage->addNewDataAsync(dirContent);
     threadMessage->notifyAllThreadsOfWorkFinish();
     gfm_debug("finish of calculation for dir %s, found %d\n", dirToRead.c_str(), readPositionsCount);
@@ -66,6 +66,3 @@ bool sortByNameDirsFirst(FileListElement first, FileListElement second) {
     return first.getFileName().lowercase() < second.getFileName().lowercase();
 }
 
-void ThreadCalculation::sortData(std::vector<FileListElement>& dataToSort) {
-    std::sort(dataToSort.begin(), dataToSort.end(), sortByNameDirsFirst);
-}

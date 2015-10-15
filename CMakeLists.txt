@@ -21,6 +21,9 @@ set(SOURCE_FILES
         config.h
         debug.cc
         debug.h
+        CompareBySize.h CompareBySize.cc
+        CompareDirsFirst.h CompareDirsFirst.cc
+        CompareByName.h CompareByName.cc
         FileListElement.cc FileListElement.h
         FilePanelFooter.cc FilePanelFooter.h
         FilesColumns.cc FilesColumns.h
@@ -45,6 +48,7 @@ set(SOURCE_FILES
         SizeFormatterHr.cc SizeFormatterHr.h
         SizeFormatter.h
         SizeFormatterFactory.cc SizeFormatterFactory.h
+        SortChain.h SortChain.cc
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
         CompareBySize.cc CompareBySize.h)
