@@ -2,12 +2,12 @@
 #include "config.h"
 #include <iostream>
 
-ThreadMessage::ThreadMessage(const Glib::ustring aDirToRead) {
-    this->dirToRead = Glib::ustring(aDirToRead);
+ThreadMessage::ThreadMessage(const Glib::ustring aDirToRead, SortChain sortChainToUse) : sortChain(sortChainToUse) {
+    dirToRead = Glib::ustring(aDirToRead);
 }
 
-ThreadMessage::ThreadMessage(const PathResolver aDirToRead) {
-    this->dirToRead = Glib::ustring(aDirToRead.toString());
+ThreadMessage::ThreadMessage(const PathResolver aDirToRead, SortChain sortChainToUse) : sortChain(sortChainToUse) {
+    dirToRead = Glib::ustring(aDirToRead.toString());
 }
 
 void ThreadMessage::cancelWork() {
@@ -54,6 +54,10 @@ void ThreadMessage::connectWorkFinishedSignal(const sigc::slot<void>& slot) {
 bool ThreadMessage::shouldCancelWorkAsync() {
     Glib::Threads::Mutex::Lock lock(mutexForData);
     return cancelWorkValue;
+}
+
+SortChain ThreadMessage::getSortChain() {
+    return this->sortChain;
 }
 
 ThreadMessage::~ThreadMessage() {
