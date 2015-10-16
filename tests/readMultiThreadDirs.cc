@@ -7,17 +7,19 @@
 #include "Runner.h"
 #include "../ThreadMessage.h"
 #include "../GuiReader.h"
-
+#include "../SortChain.h"
+#include "../CompareByName.h"
 
 bool doNewWork() {
+    SortChain sortChain(std::make_shared<CompareByName>());
     Glib::ustring testedDirectory = "/var/lib/";
     GuiReader guiReader;
-    std::vector<FileListElement> dirContent = guiReader.executeCommandAndWaitForData(std::make_shared<ThreadMessage>(testedDirectory));
-
+    std::vector<FileListElement> dirContent = guiReader.executeCommandAndWaitForData(std::make_shared<ThreadMessage>(testedDirectory, sortChain));
+   
     for (auto oneDirElement : dirContent) {
         //thoused of times we change mind which directoy we will read
         Glib::ustring newDirToRead = testedDirectory + oneDirElement.getFileName();
-        std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(newDirToRead);        
+        std::shared_ptr<ThreadMessage> threadMsng = std::make_shared<ThreadMessage>(newDirToRead, sortChain);
         guiReader.commandReadThis(threadMsng);
     }
     guiReader.waitForFinishWork();

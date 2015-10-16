@@ -33,6 +33,8 @@ int main() {
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 12345, "12,06 kB"));
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999, "97,66 kB"));
     testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999212, "95,37 MB"));
+    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 3615376, "3,5 MB"));
+
 
     Runner runner;
     for (auto oneTestToRun : testsToRun) {
