@@ -27,7 +27,7 @@ std::string SizeFormatterHr::formatSize(size_t sizeInBytes) const {
             break;
         }
 
-        if (sizeDividedByUnit < 10000) {
+        if (sizeDividedByUnit < 1000) {
             //print size in bytes
             snprintf(printBuffer, sizeof(printBuffer), "%.0f %s", sizeDividedByUnit, UnitTypes[unitIndex].c_str());
             break;
