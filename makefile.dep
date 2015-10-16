@@ -1,24 +1,31 @@
 CompareByName.o: CompareByName.cc CompareByName.h CompareFunction.h \
- CompareResult.h FileListElement.h FileType.h config.h
+ CompareResult.h FileListElement.h FileType.h
+CompareBySize.o: CompareBySize.cc CompareBySize.h CompareFunction.h \
+ CompareResult.h FileListElement.h FileType.h
 CompareDirsFirst.o: CompareDirsFirst.cc CompareDirsFirst.h \
- CompareFunction.h CompareResult.h FileListElement.h FileType.h
+ CompareFunction.h CompareResult.h FileListElement.h FileType.h \
+ CompareByName.h
 CompareFunction.o: CompareFunction.cc CompareFunction.h CompareResult.h \
  FileListElement.h FileType.h
 FileListElement.o: FileListElement.cc FileListElement.h FileType.h \
  PathResolver.h
+FilePanelFooter.o: FilePanelFooter.cc FilePanelFooter.h
 FilesColumns.o: FilesColumns.cc FilesColumns.h
 FilesNavigationPanel.o: FilesNavigationPanel.cc FilesNavigationPanel.h \
  Settings.h Rectangle.h SinglePanel.h FileListElement.h FileType.h \
  PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
- GuiReader.h ThreadMessage.h
+ GuiReader.h ThreadMessage.h SortChain.h CompareFunction.h \
+ CompareResult.h FilePanelFooter.h
 FilesTreeView.o: FilesTreeView.cc FilesTreeView.h FilesColumns.h config.h
 GuiReader.o: GuiReader.cc GuiReader.h ThreadMessage.h FileListElement.h \
- FileType.h PathResolver.h ThreadCalculation.h config.h
+ FileType.h PathResolver.h SortChain.h CompareFunction.h CompareResult.h \
+ ThreadCalculation.h config.h
 MainWindow.o: MainWindow.cc MainWindow.h Rectangle.h \
  FilesNavigationPanel.h Settings.h SinglePanel.h FileListElement.h \
  FileType.h PanelHeader.h PathResolver.h FilesTreeView.h \
- SelectionHistory.h GuiReader.h ThreadMessage.h config.h MenuBar.h
-MenuBar.o: MenuBar.cc MenuBar.h config.h
+ SelectionHistory.h GuiReader.h ThreadMessage.h SortChain.h \
+ CompareFunction.h CompareResult.h FilePanelFooter.h config.h MenuBar.h
+MenuBar.o: MenuBar.cc MenuBar.h SettingsWindow.h config.h
 PanelHeader.o: PanelHeader.cc PanelHeader.h
 PathResolver.o: PathResolver.cc PathResolver.h
 Preconditions.o: Preconditions.cc Preconditions.h
@@ -26,18 +33,33 @@ Rectangle.o: Rectangle.cc Rectangle.h
 SelectionHistory.o: SelectionHistory.cc SelectionHistory.h PathResolver.h \
  config.h
 Settings.o: Settings.cc Settings.h Rectangle.h config.h
+SettingsWindow.o: SettingsWindow.cc SettingsWindow.h config.h Settings.h \
+ Rectangle.h
 SinglePanel.o: SinglePanel.cc SinglePanel.h FileListElement.h FileType.h \
  PanelHeader.h PathResolver.h FilesTreeView.h SelectionHistory.h \
- GuiReader.h ThreadMessage.h FilesColumns.h config.h Preconditions.h
+ GuiReader.h ThreadMessage.h SortChain.h CompareFunction.h \
+ CompareResult.h FilePanelFooter.h FilesColumns.h config.h \
+ Preconditions.h CompareBySize.h CompareDirsFirst.h
+SizeFormatterFactory.o: SizeFormatterFactory.cc SizeFormatterFactory.h \
+ SizeFormatter.h SizeFormatterHr.h Settings.h Rectangle.h \
+ SizeFormatterSimple.h SizeFormatterSpaces.h
+SizeFormatterHr.o: SizeFormatterHr.cc SizeFormatterHr.h SizeFormatter.h
+SizeFormatterSimple.o: SizeFormatterSimple.cc SizeFormatterSimple.h \
+ SizeFormatter.h
+SizeFormatterSpaces.o: SizeFormatterSpaces.cc SizeFormatterSpaces.h \
+ SizeFormatter.h
 SortChain.o: SortChain.cc SortChain.h CompareFunction.h CompareResult.h \
  FileListElement.h FileType.h config.h
 ThreadCalculation.o: ThreadCalculation.cc ThreadCalculation.h \
- ThreadMessage.h FileListElement.h FileType.h PathResolver.h \
- FilesSortType.h config.h
+ ThreadMessage.h FileListElement.h FileType.h PathResolver.h SortChain.h \
+ CompareFunction.h CompareResult.h config.h SizeFormatterFactory.h \
+ SizeFormatter.h
 ThreadMessage.o: ThreadMessage.cc ThreadMessage.h FileListElement.h \
- FileType.h PathResolver.h config.h
+ FileType.h PathResolver.h SortChain.h CompareFunction.h CompareResult.h \
+ config.h
 debug.o: debug.cc debug.h
 main.o: main.cc config.h MainWindow.h Rectangle.h FilesNavigationPanel.h \
  Settings.h SinglePanel.h FileListElement.h FileType.h PanelHeader.h \
  PathResolver.h FilesTreeView.h SelectionHistory.h GuiReader.h \
- ThreadMessage.h
+ ThreadMessage.h SortChain.h CompareFunction.h CompareResult.h \
+ FilePanelFooter.h

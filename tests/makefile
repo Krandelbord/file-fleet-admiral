@@ -21,6 +21,7 @@ readDirTest: Asserts.o Runner.o readDirTest.o ../PathResolver.o ../SelectionHist
 
 readMultiThreadDirs: Asserts.o Runner.o readMultiThreadDirs.o ../PathResolver.o ../SelectionHistory.o ../debug.o \
 	../FileListElement.o ../ThreadMessage.o ../GuiReader.o ../ThreadCalculation.o ../SizeFormatterFactory.o \
+	../SortChain.o ../ThreadMessage.o ../CompareByName.o \
 	$(SIZE_FORMATTERS_OBJ) ../Settings.o ../Rectangle.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
