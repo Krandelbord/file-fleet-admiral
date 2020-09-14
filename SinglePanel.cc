@@ -96,7 +96,7 @@ const Glib::ustring SinglePanel::getCurrentDir() const {
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
-    Preconditions::checkArgument(refListStore, "list store is completly empty");
+    Preconditions::checkArgument(refListStore.get() != NULL, "list store is completly empty");
 
     Glib::ustring selectedFileName = getSelectedFileName(path);
     currentDir.changeDirBy(selectedFileName);

@@ -25,6 +25,8 @@ ADD_EXECUTABLE( readDirTest readDirTest.cc
         ../SelectionHistory.h ../SelectionHistory.cc)
 
 ADD_EXECUTABLE( readMultiThreadDirs readMultiThreadDirs.cc
+        ../CompareByName.h ../CompareByName.cc
+        ../SortChain.h ../SortChain.cc
         ${TEST_SOURCES_COMMON})
 
 ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
