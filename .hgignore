@@ -3,5 +3,13 @@ gfm
 ^zm.diff$
 ^tests/readDirTest$
 ^tests/readMultiThreadDirs
+^tests/sizeDisplayTest$
+^tests/CMakeFiles/
+^tests/Makefile$
+^tests/cmake_install.cmake$tests/Makefile$
+^tests/cmake_install.cmake$
 .cccc/
 .idea/
+cmake-build-debug/
+CMakeCache.txt
+
