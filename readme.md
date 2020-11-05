@@ -1,5 +1,8 @@
-Ma być to klon midnight commandera na GTK
-Najwazniejsze aby bylo jak najbardziej saynchronicznie - operacje nie blokowaly GUI i aby była rozbudowna obsługa skrótów klawiszowych.
+Aim of this project it to provide file-manager as close to MidnightCommander (MC) as possible with GTK-ui.
+
+The most important things are: 
+1. keep keybindings as close to MC as possible
+2. Do every operation asynchrionously no ui blocking
 
 What features should version 1.0 have
 1) Browsing files async
@@ -11,7 +14,7 @@ What features should version 1.0 have
 7) Find option
 8) Configuration window: categories on the left searchable, modfied panels become marked blue on left
 File Fleet Admiral
-
+Thunderbolt Commander
 
 To debug criticals
 export G_DEBUG=fatal_warnings
