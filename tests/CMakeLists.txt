@@ -27,6 +27,17 @@ ADD_EXECUTABLE( readDirTest readDirTest.cc
 ADD_EXECUTABLE( readMultiThreadDirs readMultiThreadDirs.cc
         ../CompareByName.h ../CompareByName.cc
         ../SortChain.h ../SortChain.cc
+        ../GuiReader.h ../GuiReader.cc
+        ../FileListElement.h ../FileListElement.cc
+        ../ThreadMessage.h ../ThreadMessage.cc
+        ../ThreadCalculation.h ../ThreadCalculation.cc
+        ../SizeFormatterFactory.h ../SizeFormatterFactory.cc
+        ../Settings.h ../Settings.cc
+        ../PathResolver.h ../PathResolver.cc
+        ../SizeFormatterSimple.h ../SizeFormatterSimple.cc
+        ../SizeFormatterHr.h ../SizeFormatterHr.cc
+        ../Rectangle.h ../Rectangle.cc
+        ../SizeFormatterSpaces.h ../SizeFormatterSpaces.cc
         ${TEST_SOURCES_COMMON})
 
 ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
@@ -47,3 +58,4 @@ ADD_EXECUTABLE(sortChainTest sortChainTest.cc
 target_link_libraries(readDirTest ${GTKMM_LIBRARIES}  )
 target_link_libraries(sizeDisplayTest ${GTKMM_LIBRARIES}  )
 target_link_libraries(sortChainTest ${GTKMM_LIBRARIES}  )
+target_link_libraries(readMultiThreadDirs ${GTKMM_LIBRARIES})

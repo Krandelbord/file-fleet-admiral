@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.3)
-project(gtkmm-file-manager)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -DDEBUG")
+project(gtkmm-file-manager VERSION 0.0.1 LANGUAGES CXX)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -DDEBUG")
 
 
 find_package(PkgConfig)
@@ -54,5 +54,6 @@ set(SOURCE_FILES
         CompareBySize.cc CompareBySize.h)
 add_executable(gtkmm-file-manager ${SOURCE_FILES})
 
-target_link_libraries(gtkmm-file-manager
-        ${GTKMM_LIBRARIES}  )
+target_compile_features(gtkmm-file-manager PRIVATE cxx_std_11)
+
+target_link_libraries(gtkmm-file-manager ${GTKMM_LIBRARIES})
