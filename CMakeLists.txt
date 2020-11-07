@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.3)
-project(gtkmm-file-manager)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -DDEBUG")
+project(file-fleet-admiral)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -DDEBUG")
 
 
 find_package(PkgConfig)
@@ -52,7 +52,11 @@ set(SOURCE_FILES
         ThreadCalculation.cc ThreadCalculation.h
         ThreadMessage.cc ThreadMessage.h
         CompareBySize.cc CompareBySize.h)
-add_executable(gtkmm-file-manager ${SOURCE_FILES})
+add_executable(file-fleet-admiral ${SOURCE_FILES})
 
-target_link_libraries(gtkmm-file-manager
+
+target_compile_features(gtkmm-file-manager PRIVATE cxx_std_11)
+
+target_link_libraries(file-fleet-admiral
         ${GTKMM_LIBRARIES}  )
+
