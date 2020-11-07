@@ -55,7 +55,7 @@ set(SOURCE_FILES
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 
-target_compile_features(gtkmm-file-manager PRIVATE cxx_std_11)
+target_compile_features(file-fleet-admiral PRIVATE cxx_std_11)
 
 target_link_libraries(file-fleet-admiral
         ${GTKMM_LIBRARIES}  )
