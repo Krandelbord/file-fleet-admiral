@@ -10,6 +10,7 @@ class FilesTreeView : public Gtk::TreeView {
     public :
     FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage);
     Gtk::TreeModel::Path getHighlitedElement();
+    void markRowActive(Gtk::TreeModel::Path path);
 
 private:
     Gtk::CellRendererText * addStyleByTypeTxtColumn(const Gtk::TreeModelColumn<Glib::ustring> &columnToAdd,

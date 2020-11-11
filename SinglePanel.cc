@@ -34,10 +34,11 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     this->add(*mainFilesBox);
-    //singal launched after GUI is rendered
+    //signal launched after GUI is rendered
     Glib::signal_idle().connect(
             sigc::bind_return(sigc::mem_fun(*this, &SinglePanel::startReadDataThread), false));
-
+    this->signal_key_press_event().connect(sigc::mem_fun(*this, &SinglePanel::onKeyPressed));
+    this->filePanelFooter.singalOnQuickSearchChanged().connect(sigc::mem_fun(*this, &SinglePanel::onQuickSearchQueryReceived));
 }
 
 void SinglePanel::startReadDataThread() {
@@ -131,21 +132,30 @@ void SinglePanel::stopProgressIndicator() {
 
 void SinglePanel::putFocusOnTopOfTreeview() {
     std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
-    auto foundPath = findByFileName(selectionShouldBe);
+    auto foundPath = findByExactFileName(selectionShouldBe);
     gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
     filesTreeView->set_cursor(foundPath);
 }
 
-const Gtk::TreeModel::Path SinglePanel::findByFileName(std::string fileNameToFind) {
+const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fileNameToFind, bool (*findFunction)(Glib::ustring, Glib::ustring)) {
     FilesColumns filesColumns;
     for (Gtk::TreeRow row : refListStore->children()) {
         const Glib::ustring &fileName = row->get_value(filesColumns.file_name_column);
-        if (fileName == fileNameToFind) {
+        if (findFunction(fileName, fileNameToFind)) {
+            gfm_debug("Compare fileNameToFind=„%s” with fileNameToFind=„%s” got %d\n", fileNameToFind.c_str(), fileName.c_str(), fileName.find_first_of(fileNameToFind));
             return Gtk::TreePath(row);
         }
     }
     //first element in list
     return Gtk::TreePath("0");
+}
+
+const Gtk::TreeModel::Path SinglePanel::findByFileNameStartingWith(std::string fileNameToFind) {
+    return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.find(b)==0;}) ;
+}
+
+const Gtk::TreeModel::Path SinglePanel::findByExactFileName(std::string fileNameToFind) {
+    return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.compare(b)==0;}) ;
 }
 
 void SinglePanel::onCursorChanged() {
@@ -158,4 +168,29 @@ void SinglePanel::onCursorChanged() {
         Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
         filePanelFooter.changeFooterValue(selectedFileName);
     }
+}
+
+bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
+    std::cout << std::endl;
+    gfm_debug("Nie wiem: %s\n", key_event->string);
+
+    if (isControlHolded(key_event) && (key_event->keyval == GDK_KEY_s || key_event->keyval == GDK_KEY_S)) {
+        gfm_debug("This is ctrl+s\n");
+        this->showQuickSearch();
+        return true;
+    }
+    return false;
+}
+
+guint SinglePanel::isControlHolded(const GdkEventKey *key_event) const { return key_event->state & GDK_CONTROL_MASK; }
+
+void SinglePanel::showQuickSearch() {
+    filePanelFooter.showQuickSearch();
+}
+
+void SinglePanel::onQuickSearchQueryReceived(Glib::ustring quickSearchValue) {
+    gfm_debug("Quick search query %s\n", quickSearchValue.c_str());
+    auto foundPath = this->findByFileNameStartingWith(quickSearchValue);
+    filesTreeView->set_cursor(foundPath);
+    filesTreeView->markRowActive(foundPath);
 }

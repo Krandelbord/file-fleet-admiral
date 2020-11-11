@@ -28,7 +28,7 @@ class SinglePanel : public Gtk::Frame {
 
         void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
- 
+
         void onNewData();
 
         void startReadDataThread();
@@ -42,12 +42,24 @@ class SinglePanel : public Gtk::Frame {
         bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
         void putFocusOnTopOfTreeview();
 
-        const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
         FilePanelFooter filePanelFooter;
 
         GuiReader guiDataReader;
 
         void onCursorChanged();
+
+        bool onKeyPressed(const GdkEventKey *key_event);
+
+        guint isControlHolded(const GdkEventKey *key_event) const;
+
+        void showQuickSearch();
+
+        void onQuickSearchQueryReceived(Glib::ustring quickSearchValue);
+
+
+        const Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);
+        const Gtk::TreeModel::Path findByFileNameStartingWith(std::string fileNameToFind);
+        const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring));
 };
 
 #endif /** SINGLE_PANEL_H */
