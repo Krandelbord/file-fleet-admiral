@@ -142,7 +142,7 @@ const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fil
     for (Gtk::TreeRow row : refListStore->children()) {
         const Glib::ustring &fileName = row->get_value(filesColumns.file_name_column);
         if (findFunction(fileName, fileNameToFind)) {
-            gfm_debug("Compare fileNameToFind=„%s” with fileNameToFind=„%s” got %d\n", fileNameToFind.c_str(), fileName.c_str(), fileName.find_first_of(fileNameToFind));
+            gfm_debug("Compare fileNameToFind=„%s” with fileNameToFind=„%s” got %ld", fileNameToFind.c_str(), fileName.c_str(), fileName.find_first_of(fileNameToFind));
             return Gtk::TreePath(row);
         }
     }
@@ -172,7 +172,7 @@ void SinglePanel::onCursorChanged() {
 
 bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     std::cout << std::endl;
-    gfm_debug("Nie wiem: %s\n", key_event->string);
+    gfm_debug("Key pressed inside panel: %s\n", key_event->string);
 
     if (isControlHolded(key_event) && (key_event->keyval == GDK_KEY_s || key_event->keyval == GDK_KEY_S)) {
         gfm_debug("This is ctrl+s\n");

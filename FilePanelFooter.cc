@@ -31,6 +31,7 @@ bool FilePanelFooter::onKeyPressedInSearch(const GdkEventKey *key_event) {
 void FilePanelFooter::closeQuickSearch() {
     this->remove(searchInput);
     directoryLabel.show();
+    this->queue_draw();
 }
 
 FilePanelFooter::searchDataSignal FilePanelFooter::singalOnQuickSearchChanged() {
