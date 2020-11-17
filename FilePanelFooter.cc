@@ -20,10 +20,15 @@ void FilePanelFooter::showQuickSearch() {
 }
 
 bool FilePanelFooter::onKeyPressedInSearch(const GdkEventKey *key_event) {
+    gfm_debug("\nPressed %x\n", key_event->keyval);
     if (key_event->keyval == GDK_KEY_Escape) {
         this->closeQuickSearch();
-    } else if (key_event->keyval!= GDK_KEY_Tab){
-        newQuickSearchTextSignal.emit(searchInput.get_text());
+    } else if (key_event->keyval == GDK_KEY_KP_Enter || key_event->keyval == GDK_KEY_Return) {
+        gfm_debug("Enter pressed");
+        signalEnterPressedInQuickSearch.emit(searchInput.get_text());
+        this->closeQuickSearch();
+    } else if (key_event->keyval != GDK_KEY_Tab) {
+        signalQuickSearchHashNewValue.emit(searchInput.get_text());
     }
     return true;
 }
@@ -34,6 +39,10 @@ void FilePanelFooter::closeQuickSearch() {
     this->queue_draw();
 }
 
-FilePanelFooter::searchDataSignal FilePanelFooter::singalOnQuickSearchChanged() {
-    return newQuickSearchTextSignal;
+FilePanelFooter::searchDataSignal FilePanelFooter::signalOnQuickSearchChanged() {
+    return signalQuickSearchHashNewValue;
+}
+
+FilePanelFooter::searchDataSignal  FilePanelFooter::signalOnEnterPressedInQuickSearch() {
+    return signalEnterPressedInQuickSearch;
 }

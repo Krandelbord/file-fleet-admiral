@@ -38,7 +38,8 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
     Glib::signal_idle().connect(
             sigc::bind_return(sigc::mem_fun(*this, &SinglePanel::startReadDataThread), false));
     this->signal_key_press_event().connect(sigc::mem_fun(*this, &SinglePanel::onKeyPressed));
-    this->filePanelFooter.singalOnQuickSearchChanged().connect(sigc::mem_fun(*this, &SinglePanel::onQuickSearchQueryReceived));
+    this->filePanelFooter.signalOnQuickSearchChanged().connect(sigc::mem_fun(*this, &SinglePanel::onQuickSearchQueryReceived));
+    this->filePanelFooter.signalOnEnterPressedInQuickSearch().connect(sigc::mem_fun(*this, &SinglePanel::onEnterForQuickSearch));
 }
 
 void SinglePanel::startReadDataThread() {
@@ -97,6 +98,10 @@ const Glib::ustring SinglePanel::getCurrentDir() const {
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
+    changeDirectory(path);
+}
+
+void SinglePanel::changeDirectory(const Gtk::TreeModel::Path &path) {
     Preconditions::checkArgument(refListStore.get() != NULL, "list store is completly empty");
 
     Glib::ustring selectedFileName = getSelectedFileName(path);
@@ -105,11 +110,11 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
 
     gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
     gfm_debug("new file name is %s\n", currentDir.toString().c_str());
-    this->updateCurrentDirHeader();
+    updateCurrentDirHeader();
 
     //start reading
     createEmptyData();
-    this->pathHeader->startProgress();
+    pathHeader->startProgress();
     startReadDataThread();
 }
 
@@ -193,4 +198,12 @@ void SinglePanel::onQuickSearchQueryReceived(Glib::ustring quickSearchValue) {
     auto foundPath = this->findByFileNameStartingWith(quickSearchValue);
     filesTreeView->set_cursor(foundPath);
     filesTreeView->markRowActive(foundPath);
+}
+
+void SinglePanel::onEnterForQuickSearch(Glib::ustring quickSearchValue) {
+    Gtk::TreeModel::Path foundPath = this->findByFileNameStartingWith(quickSearchValue);
+    if (!foundPath.empty()) {
+        this->changeDirectory(foundPath);
+        filesTreeView->grab_focus();
+    }
 }

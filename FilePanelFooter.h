@@ -18,12 +18,14 @@ public:
     void showQuickSearch();
 
     typedef sigc::signal<void, Glib::ustring> searchDataSignal;
-    searchDataSignal singalOnQuickSearchChanged();
+    searchDataSignal signalOnQuickSearchChanged();
+    searchDataSignal signalOnEnterPressedInQuickSearch();
 
 private:
     Gtk::Label directoryLabel;
     Gtk::Entry searchInput;
-    searchDataSignal newQuickSearchTextSignal;
+    searchDataSignal signalQuickSearchHashNewValue;
+    searchDataSignal signalEnterPressedInQuickSearch;
 
     bool onKeyPressedInSearch(const GdkEventKey *key_event);
 
