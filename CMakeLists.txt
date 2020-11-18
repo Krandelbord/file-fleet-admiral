@@ -18,40 +18,40 @@ include_directories(
 ADD_SUBDIRECTORY( tests )
 
 set(SOURCE_FILES
-        config.h
-        debug.cc
-        debug.h
-        CompareBySize.h CompareBySize.cc
-        CompareDirsFirst.h CompareDirsFirst.cc
-        CompareByName.h CompareByName.cc
-        FileListElement.cc FileListElement.h
-        FilePanelFooter.cc FilePanelFooter.h
-        FilesColumns.cc FilesColumns.h
-        FilesNavigationPanel.cc FilesNavigationPanel.h
-        FilesSortType.h
-        FilesTreeView.cc FilesTreeView.h
-        FileType.h
-        GuiReader.cc GuiReader.h
-        main.cc
-        MainWindow.cc MainWindow.h
-        MenuBar.cc MenuBar.h
-        PanelHeader.cc PanelHeader.h
-        PathResolver.cc PathResolver.h
-        Preconditions.cc Preconditions.h
-        Rectangle.cc Rectangle.h
-        SelectionHistory.cc SelectionHistory.h
-        Settings.cc Settings.h
-        SettingsWindow.cc SettingsWindow.h
-        SinglePanel.cc SinglePanel.h
-        SizeFormatterSpaces.cc SizeFormatterSpaces.h
-        SizeFormatterSimple.cc SizeFormatterSimple.h
-        SizeFormatterHr.cc SizeFormatterHr.h
-        SizeFormatter.h
-        SizeFormatterFactory.cc SizeFormatterFactory.h
-        SortChain.h SortChain.cc
-        ThreadCalculation.cc ThreadCalculation.h
-        ThreadMessage.cc ThreadMessage.h
-        CompareBySize.cc CompareBySize.h)
+        src/config.h
+        src/debug.cc
+        src/debug.h
+        src/sort/CompareBySize.h src/sort/CompareBySize.cc
+        src/sort/CompareDirsFirst.h src/sort/CompareDirsFirst.cc
+        src/sort/CompareByName.h src/sort/CompareByName.cc
+        src/gui/file_panel/FileListElement.cc src/gui/file_panel/FileListElement.h
+        src/gui/file_panel/FilePanelFooter.cc src/gui/file_panel/FilePanelFooter.h
+        src/gui/file_panel/FilesColumns.cc src/gui/file_panel/FilesColumns.h
+        src/gui/file_panel/FilesNavigationPanel.cc src/gui/file_panel/FilesNavigationPanel.h
+        src/sort/FilesSortType.h
+        src/gui/file_panel/FilesTreeView.cc src/gui/file_panel/FilesTreeView.h
+        src/gui/FileType.h
+        src/gui/GuiReader.cc src/gui/GuiReader.h
+        src/gui/main.cc
+        src/gui/MainWindow.cc src/gui/MainWindow.h
+        src/gui/MenuBar.cc src/gui/MenuBar.h
+        src/gui/PanelHeader.cc src/gui/PanelHeader.h
+        src/gui/PathResolver.cc src/gui/PathResolver.h
+        src/Preconditions.cc src/Preconditions.h
+        src/gui/Rectangle.cc src/gui/Rectangle.h
+        src/gui/SelectionHistory.cc src/gui/SelectionHistory.h
+        src/settings/Settings.cc src/settings/Settings.h
+        src/gui/SettingsWindow.cc src/gui/SettingsWindow.h
+        src/gui/file_panel/SinglePanel.cc src/gui/file_panel/SinglePanel.h
+        src/gui/SizeFormatterSpaces.cc src/gui/SizeFormatterSpaces.h
+        src/gui/SizeFormatterSimple.cc src/gui/SizeFormatterSimple.h
+        src/gui/SizeFormatterHr.cc src/gui/SizeFormatterHr.h
+        src/gui/SizeFormatter.h
+        src/gui/SizeFormatterFactory.cc src/gui/SizeFormatterFactory.h
+        src/sort/SortChain.h src/sort/SortChain.cc
+        src/ThreadCalculation.cc src/ThreadCalculation.h
+        src/ThreadMessage.cc src/ThreadMessage.h
+        src/sort/CompareBySize.cc src/sort/CompareBySize.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 

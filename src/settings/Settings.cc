@@ -1,6 +1,6 @@
 #include "Settings.h"
 #include <glibmm/keyfile.h>
-#include "config.h"
+#include "../config.h"
 #include <glibmm.h>
 
 #define MAIN_CATEGORY_NAME "main-settings"

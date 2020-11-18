@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "config.h"
+#include "../config.h"
 #include "MenuBar.h"
 
 MainWindow::MainWindow() {

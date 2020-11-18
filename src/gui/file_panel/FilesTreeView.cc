@@ -1,7 +1,7 @@
 #include <iostream>
 #include "FilesTreeView.h"
 #include "FilesColumns.h"
-#include "config.h"
+#include "../../config.h"
 
 /** Size of column "File name" in chars **/
 #define NAME_COLUMN_SIZE_IN_CHARS 70

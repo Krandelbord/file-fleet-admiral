@@ -1,5 +1,5 @@
 #include "SortChain.h"
-#include "config.h"
+#include "../config.h"
 
 /**
  * Class that implements SortChain.

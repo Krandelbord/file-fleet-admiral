@@ -1,8 +1,8 @@
 #ifndef GUI_READER_H
 #define GUI_READER_H
 
-#include "ThreadMessage.h"
-#include "FileListElement.h"
+#include "../ThreadMessage.h"
+#include "file_panel/FileListElement.h"
 
 /**
  * Class that belongs to gui thread responsible for reading DIR-content

@@ -1,5 +1,5 @@
 #include "FileListElement.h"
-#include "PathResolver.h"
+#include "../PathResolver.h"
 
 FileListElement::FileListElement(const Glib::ustring& aFileName, __off_t aFileSizeInBytes,
         FileType aFileType, std::string sizeFormatted) {

@@ -1,6 +1,6 @@
 #include "MenuBar.h"
 #include "SettingsWindow.h"
-#include "config.h"
+#include "../config.h"
 
 using namespace Gtk::Menu_Helpers;
 

@@ -2,7 +2,7 @@
 #define FILE_LIST_ELEMENT_H
 
 #include <glibmm.h>
-#include "FileType.h"
+#include "../FileType.h"
 
 /**
  * Represents element in file list GUI

@@ -1,6 +1,6 @@
 #include "FilePanelFooter.h"
 #include <gtkmm.h>
-#include "config.h"
+#include "../../config.h"
 
 FilePanelFooter::FilePanelFooter() {
     directoryLabel.set_label("");

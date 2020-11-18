@@ -2,7 +2,7 @@
 #define FILES_NAVIGATION_PANEL_H
 
 #include <gtkmm.h>
-#include "Settings.h"
+#include "../../settings/Settings.h"
 #include "SinglePanel.h"
 
 class FilesNavigationPanel : public Gtk::HPaned {

@@ -1,5 +1,5 @@
 #include "SelectionHistory.h"
-#include "config.h"
+#include "../config.h"
 
 SelectionHistory::SelectionHistory(const Glib::ustring& currentDir) : lastVisitedDir(currentDir) {
     history[currentDir] = PARENT_DIR_SYMBOL;

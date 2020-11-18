@@ -3,7 +3,7 @@
 
 #include <gtkmm.h>
 #include "Rectangle.h"
-#include "FilesNavigationPanel.h"
+#include "file_panel/FilesNavigationPanel.h"
 
 class MainWindow : public Gtk::Window {
     public:

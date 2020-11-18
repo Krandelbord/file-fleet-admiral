@@ -4,7 +4,7 @@
 static const char *const SIZE_FORMAT_IN_BYTES = "IN_BYTES";
 
 #include <glibmm/ustring.h>
-#include "Rectangle.h"
+#include "../gui/Rectangle.h"
 
 class Settings {
     public :

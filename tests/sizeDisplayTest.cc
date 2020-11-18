@@ -2,10 +2,10 @@
 #include <string>
 #include "Asserts.h"
 #include "Runner.h"
-#include "../SizeFormatter.h"
-#include "../SizeFormatterSimple.h"
-#include "../SizeFormatterSpaces.h"
-#include "../SizeFormatterHr.h"
+#include "../src/gui/SizeFormatter.h"
+#include "../src/gui/SizeFormatterSimple.h"
+#include "../src/gui/SizeFormatterSpaces.h"
+#include "../src/gui/SizeFormatterHr.h"
 #include <iostream>
 bool checkSizeFormatting(SizeFormatter* formatter, size_t sizeToFormatInBytes, const std::string expectedOut) {
 

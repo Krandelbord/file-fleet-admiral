@@ -1,6 +1,6 @@
 #include "GuiReader.h"
-#include "ThreadCalculation.h"
-#include "config.h"
+#include "../ThreadCalculation.h"
+#include "../config.h"
 
 void GuiReader::commandReadThis(std::shared_ptr<ThreadMessage> msgToSendDataTo) {
     if (lastMessageSend) {

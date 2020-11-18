@@ -1,6 +1,6 @@
 #include "SettingsWindow.h"
-#include "config.h"
-#include "Settings.h"
+#include "../config.h"
+#include "../settings/Settings.h"
 
 SettingsWindow::SettingsWindow(Gtk::Window& parent) : Gtk::Dialog(_("Settings Window"), parent) {
     Gtk::HBox *labelValueBox = Gtk::manage(new Gtk::HBox());

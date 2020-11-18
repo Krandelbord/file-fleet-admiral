@@ -1,4 +1,4 @@
-#include "config.h"
+#include "../config.h"
 #include "MainWindow.h"
 
 int main(int argc, char **argv) {

@@ -3,11 +3,11 @@
 
 #include <gtkmm.h>
 #include "FileListElement.h"
-#include "PanelHeader.h"
-#include "PathResolver.h"
+#include "../PanelHeader.h"
+#include "../PathResolver.h"
 #include "FilesTreeView.h"
-#include "SelectionHistory.h"
-#include "GuiReader.h"
+#include "../SelectionHistory.h"
+#include "../GuiReader.h"
 #include "FilePanelFooter.h"
 
 /**

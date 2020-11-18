@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Asserts.h"
-#include "../PathResolver.h"
-#include "../SelectionHistory.h"
+#include "../src/gui/PathResolver.h"
+#include "../src/gui/SelectionHistory.h"
 #include "Runner.h"
 
 /**

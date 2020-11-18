@@ -1,6 +1,6 @@
 #include "SizeFormatterFactory.h"
 #include "SizeFormatterHr.h"
-#include "Settings.h"
+#include "../settings/Settings.h"
 #include "SizeFormatterSimple.h"
 #include "SizeFormatterSpaces.h"
 
