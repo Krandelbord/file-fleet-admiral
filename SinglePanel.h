@@ -16,7 +16,7 @@
 class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
-        const Glib::ustring getCurrentDir() const;
+        Glib::ustring getCurrentDir() const;
     private:
         void updateCurrentDirHeader();
 
@@ -55,11 +55,14 @@ class SinglePanel : public Gtk::Frame {
         void showQuickSearch();
 
         void onQuickSearchQueryReceived(Glib::ustring quickSearchValue);
+        void moveCursorToNextMatch(Glib::ustring quickSearchValue);
         void onEnterForQuickSearch(Glib::ustring quickSearchValue);
+        void onQuickSearchClosed();
 
-        const Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);
-        const Gtk::TreeModel::Path findByFileNameStartingWith(std::string fileNameToFind);
-        const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring));
+        Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);
+        Gtk::TreeModel::Path findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement);
+        const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring),
+                                                          const Gtk::TreeModel::Path afterElement);
 
     void changeDirectory(const Gtk::TreeModel::Path &path);
 };
