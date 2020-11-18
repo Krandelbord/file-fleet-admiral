@@ -2,7 +2,7 @@
 #define SORT_CHAIN
 
 #include "CompareFunction.h"
-#include "FileListElement.h"
+#include "../gui/file_panel/FileListElement.h"
 
 class SortChain {
     public:

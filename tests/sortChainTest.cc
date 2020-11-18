@@ -1,12 +1,12 @@
 /**
  * Tests sorting chain
  */
-#include "../SortChain.h"
-#include "../CompareByName.h"
+#include "../src/sort/SortChain.h"
+#include "../src/sort/CompareByName.h"
 #include "Asserts.h"
 #include "Runner.h"
-#include "../CompareDirsFirst.h"
-#include "../CompareBySize.h"
+#include "../src/sort/CompareDirsFirst.h"
+#include "../src/sort/CompareBySize.h"
 
 bool shouldSortFilesByName();
 

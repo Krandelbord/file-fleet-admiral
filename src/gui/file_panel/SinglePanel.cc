@@ -3,10 +3,10 @@
 #include <iostream>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
-#include "config.h"
-#include "Preconditions.h"
-#include "CompareBySize.h"
-#include "CompareDirsFirst.h"
+#include "../../config.h"
+#include "../../Preconditions.h"
+#include "../../sort/CompareBySize.h"
+#include "../../sort/CompareDirsFirst.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400

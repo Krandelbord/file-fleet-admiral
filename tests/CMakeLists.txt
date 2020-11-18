@@ -17,41 +17,41 @@ include_directories(
 
 set(TEST_SOURCES_COMMON
         Asserts.cc Asserts.h Runner.h Runner.cc
-        ../debug.cc ../debug.h)
+        ../src/debug.cc ../src/debug.h)
 
 ADD_EXECUTABLE( readDirTest readDirTest.cc
         ${TEST_SOURCES_COMMON}
-        ../PathResolver.cc ../PathResolver.h
-        ../SelectionHistory.h ../SelectionHistory.cc)
+        ../src/gui/PathResolver.cc ../src/gui/PathResolver.h
+        ../src/gui/SelectionHistory.h ../src/gui/SelectionHistory.cc)
 
 ADD_EXECUTABLE( readMultiThreadDirs readMultiThreadDirs.cc
-        ../CompareByName.h ../CompareByName.cc
-        ../SortChain.h ../SortChain.cc
-        ../GuiReader.h ../GuiReader.cc
-        ../FileListElement.h ../FileListElement.cc
-        ../ThreadMessage.h ../ThreadMessage.cc
-        ../ThreadCalculation.h ../ThreadCalculation.cc
-        ../SizeFormatterFactory.h ../SizeFormatterFactory.cc
-        ../Settings.h ../Settings.cc
-        ../PathResolver.h ../PathResolver.cc
-        ../SizeFormatterSimple.h ../SizeFormatterSimple.cc
-        ../SizeFormatterHr.h ../SizeFormatterHr.cc
-        ../Rectangle.h ../Rectangle.cc
-        ../SizeFormatterSpaces.h ../SizeFormatterSpaces.cc
+        ../src/sort/CompareByName.h ../src/sort/CompareByName.cc
+        ../src/sort/SortChain.h ../src/sort/SortChain.cc
+        ../src/gui/GuiReader.h ../src/gui/GuiReader.cc
+        ../src/gui/file_panel/FileListElement.h ../src/gui/file_panel/FileListElement.cc
+        ../src/ThreadMessage.h ../src/ThreadMessage.cc
+        ../src/ThreadCalculation.h ../src/ThreadCalculation.cc
+        ../src/gui/SizeFormatterFactory.h ../src/gui/SizeFormatterFactory.cc
+        ../src/settings/Settings.h ../src/settings/Settings.cc
+        ../src/gui/PathResolver.h ../src/gui/PathResolver.cc
+        ../src/gui/SizeFormatterSimple.h ../src/gui/SizeFormatterSimple.cc
+        ../src/gui/SizeFormatterHr.h ../src/gui/SizeFormatterHr.cc
+        ../src/gui/Rectangle.h ../src/gui/Rectangle.cc
+        ../src/gui/SizeFormatterSpaces.h ../src/gui/SizeFormatterSpaces.cc
         ${TEST_SOURCES_COMMON})
 
 ADD_EXECUTABLE( sizeDisplayTest sizeDisplayTest.cc
-        ../SizeFormatter.h
-        ../SizeFormatterSimple.h ../SizeFormatterSimple.cc
-        ../SizeFormatterSpaces.cc ../SizeFormatterSpaces.h
-        ${TEST_SOURCES_COMMON} ../SizeFormatterHr.cc ../SizeFormatterHr.h)
+        ../src/gui/SizeFormatter.h
+        ../src/gui/SizeFormatterSimple.h ../src/gui/SizeFormatterSimple.cc
+        ../src/gui/SizeFormatterSpaces.cc ../src/gui/SizeFormatterSpaces.h
+        ${TEST_SOURCES_COMMON} ../src/gui/SizeFormatterHr.cc ../src/gui/SizeFormatterHr.h)
 
 ADD_EXECUTABLE(sortChainTest sortChainTest.cc
-        ../SortChain.h ../SortChain.cc
-        ../FileListElement.h ../FileListElement.cc
-        ../CompareByName.h ../CompareByName.cc
-        ../CompareDirsFirst.h ../CompareDirsFirst.cc
-        ../CompareBySize.h ../CompareBySize.cc
+        ../src/sort/SortChain.h ../src/sort/SortChain.cc
+        ../src/gui/file_panel/FileListElement.h ../src/gui/file_panel/FileListElement.cc
+        ../src/sort/CompareByName.h ../src/sort/CompareByName.cc
+        ../src/sort/CompareDirsFirst.h ../src/sort/CompareDirsFirst.cc
+        ../src/sort/CompareBySize.h ../src/sort/CompareBySize.cc
         ${TEST_SOURCES_COMMON}
 )
 

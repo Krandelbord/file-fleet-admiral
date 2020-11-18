@@ -5,10 +5,10 @@
 #include <functional>
 #include <memory>
 #include "Runner.h"
-#include "../ThreadMessage.h"
-#include "../GuiReader.h"
-#include "../SortChain.h"
-#include "../CompareByName.h"
+#include "../src/ThreadMessage.h"
+#include "../src/gui/GuiReader.h"
+#include "../src/sort/SortChain.h"
+#include "../src/sort/CompareByName.h"
 
 bool doNewWork() {
     SortChain sortChain(std::make_shared<CompareByName>());

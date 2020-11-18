@@ -2,9 +2,9 @@
 #define THREAD_MESSAGE_H
 
 #include <glibmm.h>
-#include "FileListElement.h"
-#include "PathResolver.h"
-#include "SortChain.h"
+#include "gui/file_panel/FileListElement.h"
+#include "gui/PathResolver.h"
+#include "sort/SortChain.h"
 
 /**
  * Message send to thread what to execute, and to receive back information from worker thread.

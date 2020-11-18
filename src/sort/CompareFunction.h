@@ -2,7 +2,7 @@
 #define COMPARE_FUNCTION_H
 
 #include "CompareResult.h"
-#include "FileListElement.h"
+#include "../gui/file_panel/FileListElement.h"
 
 class CompareFunction {
     public:

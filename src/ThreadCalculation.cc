@@ -1,7 +1,7 @@
 #include "ThreadCalculation.h"
 #include <sys/stat.h>
 #include "config.h"
-#include "SizeFormatterFactory.h"
+#include "gui/SizeFormatterFactory.h"
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
     const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromConfig();
