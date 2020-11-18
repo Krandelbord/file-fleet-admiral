@@ -13,7 +13,7 @@ class GuiReader {
         void waitForFinishWork();
         std::vector<FileListElement> getCalculatedData();
 
-        //synchornous method for reading data
+        //synchronous method for reading data
         std::vector<FileListElement> executeCommandAndWaitForData(std::shared_ptr<ThreadMessage> msgToSendDataTo);
     private:
         std::shared_ptr<ThreadMessage> lastMessageSend;

@@ -10,7 +10,7 @@
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
-#define BOLDED_TXT 2*NOT_BOLDED_TXT
+#define BOLDED_TXT (2*NOT_BOLDED_TXT)
 
 SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
         currentDir(startDirPath), selectionHistory(startDirPath) {
@@ -34,10 +34,14 @@ SinglePanel::SinglePanel(const Glib::ustring& startDirPath) :
     mainFilesBox->pack_end(*scrollWin, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     this->add(*mainFilesBox);
-    //singal launched after GUI is rendered
+    //signal launched after GUI is rendered
     Glib::signal_idle().connect(
             sigc::bind_return(sigc::mem_fun(*this, &SinglePanel::startReadDataThread), false));
-
+    this->signal_key_press_event().connect(sigc::mem_fun(*this, &SinglePanel::onKeyPressed));
+    this->filePanelFooter.signalOnQuickSearchChanged().connect(sigc::mem_fun(*this, &SinglePanel::onQuickSearchQueryReceived));
+    this->filePanelFooter.signalOnSearchNext().connect(sigc::mem_fun(*this, &SinglePanel::moveCursorToNextMatch));
+    this->filePanelFooter.signalOnEnterPressedInQuickSearch().connect(sigc::mem_fun(*this, &SinglePanel::onEnterForQuickSearch));
+    this->filePanelFooter.signalOnQuickSearchClosed().connect(sigc::mem_fun(*this, &SinglePanel::onQuickSearchClosed));
 }
 
 void SinglePanel::startReadDataThread() {
@@ -91,12 +95,16 @@ bool SinglePanel::shouldBeBolded(const FileListElement &oneNewDataElem) const {
     return typeToCheck == FileType::DIRECTORY || typeToCheck == FileType::PARENT_DIR;
 }
 
-const Glib::ustring SinglePanel::getCurrentDir() const {
+Glib::ustring SinglePanel::getCurrentDir() const {
     return currentDir.toString();
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
-    Preconditions::checkArgument(refListStore.get() != NULL, "list store is completly empty");
+    changeDirectory(path);
+}
+
+void SinglePanel::changeDirectory(const Gtk::TreeModel::Path &path) {
+    Preconditions::checkArgument(refListStore.get() != nullptr, "list store is completely empty");
 
     Glib::ustring selectedFileName = getSelectedFileName(path);
     currentDir.changeDirBy(selectedFileName);
@@ -104,11 +112,11 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
 
     gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
     gfm_debug("new file name is %s\n", currentDir.toString().c_str());
-    this->updateCurrentDirHeader();
+    updateCurrentDirHeader();
 
     //start reading
     createEmptyData();
-    this->pathHeader->startProgress();
+    pathHeader->startProgress();
     startReadDataThread();
 }
 
@@ -131,21 +139,47 @@ void SinglePanel::stopProgressIndicator() {
 
 void SinglePanel::putFocusOnTopOfTreeview() {
     std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
-    auto foundPath = findByFileName(selectionShouldBe);
+    auto foundPath = findByExactFileName(selectionShouldBe);
     gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
     filesTreeView->set_cursor(foundPath);
 }
 
-const Gtk::TreeModel::Path SinglePanel::findByFileName(std::string fileNameToFind) {
+const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fileNameToFind,
+                                                               bool (*findFunction)(Glib::ustring, Glib::ustring),
+                                                               const Gtk::TreeModel::Path afterElement) {
     FilesColumns filesColumns;
+
+    Gtk::TreeModel::iterator szmo = Gtk::TreeModel::iterator();
+    if (!afterElement.empty()) {
+        szmo = refListStore->get_iter(afterElement);
+        gfm_debug("We do quick search after %s\n", szmo->get_value(filesColumns.file_name_column).c_str());
+    }
+    bool weAreAfterElement = afterElement.empty();
     for (Gtk::TreeRow row : refListStore->children()) {
         const Glib::ustring &fileName = row->get_value(filesColumns.file_name_column);
-        if (fileName == fileNameToFind) {
-            return Gtk::TreePath(row);
+        gfm_debug("Iterating in tree [%d] view over %s\n", weAreAfterElement, fileName.c_str());
+        if (weAreAfterElement) {
+            if (findFunction(fileName, fileNameToFind)) {
+                gfm_debug("Found match fileNameToFind=„%s” with fileNameToFind=„%s” compare_result=%ld\n", fileNameToFind.c_str(),
+                          fileName.c_str(), fileName.find_first_of(fileNameToFind));
+                return Gtk::TreePath(row);
+            }
+        }
+        if (!afterElement.empty() && row == szmo) {
+            gfm_debug("Switch weAreAfterElement = true\n");
+            weAreAfterElement = true;
         }
     }
     //first element in list
-    return Gtk::TreePath("0");
+    return Gtk::TreePath();
+}
+
+Gtk::TreeModel::Path SinglePanel::findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement) {
+    return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.find(b)==0;}, afterElement) ;
+}
+
+Gtk::TreeModel::Path SinglePanel::findByExactFileName(std::string fileNameToFind) {
+    return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.compare(b)==0;}, Gtk::TreeModel::Path()) ;
 }
 
 void SinglePanel::onCursorChanged() {
@@ -158,4 +192,50 @@ void SinglePanel::onCursorChanged() {
         Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
         filePanelFooter.changeFooterValue(selectedFileName);
     }
+}
+
+bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
+    std::cout << std::endl;
+    gfm_debug("Key pressed inside panel: %s = keyval(%x)\n", key_event->string, key_event->keyval);
+
+    if (isControlHolded(key_event) && (key_event->keyval == GDK_KEY_s || key_event->keyval == GDK_KEY_S)) {
+        gfm_debug("This is ctrl+s\n");
+        this->showQuickSearch();
+        return true;
+    }
+    return false;
+}
+
+guint SinglePanel::isControlHolded(const GdkEventKey *key_event) const { return key_event->state & GDK_CONTROL_MASK; }
+
+void SinglePanel::showQuickSearch() {
+    filePanelFooter.showQuickSearch();
+}
+
+void SinglePanel::moveCursorToNextMatch(Glib::ustring quickSearchValue) {
+    const Gtk::TreeModel::Path &currentElement = filesTreeView->getHighlitedElement();
+    Gtk::TreeModel::Path nextPathFound = this->findByFileNameStartingWith(quickSearchValue, currentElement);
+    if (!nextPathFound.empty()) {
+        filesTreeView->set_cursor(nextPathFound);
+        filesTreeView->markRowActive(nextPathFound);
+    }
+}
+
+void SinglePanel::onQuickSearchQueryReceived(Glib::ustring quickSearchValue) {
+    gfm_debug("Quick search query %s\n", quickSearchValue.c_str());
+    auto foundPath = this->findByFileNameStartingWith(quickSearchValue, Gtk::TreeModel::Path());
+    filesTreeView->set_cursor(foundPath);
+    filesTreeView->markRowActive(foundPath);
+}
+
+void SinglePanel::onEnterForQuickSearch(Glib::ustring quickSearchValue) {
+    const Gtk::TreeModel::Path &currentElement = filesTreeView->getHighlitedElement();
+    if (!currentElement.empty()) {
+        this->changeDirectory(currentElement);
+        filesTreeView->grab_focus();
+    }
+}
+
+void SinglePanel::onQuickSearchClosed() {
+    filesTreeView->grab_focus();
 }

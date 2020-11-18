@@ -7,11 +7,12 @@
 #define NAME_COLUMN_SIZE_IN_CHARS 70
 
 FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
-    FilesColumns filesColumns; 
+    FilesColumns filesColumns;
     this->set_model(filesListStorage);
 
     addEllipsizedColumn(filesColumns.file_name_column, _("Name"), NAME_COLUMN_SIZE_IN_CHARS);
     addStyleByTypeTxtColumn(filesColumns.size_column, _("Size"));
+    this->set_enable_search(false);
     this->get_selection()->set_mode(Gtk::SELECTION_NONE);
 
     this->signal_focus_out_event().connect(sigc::mem_fun(*this, &FilesTreeView::onFocusOut));
@@ -84,7 +85,7 @@ bool FilesTreeView::onFocusOut(const GdkEventFocus* eventFocus) {
     const Gtk::TreeModel::Path highlitedElement = getHighlitedElement();
     changeColor(highlitedElement, getFocusOutBarColor());
     return false;
-} 
+}
 
 bool FilesTreeView::onFocusIn(const GdkEventFocus* eventFocus) {
     const Gtk::TreeModel::Path highlitedElement = getHighlitedElement();
@@ -106,4 +107,8 @@ const Gdk::RGBA FilesTreeView::getFocusOutBarColor() {
     Gdk::RGBA focusOutColor = Gdk::RGBA(getActiveBarColor());
     focusOutColor.set_alpha(FOCUS_OUT_TRANSPARENCY_BAR);
     return focusOutColor;
+}
+
+void FilesTreeView::markRowActive(Gtk::TreeModel::Path path) {
+    changeColor(path, getActiveBarColor());
 }

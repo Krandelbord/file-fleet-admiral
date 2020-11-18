@@ -16,7 +16,7 @@
 class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
-        const Glib::ustring getCurrentDir() const;
+        Glib::ustring getCurrentDir() const;
     private:
         void updateCurrentDirHeader();
 
@@ -28,7 +28,7 @@ class SinglePanel : public Gtk::Frame {
 
         void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
- 
+
         void onNewData();
 
         void startReadDataThread();
@@ -42,12 +42,29 @@ class SinglePanel : public Gtk::Frame {
         bool shouldBeBolded(const FileListElement &oneNewDataElem) const;
         void putFocusOnTopOfTreeview();
 
-        const Gtk::TreeModel::Path findByFileName(std::string fileNameToFind);
         FilePanelFooter filePanelFooter;
 
         GuiReader guiDataReader;
 
         void onCursorChanged();
+
+        bool onKeyPressed(const GdkEventKey *key_event);
+
+        guint isControlHolded(const GdkEventKey *key_event) const;
+
+        void showQuickSearch();
+
+        void onQuickSearchQueryReceived(Glib::ustring quickSearchValue);
+        void moveCursorToNextMatch(Glib::ustring quickSearchValue);
+        void onEnterForQuickSearch(Glib::ustring quickSearchValue);
+        void onQuickSearchClosed();
+
+        Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);
+        Gtk::TreeModel::Path findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement);
+        const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring),
+                                                          const Gtk::TreeModel::Path afterElement);
+
+    void changeDirectory(const Gtk::TreeModel::Path &path);
 };
 
 #endif /** SINGLE_PANEL_H */
