@@ -65,6 +65,8 @@ class SinglePanel : public Gtk::Frame {
                                                           const Gtk::TreeModel::Path afterElement);
 
     void changeDirectory(const Gtk::TreeModel::Path &path);
+
+    FileType getCurrentFileType(const Gtk::TreeModel::Path &path);
 };
 
 #endif /** SINGLE_PANEL_H */

@@ -7,6 +7,7 @@
 #include "../../Preconditions.h"
 #include "../../sort/CompareBySize.h"
 #include "../../sort/CompareDirsFirst.h"
+#include "../../viewer/FileViewer.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
@@ -80,7 +81,7 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
     Gtk::TreeModel::Row row = *(refListStore->append());
     
     row[filesColumns.file_name_column] = Glib::ustring(oneNewDataElem.getFileName());
-    
+    row[filesColumns.file_type] = oneNewDataElem.getFileType();
     if (oneNewDataElem.getFileType() == FileType::REGULAR_FILE) {
         row[filesColumns.size_column] = oneNewDataElem.getFileSizeForDisplay();
     } else {
@@ -100,7 +101,20 @@ Glib::ustring SinglePanel::getCurrentDir() const {
 }
 
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
-    changeDirectory(path);
+    FileType type = getCurrentFileType(path);
+    if (type == FileType::DIRECTORY || type == FileType::PARENT_DIR) {
+        changeDirectory(path);
+    } else {
+        FileViewer fileViewer(getSelectedFileName(path));
+        fileViewer.show();
+    }
+}
+
+FileType SinglePanel::getCurrentFileType(const Gtk::TreeModel::Path &path) {
+    Gtk::TreeModel::iterator selectedRow = refListStore->get_iter(path);
+    FilesColumns columns;
+    FileType type = selectedRow->get_value(columns.file_type);
+    return type;
 }
 
 void SinglePanel::changeDirectory(const Gtk::TreeModel::Path &path) {
@@ -125,7 +139,8 @@ Glib::ustring SinglePanel::getSelectedFileName(const Gtk::TreeModel::Path &path)
     Gtk::TreeRow selectedRow = *iter;
 
     FilesColumns filesColumns;
-    Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
+    Glib::ustring selectedFileName = iter->get_value(filesColumns.file_name_column);
+
     return selectedFileName;
 }
 
