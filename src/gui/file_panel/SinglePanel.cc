@@ -105,7 +105,7 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     if (type == FileType::DIRECTORY || type == FileType::PARENT_DIR) {
         changeDirectory(path);
     } else {
-        FileViewer fileViewer(getSelectedFileName(path));
+        FileViewer fileViewer(getCurrentDir(), getSelectedFileName(path));
         fileViewer.show();
     }
 }

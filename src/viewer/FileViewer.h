@@ -7,10 +7,11 @@
 class FileViewer {
 
 public:
-    explicit FileViewer(const Glib::ustring &pathToView);
+    explicit FileViewer(const Glib::ustring &directory, const Glib::ustring &pathToView);
     void show();
 private:
-    Glib::ustring pathToView;
+    Glib::ustring fileName;
+    Glib::ustring directory;
 };
 
 
