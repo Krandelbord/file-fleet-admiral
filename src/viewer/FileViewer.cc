@@ -12,6 +12,7 @@ void FileViewer::show() {
     std::vector<Glib::ustring> pathElements = {directory, fileName};
     Glib::ustring absolutePath = Glib::build_path(G_DIR_SEPARATOR_S, pathElements);
     std::vector<std::string> args = {"see", absolutePath};
+    //TODO check if „see„ exists in path
     Glib::spawn_async("", args, Glib::SPAWN_SEARCH_PATH);
 }
 
