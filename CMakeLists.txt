@@ -51,7 +51,7 @@ set(SOURCE_FILES
         src/sort/SortChain.h src/sort/SortChain.cc
         src/ThreadCalculation.cc src/ThreadCalculation.h
         src/ThreadMessage.cc src/ThreadMessage.h
-        src/sort/CompareBySize.cc src/sort/CompareBySize.h)
+        src/sort/CompareBySize.cc src/sort/CompareBySize.h src/gui/bottom_panel/BottomPanel.cc src/gui/bottom_panel/BottomPanel.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 

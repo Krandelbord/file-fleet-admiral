@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "../config.h"
 #include "MenuBar.h"
+#include "bottom_panel/BottomPanel.h"
 
 MainWindow::MainWindow() {
     Settings settings;
@@ -18,6 +19,7 @@ MainWindow::MainWindow() {
     this->filesPanel = Gtk::manage(new FilesNavigationPanel(settings));
     mainContainer->add(*this->filesPanel);
     this->add(*mainContainer);
+    mainContainer->pack_end(* Gtk::manage(new BottomPanel()), Gtk::PackOptions::PACK_SHRINK);
     this->show_all();
 }
 
