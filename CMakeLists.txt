@@ -51,7 +51,9 @@ set(SOURCE_FILES
         src/sort/SortChain.h src/sort/SortChain.cc
         src/ThreadCalculation.cc src/ThreadCalculation.h
         src/ThreadMessage.cc src/ThreadMessage.h
-        src/sort/CompareBySize.cc src/sort/CompareBySize.h)
+        src/sort/CompareBySize.cc src/sort/CompareBySize.h
+        src/keyboard/KeyboardShortcuts.cc src/keyboard/KeyboardShortcuts.h
+        src/keyboard/KeyWithDescription.cc src/keyboard/KeyWithDescription.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 

@@ -54,9 +54,9 @@ class SinglePanel : public Gtk::Frame {
 
         void showQuickSearch();
 
-        void onQuickSearchQueryReceived(Glib::ustring quickSearchValue);
-        void moveCursorToNextMatch(Glib::ustring quickSearchValue);
-        void onEnterForQuickSearch(Glib::ustring quickSearchValue);
+        void onQuickSearchQueryReceived(const Glib::ustring& quickSearchValue);
+        void moveCursorToNextMatch(const Glib::ustring& quickSearchValue);
+        void onEnterForQuickSearch(const Glib::ustring& quickSearchValue);
         void onQuickSearchClosed();
 
         Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);

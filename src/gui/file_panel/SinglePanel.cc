@@ -7,6 +7,7 @@
 #include "../../Preconditions.h"
 #include "../../sort/CompareBySize.h"
 #include "../../sort/CompareDirsFirst.h"
+#include "../../keyboard/KeyboardShortcuts.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
@@ -197,8 +198,7 @@ void SinglePanel::onCursorChanged() {
 bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     std::cout << std::endl;
     gfm_debug("Key pressed inside panel: %s = keyval(%x)\n", key_event->string, key_event->keyval);
-
-    if (isControlHolded(key_event) && (key_event->keyval == GDK_KEY_s || key_event->keyval == GDK_KEY_S)) {
+    if (KeyboardShortcuts::isControlSPressed(*key_event)) {
         gfm_debug("This is ctrl+s\n");
         this->showQuickSearch();
         return true;
@@ -206,13 +206,11 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     return false;
 }
 
-guint SinglePanel::isControlHolded(const GdkEventKey *key_event) const { return key_event->state & GDK_CONTROL_MASK; }
-
 void SinglePanel::showQuickSearch() {
     filePanelFooter.showQuickSearch();
 }
 
-void SinglePanel::moveCursorToNextMatch(Glib::ustring quickSearchValue) {
+void SinglePanel::moveCursorToNextMatch(const Glib::ustring& quickSearchValue) {
     const Gtk::TreeModel::Path &currentElement = filesTreeView->getHighlitedElement();
     Gtk::TreeModel::Path nextPathFound = this->findByFileNameStartingWith(quickSearchValue, currentElement);
     if (!nextPathFound.empty()) {
@@ -221,14 +219,14 @@ void SinglePanel::moveCursorToNextMatch(Glib::ustring quickSearchValue) {
     }
 }
 
-void SinglePanel::onQuickSearchQueryReceived(Glib::ustring quickSearchValue) {
+void SinglePanel::onQuickSearchQueryReceived(const Glib::ustring& quickSearchValue) {
     gfm_debug("Quick search query %s\n", quickSearchValue.c_str());
     auto foundPath = this->findByFileNameStartingWith(quickSearchValue, Gtk::TreeModel::Path());
     filesTreeView->set_cursor(foundPath);
     filesTreeView->markRowActive(foundPath);
 }
 
-void SinglePanel::onEnterForQuickSearch(Glib::ustring quickSearchValue) {
+void SinglePanel::onEnterForQuickSearch(const Glib::ustring& quickSearchValue) {
     const Gtk::TreeModel::Path &currentElement = filesTreeView->getHighlitedElement();
     if (!currentElement.empty()) {
         this->changeDirectory(currentElement);
