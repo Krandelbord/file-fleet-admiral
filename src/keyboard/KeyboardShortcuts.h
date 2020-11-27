@@ -18,7 +18,7 @@ private:
                                                                const Glib::ustring& description);
 public:
     KeyboardShortcuts();
-    static bool isControlSPressed(const GdkEventKey key);
+    static bool isControlSPressed(GdkEventKey key);
 };
 
 
