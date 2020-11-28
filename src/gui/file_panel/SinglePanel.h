@@ -51,6 +51,7 @@ class SinglePanel : public Gtk::Frame {
         bool onKeyPressed(const GdkEventKey *key_event);
 
         guint isControlHolded(const GdkEventKey *key_event) const;
+        bool isShiftHolded(const GdkEventKey *key_event) const;
 
         void showQuickSearch();
 

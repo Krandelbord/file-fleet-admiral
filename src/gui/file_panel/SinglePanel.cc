@@ -203,10 +203,20 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
         this->showQuickSearch();
         return true;
     }
+    if (!isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
+        gfm_debug("F6 Pressed");
+        return true;
+    }
+    if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
+        gfm_debug("Shift+F6 Pressed");
+        return true;
+    }
     return false;
 }
 
 guint SinglePanel::isControlHolded(const GdkEventKey *key_event) const { return key_event->state & GDK_CONTROL_MASK; }
+bool SinglePanel::isShiftHolded(const GdkEventKey *key_event) const { return key_event->state & GDK_SHIFT_MASK; }
+
 
 void SinglePanel::showQuickSearch() {
     filePanelFooter.showQuickSearch();
