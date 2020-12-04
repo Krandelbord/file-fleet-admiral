@@ -7,6 +7,7 @@
 #include "../../Preconditions.h"
 #include "../../sort/CompareBySize.h"
 #include "../../sort/CompareDirsFirst.h"
+#include "../RenamePopup.h"
 
 #define PANEL_MARGIN_SIZE 5
 #define NOT_BOLDED_TXT 400
@@ -183,15 +184,23 @@ Gtk::TreeModel::Path SinglePanel::findByExactFileName(std::string fileNameToFind
 }
 
 void SinglePanel::onCursorChanged() {
+    Glib::ustring selectedFileName = getSelectedFileName();
+    if (!selectedFileName.empty()) {
+        filePanelFooter.changeFooterValue(selectedFileName);
+    }
+}
+
+Glib::ustring SinglePanel::getSelectedFileName() {
+    Glib::ustring selectedFileName;
     Gtk::TreeModel::Path path = filesTreeView->getHighlitedElement();
     if (!path.empty()) {
         Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
         Gtk::TreeRow selectedRow = *iter;
 
         FilesColumns filesColumns;
-        Glib::ustring selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
-        filePanelFooter.changeFooterValue(selectedFileName);
+        selectedFileName = selectedRow.get_value(filesColumns.file_name_column);
     }
+    return selectedFileName;
 }
 
 bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
@@ -209,6 +218,7 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
         gfm_debug("Shift+F6 Pressed");
+        showRenameSignal.emit(getSelectedFileName());
         return true;
     }
     return false;
@@ -248,4 +258,8 @@ void SinglePanel::onEnterForQuickSearch(Glib::ustring quickSearchValue) {
 
 void SinglePanel::onQuickSearchClosed() {
     filesTreeView->grab_focus();
+}
+
+sigc::signal<void, Glib::ustring> SinglePanel::signalShowRename() {
+    return this->showRenameSignal;
 }

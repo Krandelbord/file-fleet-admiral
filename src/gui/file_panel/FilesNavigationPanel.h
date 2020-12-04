@@ -8,10 +8,11 @@
 class FilesNavigationPanel : public Gtk::HPaned {
     public:
         FilesNavigationPanel(const Settings &settings);
-        const Glib::ustring getRightPanelDir() const;
+        Glib::ustring getRightPanelDir() const;
 
     private:
         SinglePanel* rightPanel;
+        void showRenamePopup(Glib::ustring path);
 };
 
 #endif
