@@ -17,8 +17,8 @@ FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
 void FilesNavigationPanel::showRenamePopup(Glib::ustring path) {
         Container *theTopLevel = this->get_toplevel();
         auto *window = dynamic_cast<Gtk::Window *>(theTopLevel);
-        RenamePopup *pPopup = Gtk::manage(new RenamePopup(*window, path));
-        pPopup->show();
+        auto *renamePopUp = new RenamePopup(*window, path);
+        renamePopUp->show();
 }
 
 Glib::ustring FilesNavigationPanel::getRightPanelDir() const {

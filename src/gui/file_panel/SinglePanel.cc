@@ -204,7 +204,6 @@ Glib::ustring SinglePanel::getSelectedFileName() {
 }
 
 bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
-    std::cout << std::endl;
     gfm_debug("Key pressed inside panel: %s = keyval(%x)\n", key_event->string, key_event->keyval);
 
     if (isControlHolded(key_event) && (key_event->keyval == GDK_KEY_s || key_event->keyval == GDK_KEY_S)) {
@@ -213,11 +212,11 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
         return true;
     }
     if (!isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
-        gfm_debug("F6 Pressed");
+        gfm_debug("F6 Pressed\n");
         return true;
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
-        gfm_debug("Shift+F6 Pressed");
+        gfm_debug("Shift+F6 Pressed\n");
         showRenameSignal.emit(getSelectedFileName());
         return true;
     }

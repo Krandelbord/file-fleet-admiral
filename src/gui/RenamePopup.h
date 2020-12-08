@@ -10,9 +10,13 @@
 class RenamePopup : public Gtk::Dialog {
 public:
     RenamePopup(Gtk::Window &parent, Glib::ustring &renamePath);
+    ~RenamePopup() override;
 private:
     Gtk::Label label;
     Gtk::Entry newFileName;
+
+    void onCancel();
+    void executeRename(Glib::ustring newFileName);
 };
 
 
