@@ -51,12 +51,18 @@ set(SOURCE_FILES
         src/sort/SortChain.h src/sort/SortChain.cc
         src/ThreadCalculation.cc src/ThreadCalculation.h
         src/ThreadMessage.cc src/ThreadMessage.h
-        src/sort/CompareBySize.cc src/sort/CompareBySize.h src/gui/RenamePopup.cc src/gui/RenamePopup.h)
+        src/sort/CompareBySize.cc src/sort/CompareBySize.h
+        src/gui/RenamePopup.cc src/gui/RenamePopup.h
+        src/operations/RenameExecutor.cc src/operations/RenameExecutor.h
+        src/operations/InterThreadProgressPipe.cc src/operations/InterThreadProgressPipe.h
+        src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 
 target_compile_features(file-fleet-admiral PRIVATE cxx_std_11)
 
+
 target_link_libraries(file-fleet-admiral
+        pthread
         ${GTKMM_LIBRARIES}  )
 

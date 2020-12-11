@@ -14,10 +14,11 @@ FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     this->add2(*rightPanel);
 }
 
-void FilesNavigationPanel::showRenamePopup(Glib::ustring path) {
+void FilesNavigationPanel::showRenamePopup(Glib::ustring pathToFile, Glib::ustring fileName) {
         Container *theTopLevel = this->get_toplevel();
         auto *window = dynamic_cast<Gtk::Window *>(theTopLevel);
-        auto *renamePopUp = new RenamePopup(*window, path);
+        const Glib::RefPtr<Gio::File> &originalFile = Gio::File::create_for_path(Glib::build_filename(pathToFile, fileName));
+        auto *renamePopUp = new RenamePopup(*window, originalFile);
         renamePopUp->show();
 }
 

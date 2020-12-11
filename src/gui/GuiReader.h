@@ -17,7 +17,7 @@ class GuiReader {
         std::vector<FileListElement> executeCommandAndWaitForData(std::shared_ptr<ThreadMessage> msgToSendDataTo);
     private:
         std::shared_ptr<ThreadMessage> lastMessageSend;
-        //actual thread where computatation happens
+        //actual thread where computation happens
         Glib::Threads::Thread* workerThread;
 };
 

@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 static const char *const SIZE_FORMAT_IN_BYTES = "IN_BYTES";
+static const int DEFAULT_LABEL_PADDING = 5;
 
 #include <glibmm/ustring.h>
 #include "../gui/Rectangle.h"

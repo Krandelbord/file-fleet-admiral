@@ -217,7 +217,7 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
         gfm_debug("Shift+F6 Pressed\n");
-        showRenameSignal.emit(getSelectedFileName());
+        showRenameSignal.emit(getCurrentDir(), getSelectedFileName());
         return true;
     }
     return false;
@@ -259,6 +259,6 @@ void SinglePanel::onQuickSearchClosed() {
     filesTreeView->grab_focus();
 }
 
-sigc::signal<void, Glib::ustring> SinglePanel::signalShowRename() {
+sigc::signal<void, Glib::ustring, Glib::ustring> SinglePanel::signalShowRename() {
     return this->showRenameSignal;
 }

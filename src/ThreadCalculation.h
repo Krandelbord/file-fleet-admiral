@@ -5,7 +5,7 @@
 #include "ThreadMessage.h"
 
 /**
- * Class that does havy computation is separate thread
+ * Class that does heavy computation is separate thread
  */
 class ThreadCalculation {
     public:

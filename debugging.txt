@@ -1,2 +1,7 @@
 #To start gtk inspector run
 export GTK_DEBUG=interactive 
+
+# To Run with different theme
+export GTK_THEME=Adwaita:dark
+
+G_DEBUG=fatal-criticals

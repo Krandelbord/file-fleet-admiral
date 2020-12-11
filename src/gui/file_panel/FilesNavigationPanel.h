@@ -12,7 +12,7 @@ class FilesNavigationPanel : public Gtk::HPaned {
 
     private:
         SinglePanel* rightPanel;
-        void showRenamePopup(Glib::ustring path);
+        void showRenamePopup(Glib::ustring path, Glib::ustring fileName);
 };
 
 #endif

@@ -17,7 +17,7 @@ class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
         Glib::ustring getCurrentDir() const;
-        sigc::signal<void, Glib::ustring> signalShowRename();
+        sigc::signal<void, Glib::ustring, Glib::ustring> signalShowRename();
     private:
         void updateCurrentDirHeader();
 
@@ -46,7 +46,7 @@ class SinglePanel : public Gtk::Frame {
         FilePanelFooter filePanelFooter;
 
         GuiReader guiDataReader;
-        sigc::signal<void, Glib::ustring> showRenameSignal;
+        sigc::signal<void, Glib::ustring, Glib::ustring> showRenameSignal;
 
         void onCursorChanged();
 
