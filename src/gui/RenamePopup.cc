@@ -3,12 +3,16 @@
 #include "RenamePopup.h"
 #include "../config.h"
 #include "MainWindow.h"
+#include "../operations/NotifiableByContentChange.h"
 
 RenamePopup::RenamePopup(Gtk::Window &parent,
-                         const Glib::RefPtr<Gio::File> &originalFile) : Gtk::Dialog(_("Rename Window"), parent) {
+                         NotifiableByContentChange *notifiableContentChange,
+                         const Glib::RefPtr<Gio::File> &originalFile) :
+                         Gtk::Dialog(_("Rename Window"), parent) {
     this->set_default_size(100, 100);
     this->set_modal(false);
     this->get_action_area()->set_layout(Gtk::ButtonBoxStyle::BUTTONBOX_CENTER);
+    this->notifiableContentChange = notifiableContentChange;
     label.set_label("Rename „" + originalFile->get_basename() + "”");
     label.set_justify(Gtk::JUSTIFY_LEFT);
     label.set_halign(Gtk::ALIGN_START);
@@ -37,7 +41,8 @@ RenamePopup::~RenamePopup() {
 
 void RenamePopup::onCancel() {
     if (threadMsgs->isWorkEnded()) {
-        onRenameDone();
+        //trick to notify that nothing was changed
+        onRenameDone(Gio::File::create_for_path("/"));
     } else {
         threadMsgs->cancelWork();
     }
@@ -60,8 +65,11 @@ void RenamePopup::onFailureFromRename() {
     }
 }
 
-void RenamePopup::onRenameDone() {
+void RenamePopup::onRenameDone(const Glib::RefPtr<Gio::File> &originalFilePath) {
     gfm_debug("Rename is done\n");
+    if (threadMsgs->isSuccess()) {
+        notifiableContentChange->notifyRefreshDirs(originalFilePath->get_parent());
+    }
     delete this;
 }
 
@@ -85,7 +93,7 @@ void RenamePopup::executeRename(Glib::RefPtr<Gio::File> &originalFile) {
 void RenamePopup::startRenamingThread(Glib::RefPtr<Gio::File> &originalFilePath) {
     threadMsgs = std::make_shared<InterThreadProgressPipe>();
     // Connect the handler to the dispatcher.
-    threadMsgs->connectWorkFinishedSignal(sigc::mem_fun(*this, &RenamePopup::onRenameDone));
+    threadMsgs->connectWorkFinishedSignal(sigc::bind(sigc::mem_fun(*this, &RenamePopup::onRenameDone), originalFilePath));
     threadMsgs->connectProgressUpdate(sigc::bind(sigc::mem_fun(*this, &RenamePopup::onRenameProgressing), threadMsgs));
     threadMsgs->connectWorkFailedSignal(sigc::mem_fun(*this, &RenamePopup::onFailureFromRename));
     renameExecutor.executeRename(threadMsgs, originalFilePath, newFileNameTextEntry.get_text());

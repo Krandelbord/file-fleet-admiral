@@ -18,6 +18,7 @@ class SinglePanel : public Gtk::Frame {
         SinglePanel(const Glib::ustring& startDirPath);
         Glib::ustring getCurrentDir() const;
         sigc::signal<void, Glib::ustring, Glib::ustring> signalShowRename();
+        void refreshCurrentDir();
     private:
         void updateCurrentDirHeader();
 
@@ -29,11 +30,8 @@ class SinglePanel : public Gtk::Frame {
 
         void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
-
         void onNewData();
-
         void startReadDataThread();
-
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
         SelectionHistory selectionHistory;
@@ -69,6 +67,8 @@ class SinglePanel : public Gtk::Frame {
 
         void changeDirectory(const Gtk::TreeModel::Path &path);
         Glib::ustring getSelectedFileName();
+
+    void changeDirByPath(const Glib::ustring &selectedFileName);
 };
 
 #endif /** SINGLE_PANEL_H */

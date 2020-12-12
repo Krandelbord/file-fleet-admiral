@@ -55,7 +55,7 @@ set(SOURCE_FILES
         src/gui/RenamePopup.cc src/gui/RenamePopup.h
         src/operations/RenameExecutor.cc src/operations/RenameExecutor.h
         src/operations/InterThreadProgressPipe.cc src/operations/InterThreadProgressPipe.h
-        src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h)
+        src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 

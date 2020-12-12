@@ -103,15 +103,20 @@ Glib::ustring SinglePanel::getCurrentDir() const {
 void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column) {
     changeDirectory(path);
 }
+void SinglePanel::refreshCurrentDir() {
+    changeDirByPath("");
+}
 
 void SinglePanel::changeDirectory(const Gtk::TreeModel::Path &path) {
     Preconditions::checkArgument(refListStore.get() != nullptr, "list store is completely empty");
-
     Glib::ustring selectedFileName = getSelectedFileName(path);
+    changeDirByPath(selectedFileName);
+}
+
+void SinglePanel::changeDirByPath(const Glib::ustring &selectedFileName) {
+    gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
     currentDir.changeDirBy(selectedFileName);
     selectionHistory.changeDirBy(selectedFileName);
-
-    gfm_debug("currently selected element is  %s\n", selectedFileName.c_str());
     gfm_debug("new file name is %s\n", currentDir.toString().c_str());
     updateCurrentDirHeader();
 

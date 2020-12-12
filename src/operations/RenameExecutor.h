@@ -14,6 +14,7 @@ public:
     void executeRename(std::shared_ptr<InterThreadProgressPipe> threadCommunications,
                        Glib::RefPtr<Gio::File> &originalFilePath,
                        const Glib::ustring &aNewFileName);
+private:
     Glib::Threads::Thread *workerThread;
 };
 
