@@ -23,5 +23,11 @@ void ThreadPerformingRename::threadFunction(std::shared_ptr<InterThreadProgressP
         }
         threadMessage->updateProgress(1);
         threadMessage->notifyWorkEnded();
+    } else {
+        threadMessage->updateProgress(1);
+        threadMessage->setMessage(_("File no longer exists"));
+        threadMessage->notifyWorkFailed();
+        //TODO refresh required
     }
+
 }
