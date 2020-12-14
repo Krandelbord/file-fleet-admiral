@@ -1,6 +1,5 @@
 #include <vector>
 #include <memory>
-#include <iostream>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "../../config.h"
@@ -218,6 +217,9 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     }
     if (!isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
         gfm_debug("F6 Pressed\n");
+        const Glib::RefPtr<Gio::File>& movedFile = Gio::File::create_for_path(
+                Glib::build_filename(getCurrentDir(), getSelectedFileName()));
+        showMoveSignal.emit(movedFile);
         return true;
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
@@ -266,4 +268,9 @@ void SinglePanel::onQuickSearchClosed() {
 
 sigc::signal<void, Glib::ustring, Glib::ustring> SinglePanel::signalShowRename() {
     return this->showRenameSignal;
+}
+
+
+sigc::signal<void, const Glib::RefPtr<Gio::File>&> SinglePanel::signalShowMoveFile() {
+    return this->showMoveSignal;
 }

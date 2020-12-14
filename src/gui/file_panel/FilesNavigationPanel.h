@@ -15,6 +15,7 @@ class FilesNavigationPanel : public Gtk::HPaned, NotifiableByContentChange {
         SinglePanel* leftPanel;
         SinglePanel* rightPanel;
         void showRenamePopup(Glib::ustring path, Glib::ustring fileName);
+        void showMovePopup(const Glib::RefPtr<Gio::File>& fileToMove,  SinglePanel* destination);
         void refreshPanelWithDir(const Glib::RefPtr<Gio::File>& changedDir);
 };
 

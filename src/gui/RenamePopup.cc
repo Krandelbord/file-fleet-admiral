@@ -52,7 +52,7 @@ void RenamePopup::onRenameProgressing(const std::shared_ptr<InterThreadProgressP
     float progress = threadMessage->getCurrentProgress();
     gfm_debug("It is moving forward %f\n", progress);
     this->progressBar.set_fraction(progress);
-    this->progressBar.set_text(Glib::ustring::compose<>("%1%% done", (int) (progress * 10)));
+    this->progressBar.set_text(Glib::ustring::compose<>("%1%% done", (int) (progress * 100)));
 }
 
 void RenamePopup::onFailureFromRename() {
