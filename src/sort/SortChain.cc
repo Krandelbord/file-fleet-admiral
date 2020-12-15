@@ -28,8 +28,7 @@ void SortChain::addSorting(std::shared_ptr<CompareFunction> compareFunctionToAdd
 }
 
 SortChain::~SortChain() {
-    gfm_debug("Destrcutor of sortChain\n");
-    comparatorList.clear ();
+    comparatorList.clear();
 }
 
 void SortChain::sort(std::vector<FileListElement>& dataToSort) {
