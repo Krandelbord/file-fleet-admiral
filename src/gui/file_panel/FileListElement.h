@@ -24,6 +24,7 @@ class FileListElement {
 private:
         Glib::ustring fileName;
         __off_t fileSizeInBytes;
+        __ino_t inodeNumber;
         FileType fileType;
         std::string fileSizeForDisplay;
 };
