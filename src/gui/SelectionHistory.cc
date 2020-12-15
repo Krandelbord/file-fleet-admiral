@@ -1,12 +1,11 @@
 #include "SelectionHistory.h"
-#include "../config.h"
 
 SelectionHistory::SelectionHistory(const Glib::ustring& currentDir) : lastVisitedDir(currentDir) {
-    history[currentDir] = PARENT_DIR_SYMBOL;
+    history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = PARENT_DIR_SYMBOL;
 }
 
 Glib::ustring SelectionHistory::getSelectionForDir(const Glib::ustring &dirToSearchSelection) const {
-    std::unordered_map<std::string, std::string>::const_iterator got = history.find(dirToSearchSelection);
+    auto got = history.find(dirToSearchSelection);
     if (got == history.end()) {
         //not history entry found
         return PARENT_DIR_SYMBOL;
@@ -21,7 +20,7 @@ Glib::ustring SelectionHistory::getSelectionForDir(const PathResolver& pathToSea
 
 void SelectionHistory::changeDirBy(const Glib::ustring &dirToChange) {
     if (dirToChange != PARENT_DIR_SYMBOL) {
-        history[lastVisitedDir.toString()] = Glib::ustring(dirToChange);
+        history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = Glib::ustring(dirToChange);
     }
     lastVisitedDir.changeDirBy(dirToChange);
 }
