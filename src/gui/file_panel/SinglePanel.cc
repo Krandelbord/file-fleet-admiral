@@ -104,7 +104,9 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     changeDirectory(path);
 }
 void SinglePanel::refreshCurrentDir() {
-    changeDirByPath("");
+    createEmptyData();
+    pathHeader->startProgress();
+    startReadDataThread();
 }
 
 void SinglePanel::changeDirectory(const Gtk::TreeModel::Path &path) {
