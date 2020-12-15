@@ -13,6 +13,7 @@ class SelectionHistory {
 
         void changeDirBy(const Glib::ustring &dirToChange);
         void changeDirUp();
+        void updateForCurrentDir(Glib::ustring ustring, Glib::ustring selectedFileName);
 
     private:
         std::unordered_map<std::string, std::string> history;

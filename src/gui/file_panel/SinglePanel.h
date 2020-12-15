@@ -69,6 +69,8 @@ class SinglePanel : public Gtk::Frame {
         Glib::ustring getSelectedFileName();
 
     void changeDirByPath(const Glib::ustring &selectedFileName);
+
+    Gtk::TreePath firstElementOnList() const;
 };
 
 #endif /** SINGLE_PANEL_H */
