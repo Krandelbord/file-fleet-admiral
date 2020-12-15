@@ -12,8 +12,9 @@ public:
                         const Glib::ustring& destinationPath);
 
     private:
-        Glib::DateTime operationStart;
-        void onMoveProgressing(goffset current, goffset total, std::shared_ptr<InterThreadProgressPipe> threadMessage);
+        void onMoveProgressing(goffset current, goffset total,
+                               Glib::DateTime startTime,
+                               std::shared_ptr<InterThreadProgressPipe> threadMessage);
 };
 
 
