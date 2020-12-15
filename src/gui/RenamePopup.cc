@@ -40,11 +40,14 @@ RenamePopup::~RenamePopup() {
 }
 
 void RenamePopup::onCancel() {
-    if (threadMsgs->isWorkEnded()) {
+    if (threadMsgs && threadMsgs->isWorkEnded()) {
         //trick to notify that nothing was changed
         onRenameDone(Gio::File::create_for_path("/"));
-    } else {
+    } else if (threadMsgs) {
         threadMsgs->cancelWork();
+    } else {
+        //operation wasn't even started. Just close popup
+        delete this;
     }
 }
 
