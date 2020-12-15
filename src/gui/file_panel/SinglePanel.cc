@@ -1,6 +1,5 @@
 #include <vector>
 #include <memory>
-#include <iostream>
 #include "SinglePanel.h"
 #include "FilesColumns.h"
 #include "../../config.h"
@@ -147,9 +146,13 @@ void SinglePanel::stopProgressIndicator() {
 
 void SinglePanel::putFocusOnTopOfTreeview() {
     std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
-    auto foundPath = findByExactFileName(selectionShouldBe);
     gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
-    filesTreeView->set_cursor(foundPath);
+    auto foundPath = findByExactFileName(selectionShouldBe);
+    if (foundPath) {
+        filesTreeView->set_cursor(foundPath);
+    } else {
+        filesTreeView->set_cursor(firstElementOnList());
+    }
 }
 
 const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fileNameToFind,
@@ -179,8 +182,10 @@ const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fil
         }
     }
     //first element in list
-    return Gtk::TreePath();
+    return firstElementOnList();
 }
+
+Gtk::TreePath SinglePanel::firstElementOnList() const { return Gtk::TreePath("0"); }
 
 Gtk::TreeModel::Path SinglePanel::findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement) {
     return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.find(b)==0;}, afterElement) ;
@@ -224,6 +229,7 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
         gfm_debug("Shift+F6 Pressed\n");
+        selectionHistory.updateForCurrentDir(getCurrentDir(), getSelectedFileName());
         showRenameSignal.emit(getCurrentDir(), getSelectedFileName());
         return true;
     }
