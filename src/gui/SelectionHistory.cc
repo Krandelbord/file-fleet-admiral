@@ -1,26 +1,26 @@
 #include "SelectionHistory.h"
 
 SelectionHistory::SelectionHistory(const Glib::ustring& currentDir) : lastVisitedDir(currentDir) {
-    history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = FileWithInode(Glib::ustring(PARENT_DIR_SYMBOL), -1);
+    history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = SelectionHistory::parentDir();
 }
 
-Glib::ustring SelectionHistory::getSelectionForDir(const Glib::ustring &dirToSearchSelection) const {
+FileWithInode SelectionHistory::getSelectionForDir(const Glib::ustring &dirToSearchSelection) const {
     auto got = history.find(dirToSearchSelection);
     if (got == history.end()) {
         //not history entry found
-        return PARENT_DIR_SYMBOL;
+        return SelectionHistory::parentDir();
     } else {
-        return got->second.getFileName();
+        return got->second;
     }
 }
 
-Glib::ustring SelectionHistory::getSelectionForDir(const PathResolver& pathToSearchForSelection) const {
+FileWithInode SelectionHistory::getSelectionForDir(const PathResolver& pathToSearchForSelection) const {
     return getSelectionForDir(pathToSearchForSelection.toString());
 }
 
 void SelectionHistory::changeDirBy(const Glib::ustring &dirToChange) {
     if (dirToChange != PARENT_DIR_SYMBOL) {
-        history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = FileWithInode(Glib::ustring(dirToChange), -1);
+        history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = FileWithInode(Glib::ustring(dirToChange), UNDEFINED_INODE);
     }
     lastVisitedDir.changeDirBy(dirToChange);
 }
@@ -28,10 +28,14 @@ void SelectionHistory::changeDirBy(const Glib::ustring &dirToChange) {
 void SelectionHistory::changeDirUp() {
 }
 
-void SelectionHistory::updateForCurrentDir(Glib::ustring directory, Glib::ustring selectedFileName) {
-    history[Glib::canonicalize_filename(directory.c_str())] = FileWithInode(selectedFileName, -1);
+void SelectionHistory::updateForCurrentDir(const Glib::ustring& directory, Glib::ustring selectedFileName) {
+    history[Glib::canonicalize_filename(directory.c_str())] = FileWithInode(selectedFileName, UNDEFINED_INODE);
 }
 
-void SelectionHistory::updateForCurrentDir(Glib::ustring directory, FileWithInode selectedFileName) {
+void SelectionHistory::updateForCurrentDir(const Glib::ustring& directory, FileWithInode selectedFileName) {
     history[Glib::canonicalize_filename(directory.c_str())] = selectedFileName;
+}
+
+FileWithInode SelectionHistory::parentDir() {
+    return FileWithInode(Glib::ustring(PARENT_DIR_SYMBOL), UNDEFINED_INODE);
 }

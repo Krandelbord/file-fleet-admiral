@@ -146,9 +146,9 @@ void SinglePanel::stopProgressIndicator() {
 }
 
 void SinglePanel::putFocusOnTopOfTreeview() {
-    std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
-    gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
-    auto foundPath = findByExactFileName(selectionShouldBe);
+    FileWithInode selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
+    gfm_debug("Cursor should be put on %s\n", selectionShouldBe.toString().c_str());
+    auto foundPath = findByInodeOrName(selectionShouldBe);
     if (foundPath) {
         filesTreeView->set_cursor(foundPath);
     } else {
@@ -190,6 +190,27 @@ Gtk::TreePath SinglePanel::firstElementOnList() const { return Gtk::TreePath("0"
 
 Gtk::TreeModel::Path SinglePanel::findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement) {
     return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.find(b)==0;}, afterElement) ;
+}
+
+Gtk::TreeModel::Path SinglePanel::findByInodeOrName(FileWithInode fileToFind) {
+    const Gtk::TreePath &inodeSearchResult = findByInodeNumber(fileToFind);
+    if (inodeSearchResult.empty()) {
+        return findByExactFileName(fileToFind.getFileName());
+    } else {
+        return inodeSearchResult;
+    }
+}
+
+Gtk::TreePath SinglePanel::findByInodeNumber(const FileWithInode &fileNameToFind) {
+    FilesColumns filesColumns;
+    for (const Gtk::TreeRow& fileListRow : refListStore->children()) {
+        __ino_t inodeNumber = fileListRow->get_value(filesColumns.inodeNumber);
+        if (fileNameToFind.matchesInode(inodeNumber)) {
+            return Gtk::TreePath(fileListRow);
+        }
+    }
+    // empty
+    return Gtk::TreePath();
 }
 
 Gtk::TreeModel::Path SinglePanel::findByExactFileName(std::string fileNameToFind) {
@@ -291,6 +312,5 @@ sigc::signal<void, Glib::ustring, Glib::ustring> SinglePanel::signalShowRename()
 
 FileWithInode SinglePanel::toFileWithInode(Gtk::TreeRow row) {
     FilesColumns possibleColumns;
-    gfm_debug(Glib::ustring::compose<>("Inode number is %%1\n", row[possibleColumns.inodeNumber]).c_str());
     return FileWithInode(row[possibleColumns.file_name_column], row[possibleColumns.inodeNumber]);
 }

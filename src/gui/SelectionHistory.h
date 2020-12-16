@@ -10,13 +10,14 @@
 class SelectionHistory {
     public:
         SelectionHistory(const Glib::ustring& currentDir);
-        Glib::ustring getSelectionForDir(const Glib::ustring &dirToSearchSelection) const;
-        Glib::ustring getSelectionForDir(const PathResolver& pathToSearchForSelection) const;
+        FileWithInode getSelectionForDir(const Glib::ustring &dirToSearchSelection) const;
+        FileWithInode getSelectionForDir(const PathResolver& pathToSearchForSelection) const;
 
+        static FileWithInode parentDir();
         void changeDirBy(const Glib::ustring &dirToChange);
         void changeDirUp();
-        void updateForCurrentDir(Glib::ustring ustring, Glib::ustring selectedFileName);
-        void updateForCurrentDir(Glib::ustring directory, FileWithInode selectedFileName);
+        void updateForCurrentDir(const Glib::ustring& ustring, Glib::ustring selectedFileName);
+        void updateForCurrentDir(const Glib::ustring& directory, FileWithInode selectedFileName);
 
     private:
         std::unordered_map<std::string, FileWithInode> history;

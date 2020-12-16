@@ -60,6 +60,7 @@ class SinglePanel : public Gtk::Frame {
         void onEnterForQuickSearch(Glib::ustring quickSearchValue);
         void onQuickSearchClosed();
 
+        Gtk::TreeModel::Path findByInodeOrName(FileWithInode fileToFind);
         Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);
         Gtk::TreeModel::Path findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement);
         const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring),
@@ -73,6 +74,8 @@ class SinglePanel : public Gtk::Frame {
         Gtk::TreePath firstElementOnList() const;
 
         FileWithInode toFileWithInode(Gtk::TreeRow row);
+
+    Gtk::TreePath findByInodeNumber(const FileWithInode &fileNameToFind);
 };
 
 #endif /** SINGLE_PANEL_H */
