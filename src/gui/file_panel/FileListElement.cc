@@ -2,11 +2,12 @@
 #include "../PathResolver.h"
 
 FileListElement::FileListElement(const Glib::ustring& aFileName, __off_t aFileSizeInBytes,
-        FileType aFileType, std::string sizeFormatted) {
+        FileType aFileType, std::string sizeFormatted, __ino_t inodeNumber) {
     this->fileName = Glib::ustring(aFileName);
     this->fileSizeInBytes = aFileSizeInBytes;
     this->fileType = aFileType;
     this->fileSizeForDisplay = sizeFormatted;
+    this->inodeNumber = inodeNumber;
 }
 
 const Glib::ustring& FileListElement::getFileName() const {
@@ -32,4 +33,8 @@ FileListElement FileListElement::createParentDir() {
 
 const std::string FileListElement::toString() const {
     return fileName;
+}
+
+__ino_t FileListElement::getInodeNumber() const {
+    return inodeNumber;
 }

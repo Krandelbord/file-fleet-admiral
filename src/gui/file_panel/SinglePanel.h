@@ -67,10 +67,12 @@ class SinglePanel : public Gtk::Frame {
 
         void changeDirectory(const Gtk::TreeModel::Path &path);
         Glib::ustring getSelectedFileName();
+        Gtk::TreeRow getFileUnderCursor();
+        void changeDirByPath(const Glib::ustring &selectedFileName);
 
-    void changeDirByPath(const Glib::ustring &selectedFileName);
+        Gtk::TreePath firstElementOnList() const;
 
-    Gtk::TreePath firstElementOnList() const;
+        FileWithInode toFileWithInode(Gtk::TreeRow row);
 };
 
 #endif /** SINGLE_PANEL_H */

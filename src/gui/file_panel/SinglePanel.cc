@@ -88,6 +88,7 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
     }
 
     row[filesColumns.font_weight] = shouldBeBolded(oneNewDataElem) ? BOLDED_TXT : NOT_BOLDED_TXT;
+    row[filesColumns.inodeNumber] = oneNewDataElem.getInodeNumber();
 }
 
 bool SinglePanel::shouldBeBolded(const FileListElement &oneNewDataElem) const {
@@ -202,6 +203,16 @@ void SinglePanel::onCursorChanged() {
     }
 }
 
+Gtk::TreeRow SinglePanel::getFileUnderCursor() {
+    Glib::ustring selectedFileName;
+    Gtk::TreeModel::Path path = filesTreeView->getHighlitedElement();
+    if (!path.empty()) {
+        Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+        return *iter;
+    }
+    return {};
+}
+
 Glib::ustring SinglePanel::getSelectedFileName() {
     Glib::ustring selectedFileName;
     Gtk::TreeModel::Path path = filesTreeView->getHighlitedElement();
@@ -229,7 +240,9 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
         gfm_debug("Shift+F6 Pressed\n");
-        selectionHistory.updateForCurrentDir(getCurrentDir(), getSelectedFileName());
+
+        FileWithInode ff = toFileWithInode(getFileUnderCursor());
+        selectionHistory.updateForCurrentDir(getCurrentDir(), ff);
         showRenameSignal.emit(getCurrentDir(), getSelectedFileName());
         return true;
     }
@@ -274,4 +287,10 @@ void SinglePanel::onQuickSearchClosed() {
 
 sigc::signal<void, Glib::ustring, Glib::ustring> SinglePanel::signalShowRename() {
     return this->showRenameSignal;
+}
+
+FileWithInode SinglePanel::toFileWithInode(Gtk::TreeRow row) {
+    FilesColumns possibleColumns;
+    gfm_debug(Glib::ustring::compose<>("Inode number is %%1\n", row[possibleColumns.inodeNumber]).c_str());
+    return FileWithInode(row[possibleColumns.file_name_column], row[possibleColumns.inodeNumber]);
 }

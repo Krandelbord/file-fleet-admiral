@@ -36,7 +36,7 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
                 auto statData = readFileSize(path);
                 FileType fileType = readFileType(path);
                 const std::string formattedSize = sizeFormatter->formatSize(statData.fileSizeInBytes);
-                dirContent.push_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize));
+                dirContent.push_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize, statData.inodeNumber));
                 readPositionsCount++;
             }
             if (threadMessage->shouldCancelWorkAsync()) {
