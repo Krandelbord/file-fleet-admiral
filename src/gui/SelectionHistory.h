@@ -12,7 +12,7 @@ class SelectionHistory {
         Glib::ustring getSelectionForDir(const PathResolver& pathToSearchForSelection) const;
 
         void changeDirBy(const Glib::ustring &dirToChange);
-        void changeDirUp();
+        void changeDirUp(); 
         void updateForCurrentDir(Glib::ustring ustring, Glib::ustring selectedFileName);
 
     private:

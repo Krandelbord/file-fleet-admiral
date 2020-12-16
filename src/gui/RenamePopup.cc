@@ -8,16 +8,12 @@
 RenamePopup::RenamePopup(Gtk::Window &parent,
                          NotifiableByContentChange *notifiableContentChange,
                          const Glib::RefPtr<Gio::File> &originalFile) :
-                         Gtk::Dialog(_("Rename Window"), parent) {
+        Gtk::Dialog(_("Rename"), parent) {
     this->set_default_size(100, 100);
     this->set_modal(false);
     this->get_action_area()->set_layout(Gtk::ButtonBoxStyle::BUTTONBOX_CENTER);
     this->notifiableContentChange = notifiableContentChange;
-    label.set_label("Rename „" + originalFile->get_basename() + "”");
-    label.set_justify(Gtk::JUSTIFY_LEFT);
-    label.set_halign(Gtk::ALIGN_START);
-    this->get_content_area()->pack_start(label, Gtk::PackOptions::PACK_SHRINK);
-
+    addLabel(Glib::ustring::compose<>(_("Rename: „%1”"),  originalFile->get_basename()));
     newFileNameTextEntry.set_text(originalFile->get_basename());
     newFileNameTextEntry.set_activates_default(true);
     this->get_content_area()->pack_start(newFileNameTextEntry, Gtk::PackOptions::PACK_SHRINK);
@@ -33,6 +29,17 @@ RenamePopup::RenamePopup(Gtk::Window &parent,
     renameBtn->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &RenamePopup::executeRename), originalFile));
     this->signal_delete_event().connect(sigc::mem_fun(*this, &RenamePopup::onWindowClose));
     this->show_all_children();
+}
+
+Gtk::Label * RenamePopup::addLabel(const Glib::ustring &str) {
+    Gtk::Label *label = Gtk::manage(new Gtk::Label(str));
+    label->set_label(str);
+    label->set_justify(Gtk::JUSTIFY_LEFT);
+    label->set_halign(Gtk::ALIGN_START);
+    label->set_padding(DEFAULT_LABEL_PADDING, DEFAULT_LABEL_PADDING);
+    get_content_area()->pack_start(*label, Gtk::PACK_SHRINK, DEFAULT_LABEL_PADDING);
+    label->show_all();
+    return label;
 }
 
 RenamePopup::~RenamePopup() {
@@ -60,7 +67,7 @@ void RenamePopup::onRenameProgressing(const std::shared_ptr<InterThreadProgressP
 
 void RenamePopup::onFailureFromRename() {
     if (!threadMsgs->isSuccess()) {
-        Gtk::Label* errorMessageLabel = Gtk::manage(new Gtk::Label(threadMsgs->getMessage()));
+        Gtk::Label *errorMessageLabel = Gtk::manage(new Gtk::Label(threadMsgs->getMessage()));
         errorMessageLabel->set_padding(DEFAULT_LABEL_PADDING, DEFAULT_LABEL_PADDING);
         this->get_content_area()->pack_start(*errorMessageLabel, Gtk::PackOptions::PACK_EXPAND_WIDGET);
         errorMessageLabel->show_all();
@@ -78,8 +85,11 @@ void RenamePopup::onRenameDone(const Glib::RefPtr<Gio::File> &originalFilePath) 
 
 void RenamePopup::executeRename(Glib::RefPtr<Gio::File> &originalFile) {
     gfm_debug("Executing rename to „%s”\n", this->newFileNameTextEntry.get_text().c_str());
-    this->get_content_area()->pack_start(progressBar, Gtk::PackOptions::PACK_EXPAND_WIDGET, 5);
     this->get_content_area()->remove(newFileNameTextEntry);
+    addLabel(Glib::ustring::compose<>(_("Destination: „%1”"), newFileNameTextEntry.get_text()));
+    this->get_content_area()->pack_start(progressBar, Gtk::PackOptions::PACK_EXPAND_WIDGET, DEFAULT_LABEL_PADDING);
+
+    
     progressBar.set_text("Fraction done");
     progressBar.set_show_text(true);
     progressBar.set_halign(Gtk::ALIGN_CENTER);
@@ -96,7 +106,8 @@ void RenamePopup::executeRename(Glib::RefPtr<Gio::File> &originalFile) {
 void RenamePopup::startRenamingThread(Glib::RefPtr<Gio::File> &originalFilePath) {
     threadMsgs = std::make_shared<InterThreadProgressPipe>();
     // Connect the handler to the dispatcher.
-    threadMsgs->connectWorkFinishedSignal(sigc::bind(sigc::mem_fun(*this, &RenamePopup::onRenameDone), originalFilePath));
+    threadMsgs->connectWorkFinishedSignal(
+            sigc::bind(sigc::mem_fun(*this, &RenamePopup::onRenameDone), originalFilePath));
     threadMsgs->connectProgressUpdate(sigc::bind(sigc::mem_fun(*this, &RenamePopup::onRenameProgressing), threadMsgs));
     threadMsgs->connectWorkFailedSignal(sigc::mem_fun(*this, &RenamePopup::onFailureFromRename));
     renameExecutor.executeRename(threadMsgs, originalFilePath, newFileNameTextEntry.get_text());
