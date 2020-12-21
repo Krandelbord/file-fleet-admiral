@@ -1,6 +1,7 @@
 # File Fleet Admiral
 
 Aim of this project it to provide file-manager as close to MidnightCommander (MC) as possible with GTK-ui.
+Project is in developement stage. Everyone is welcome to participate.
 
 ### The most important things are: 
 1. keep keybindings as close to MC as possible
