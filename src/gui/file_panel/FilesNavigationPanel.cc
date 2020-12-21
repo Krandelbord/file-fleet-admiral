@@ -5,7 +5,7 @@
 FilesNavigationPanel::FilesNavigationPanel(const Settings &settingsToRead) {
     this->set_position(settingsToRead.readPanedPosition());
     Glib::ustring currentDir = Glib::get_current_dir();
- 
+
     leftPanel = Gtk::manage(new SinglePanel(currentDir));
     this->add1(*leftPanel);
     leftPanel->signalShowRename().connect(sigc::mem_fun(*this, &FilesNavigationPanel::showRenamePopup));
@@ -29,10 +29,12 @@ Glib::ustring FilesNavigationPanel::getRightPanelDir() const {
     return rightPanel->getCurrentDir();
 }
 
-void FilesNavigationPanel::refreshPanelWithDir(const Glib::RefPtr<Gio::File>& changedDir) {
+void FilesNavigationPanel::refreshPanelWithDir(const Glib::RefPtr<Gio::File> &changedDir) {
     gfm_debug("Should refresh dir %s\n", changedDir->get_path().c_str());
-    if (leftPanel->getCurrentDir() == changedDir->get_path()) {
-        leftPanel->refreshCurrentDir();
+    for (auto aPanel : {leftPanel, rightPanel}) {
+        if (aPanel->getCurrentDir() == changedDir->get_path()) {
+            aPanel->refreshCurrentDir();
+        }
     }
 }
 
