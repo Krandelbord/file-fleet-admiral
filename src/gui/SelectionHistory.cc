@@ -28,4 +28,6 @@ void SelectionHistory::changeDirBy(const Glib::ustring &dirToChange) {
 void SelectionHistory::changeDirUp() {
 }
 
-
+void SelectionHistory::updateForCurrentDir(Glib::ustring directory, Glib::ustring selectedFileName) {
+    history[Glib::canonicalize_filename(directory.c_str())] = selectedFileName;
+}

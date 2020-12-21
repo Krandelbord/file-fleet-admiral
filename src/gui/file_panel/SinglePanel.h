@@ -17,6 +17,8 @@ class SinglePanel : public Gtk::Frame {
     public:
         SinglePanel(const Glib::ustring& startDirPath);
         Glib::ustring getCurrentDir() const;
+        sigc::signal<void, Glib::ustring, Glib::ustring> signalShowRename();
+        void refreshCurrentDir();
     private:
         void updateCurrentDirHeader();
 
@@ -28,11 +30,8 @@ class SinglePanel : public Gtk::Frame {
 
         void createEmptyData();
         void appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileListElement& oneNewDataElem);
-
         void onNewData();
-
         void startReadDataThread();
-
         void onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
         Glib::ustring getSelectedFileName(const Gtk::TreeModel::Path &path) const;
         SelectionHistory selectionHistory;
@@ -45,12 +44,14 @@ class SinglePanel : public Gtk::Frame {
         FilePanelFooter filePanelFooter;
 
         GuiReader guiDataReader;
+        sigc::signal<void, Glib::ustring, Glib::ustring> showRenameSignal;
 
         void onCursorChanged();
 
         bool onKeyPressed(const GdkEventKey *key_event);
 
         guint isControlHolded(const GdkEventKey *key_event) const;
+        bool isShiftHolded(const GdkEventKey *key_event) const;
 
         void showQuickSearch();
 
@@ -64,7 +65,12 @@ class SinglePanel : public Gtk::Frame {
         const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring),
                                                           const Gtk::TreeModel::Path afterElement);
 
-    void changeDirectory(const Gtk::TreeModel::Path &path);
+        void changeDirectory(const Gtk::TreeModel::Path &path);
+        Glib::ustring getSelectedFileName();
+
+    void changeDirByPath(const Glib::ustring &selectedFileName);
+
+    Gtk::TreePath firstElementOnList() const;
 };
 
 #endif /** SINGLE_PANEL_H */
