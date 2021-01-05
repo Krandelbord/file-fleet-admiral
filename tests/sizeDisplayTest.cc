@@ -10,7 +10,7 @@
 bool checkSizeFormatting(SizeFormatter* formatter, size_t sizeToFormatInBytes, const std::string expectedOut) {
 
     const std::string formattedSize = formatter->formatSize(sizeToFormatInBytes);
-    return Asserts::assertEquals("Size not formated as expected", expectedOut, formattedSize);
+    return Asserts::assertEquals("Size not formatted as expected", expectedOut, formattedSize);
 }
 
 int main() {
@@ -19,25 +19,25 @@ int main() {
 
     std::vector<std::function<bool()>> testsToRun;
     SizeFormatter *sizeFormatterSimple = new SizeFormatterSimple();
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSimple, 12345, "12345"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterSimple, 12345, "12345"));
 
     SizeFormatter *sizeFormatterSpaces = new SizeFormatterSpaces();
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 12345, "12 345"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 99999, "99 999"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 99999212, "99 999 212"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 12, "12"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 4096, "4 096"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 12345, "12 345"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 99999, "99 999"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 99999212, "99 999 212"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 12, "12"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterSpaces, 4096, "4 096"));
 
     SizeFormatter *sizeFormatterHr = new SizeFormatterHr();
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99, "99 B"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 12345, "12,06 kB"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999, "97,66 kB"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999212, "95,37 MB"));
-    testsToRun.push_back(std::bind(checkSizeFormatting, sizeFormatterHr, 3615376, "3,45 MB"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99, "99 B"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 12345, "12,06 kB"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999, "97,66 kB"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999212, "95,37 MB"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 3615376, "3,45 MB"));
 
 
     Runner runner;
-    for (auto oneTestToRun : testsToRun) {
+    for (const auto& oneTestToRun : testsToRun) {
         runner.run(oneTestToRun);
     }
 
