@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.3)
 project(gtkmm-file-manager)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -DDEBUG")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -DDEBUG")
 
 
 find_package(PkgConfig)
