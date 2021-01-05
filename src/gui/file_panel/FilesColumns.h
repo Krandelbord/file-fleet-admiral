@@ -11,6 +11,7 @@ class FilesColumns : public Gtk::TreeModel::ColumnRecord {
         Gtk::TreeModelColumn<Glib::ustring> size_column;
         Gtk::TreeModelColumn<Glib::ustring> file_name_column;
         Gtk::TreeModelColumn<int> font_weight;
+        Gtk::TreeModelColumn<__ino_t> inodeNumber;
         Gtk::TreeModelColumn<Gdk::RGBA> backgroundColor;
 };
 

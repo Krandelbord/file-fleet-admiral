@@ -20,7 +20,7 @@ bool shouldPersist3LevelSelection() {
     selHistory.changeDirBy("1993 - Metal Works");
     selHistory.changeDirBy("CD2");
 
-    return Asserts::assertEquals("Values not equal", "Judas Priest", selHistory.getSelectionForDir("/home/emil/music"));
+    return Asserts::assertEquals("Values not equal", "Judas Priest", selHistory.getSelectionForDir("/home/emil/music").getFileName());
 }
 
 bool shouldPersistDirUpSelection() {
@@ -29,14 +29,16 @@ bool shouldPersistDirUpSelection() {
     selHistory.changeDirBy("1993 - Metal Works");
     selHistory.changeDirBy("..");
 
-    return Asserts::assertEquals("Values not equal", "1993 - Metal Works", selHistory.getSelectionForDir("/home/emil/music/Judas Priest"));
+    return Asserts::assertEquals("Values not equal", "1993 - Metal Works", selHistory.getSelectionForDir("/home/emil/music/Judas Priest").getFileName());
 }
 
 bool shouldPersistSelection() {
     SelectionHistory selHistory("/home/emil/Documents");
     selHistory.changeDirBy("drawings");
 
-    return Asserts::assertEquals("Values not equal", "drawings", selHistory.getSelectionForDir("/home/emil/Documents"));
+    const FileWithInode &inode = selHistory.getSelectionForDir("/home/emil/Documents");
+    const Glib::ustring actual = inode.getFileName();
+    return Asserts::assertEquals("Values not equal", "drawings", actual);
 }
 
 bool shouldPersistGoingBackToSomeRoot() { 
@@ -46,7 +48,7 @@ bool shouldPersistGoingBackToSomeRoot() {
     selHistory.changeDirBy("Iron Maiden");
     selHistory.changeDirBy("..");
 
-    return Asserts::assertEquals("Values not equal", "Iron Maiden", selHistory.getSelectionForDir("/home/emil/music"));
+    return Asserts::assertEquals("Values not equal", "Iron Maiden", selHistory.getSelectionForDir("/home/emil/music").getFileName());
 }
 
 int main() {
