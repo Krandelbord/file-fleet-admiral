@@ -36,7 +36,9 @@ bool shouldPersistSelection() {
     SelectionHistory selHistory("/home/emil/Documents");
     selHistory.changeDirBy("drawings");
 
-    return Asserts::assertEquals("Values not equal", "drawings", selHistory.getSelectionForDir("/home/emil/Documents").getFileName());
+    const FileWithInode &inode = selHistory.getSelectionForDir("/home/emil/Documents");
+    const Glib::ustring actual = inode.getFileName();
+    return Asserts::assertEquals("Values not equal", "drawings", actual);
 }
 
 bool shouldPersistGoingBackToSomeRoot() { 

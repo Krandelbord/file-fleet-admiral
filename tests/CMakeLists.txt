@@ -22,7 +22,8 @@ set(TEST_SOURCES_COMMON
 ADD_EXECUTABLE( readDirTest readDirTest.cc
         ${TEST_SOURCES_COMMON}
         ../src/gui/PathResolver.cc ../src/gui/PathResolver.h
-        ../src/gui/SelectionHistory.h ../src/gui/SelectionHistory.cc)
+        ../src/gui/SelectionHistory.h ../src/gui/SelectionHistory.cc
+        ../src/gui/FileWithInode.h ../src/gui/FileWithInode.cc)
 
 ADD_EXECUTABLE( readMultiThreadDirs readMultiThreadDirs.cc
         ../src/sort/CompareByName.h ../src/sort/CompareByName.cc
