@@ -32,7 +32,7 @@ int main() {
     testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99, "99 B"));
     testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 12345, "12,06 kB"));
     testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999, "97,66 kB"));
-    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999212, "95,37 MB"));
+    testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 99999212, "95.37 MB"));
     testsToRun.emplace_back(std::bind(checkSizeFormatting, sizeFormatterHr, 3615376, "3,45 MB"));
 
 

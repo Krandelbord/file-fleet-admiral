@@ -67,7 +67,4 @@ target_link_libraries(file-fleet-admiral
 
 
 include(CTest)
-add_test(NAME Runs-readDirTest COMMAND tests/readDirTest)
 add_test(NAME sizeDisplayTest COMMAND tests/sizeDisplayTest)
-add_test(NAME sortChainTest COMMAND tests/sortChainTest)
-add_test(NAME readMultiThreadDirs COMMAND tests/readMultiThreadDirs)
