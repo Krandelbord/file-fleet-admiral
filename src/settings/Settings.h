@@ -31,7 +31,7 @@ private:
         GKeyFile *m_key_file;
         char *m_file;
 
-        std::string readStringConfigValueWithDfault(const Glib::ustring keyToRead, const Glib::ustring defaultValue);
+        std::string readStringConfigValueWithDefault(const Glib::ustring keyToRead, const Glib::ustring defaultValue);
 };
 
 #endif /** SETTINGS_H */

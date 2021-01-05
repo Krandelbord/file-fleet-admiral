@@ -110,14 +110,14 @@ Settings::~Settings() {
 }
 
 std::string Settings::readSizeFormat() {
-    return readStringConfigValueWithDfault(CONF_SIZE_FORMAT, SIZE_FORMAT_IN_BYTES);
+    return readStringConfigValueWithDefault(CONF_SIZE_FORMAT, SIZE_FORMAT_IN_BYTES);
 }
 
 void Settings::saveSizeFormat(const Glib::ustring newSizeFormatToSave) {
     saveString(CONF_SIZE_FORMAT, newSizeFormatToSave);
 }
 
-std::string Settings::readStringConfigValueWithDfault(const Glib::ustring keyToRead, const Glib::ustring defaultValue) {
+std::string Settings::readStringConfigValueWithDefault(const Glib::ustring keyToRead, const Glib::ustring defaultValue) {
     const Glib::ustring &valueRead = readStringConfigValue(keyToRead);
     if (valueRead.empty()) {
         return defaultValue;
