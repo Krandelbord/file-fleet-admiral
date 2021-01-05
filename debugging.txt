@@ -5,3 +5,7 @@ export GTK_DEBUG=interactive
 export GTK_THEME=Adwaita:dark
 
 G_DEBUG=fatal-criticals
+
+
+To debug warnings
+export G_DEBUG=fatal_warnings
