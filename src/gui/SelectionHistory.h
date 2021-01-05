@@ -15,8 +15,6 @@ class SelectionHistory {
 
         static FileWithInode parentDir();
         void changeDirBy(const Glib::ustring &dirToChange);
-        void changeDirUp();
-        void updateForCurrentDir(const Glib::ustring& ustring, Glib::ustring selectedFileName);
         void updateForCurrentDir(const Glib::ustring& directory, FileWithInode selectedFileName);
 
     private:

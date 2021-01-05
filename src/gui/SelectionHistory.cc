@@ -1,5 +1,7 @@
 #include "SelectionHistory.h"
 
+#include <utility>
+
 SelectionHistory::SelectionHistory(const Glib::ustring& currentDir) : lastVisitedDir(currentDir) {
     history[Glib::canonicalize_filename(lastVisitedDir.toString().c_str())] = SelectionHistory::parentDir();
 }
@@ -25,15 +27,8 @@ void SelectionHistory::changeDirBy(const Glib::ustring &dirToChange) {
     lastVisitedDir.changeDirBy(dirToChange);
 }
 
-void SelectionHistory::changeDirUp() {
-}
-
-void SelectionHistory::updateForCurrentDir(const Glib::ustring& directory, Glib::ustring selectedFileName) {
-    history[Glib::canonicalize_filename(directory.c_str())] = FileWithInode(selectedFileName, UNDEFINED_INODE);
-}
-
 void SelectionHistory::updateForCurrentDir(const Glib::ustring& directory, FileWithInode selectedFileName) {
-    history[Glib::canonicalize_filename(directory.c_str())] = selectedFileName;
+    history[Glib::canonicalize_filename(directory.c_str())] = std::move(selectedFileName);
 }
 
 FileWithInode SelectionHistory::parentDir() {
