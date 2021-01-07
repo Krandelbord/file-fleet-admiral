@@ -43,5 +43,5 @@ int main() {
 
     runner.showStats();
     std::cout << "The end";
-    return 0;
+    return runner.exitStatus();
 }
