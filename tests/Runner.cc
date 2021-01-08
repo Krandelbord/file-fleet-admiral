@@ -29,3 +29,11 @@ void Runner::doRun(bool runResultWasSuccess) {
         successCount++;
     }
 }
+
+int Runner::exitStatus() const {
+    if (totalCount == successCount) {
+        return EXIT_SUCCESS;
+    } else {
+        return EXIT_FAILURE;
+    }
+}
