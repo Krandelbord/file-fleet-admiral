@@ -31,7 +31,7 @@ RenamePopup::RenamePopup(Gtk::Window &parent,
     gridContainer.set_margin_left(DEFAULT_POPUP_MARGIN);
     positionLeft=1;
     addLabel(_("New name:"), positionLeft++, positionTop);
-    gridContainer.attach(newFileNameTextEntry, positionLeft++, positionTop);
+    gridContainer.attach(newFileNameTextEntry, positionLeft++, positionTop, 1, 1);
 
     cancelBtn = this->add_button("gtk-cancel", Gtk::RESPONSE_CANCEL);
     cancelBtn->set_margin_start(DEFAULT_POPUP_MARGIN);
@@ -57,7 +57,7 @@ Gtk::Label * RenamePopup::addLabel(const Glib::ustring &str, int left, int top) 
     label->set_justify(Gtk::JUSTIFY_LEFT);
     label->set_halign(Gtk::ALIGN_START);
     label->set_padding(DEFAULT_LABEL_PADDING, DEFAULT_LABEL_PADDING);
-    gridContainer.attach(*label, left, top);
+    gridContainer.attach(*label, left, top, 1,1);
     label->show_all();
     return label;
 }
@@ -137,6 +137,6 @@ bool RenamePopup::onWindowClose(GdkEventAny *gdkEvent) {
 }
 
 void RenamePopup::addIcon(int left, int top) {
-    Gtk::Image *renameIcon = new Gtk::Image("gtk-save-as", Gtk::ICON_SIZE_DIALOG);
+    Gtk::Image *renameIcon = new Gtk::Image();
     gridContainer.attach(*renameIcon, left, top, 1, 2);
 }
