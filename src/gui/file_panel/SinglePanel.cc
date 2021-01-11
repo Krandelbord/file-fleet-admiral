@@ -89,6 +89,7 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
 
     row[filesColumns.font_weight] = shouldBeBolded(oneNewDataElem) ? BOLDED_TXT : NOT_BOLDED_TXT;
     row[filesColumns.inodeNumber] = oneNewDataElem.getInodeNumber();
+    row[filesColumns.icon] = oneNewDataElem.getIcon()->copy();
 }
 
 bool SinglePanel::shouldBeBolded(const FileListElement &oneNewDataElem) const {

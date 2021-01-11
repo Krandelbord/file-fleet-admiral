@@ -1,5 +1,8 @@
 #include "ThreadCalculation.h"
 #include <sys/stat.h>
+#include <giomm.h>
+#include <gdkmm.h>
+#include <gtkmm.h>
 #include "config.h"
 #include "gui/SizeFormatterFactory.h"
 #include "gui/FileWithInode.h"
@@ -37,7 +40,9 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
                 auto statData = readFileSize(path);
                 FileType fileType = readFileType(path);
                 const std::string formattedSize = sizeFormatter->formatSize(statData.fileSizeInBytes);
-                dirContent.push_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize, statData.inodeNumber));
+                const Glib::RefPtr<Gio::Icon> &icon = Gio::content_type_get_icon("text/python");
+                const Glib::RefPtr<Gdk::Pixbuf> &anIcon = getIconForFile(path);
+                dirContent.emplace_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize, anIcon, statData.inodeNumber));
                 readPositionsCount++;
             }
             if (threadMessage->shouldCancelWorkAsync()) {
@@ -51,6 +56,18 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
     gfm_debug("finish of calculation for dir %s, found %d\n", dirToRead.c_str(), readPositionsCount);
 }
 
+Glib::RefPtr<Gdk::Pixbuf> ThreadCalculation::getIconForFile(const Glib::ustring& filePath) {
+    //File is a custom class
+    static Glib::RefPtr<Gtk::IconTheme> iconTheme = Gtk::IconTheme::get_default();
+//    Glib::ustring sPath = Glib::build_filename(filePath.getDirPath(), f->getName());
+    Glib::RefPtr<Gio::File> gioFile = Gio::File::create_for_path(filePath);
+    Glib::RefPtr<Gio::FileInfo> info = gioFile->query_info();
+//    Glib::RefPtr<Gio::Icon> icon = info->get_icon();
+//
+//    Gtk::IconInfo iconInfo = iconTheme->lookup_icon(icon, 3, Gtk::ICON_LOOKUP_USE_BUILTIN);
+//    return iconInfo.load_icon();
+    return Gdk::Pixbuf::create_from_file("/usr/share/icons/gnome/22x22/apps/access.png");
+}
 
 FileType ThreadCalculation::readFileType(const std::string& pathToReadFileType) {
     FileType fileType = FileType::REGULAR_FILE;
