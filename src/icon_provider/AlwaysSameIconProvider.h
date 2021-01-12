@@ -4,9 +4,9 @@
 
 #include <glibmm.h>
 #include <gdkmm.h>
-#include "FileTypeIconProvider.h"
+#include "FileIconProvider.h"
 
-class AlwaysSameIconProvider : FileTypeIconProvider {
+class AlwaysSameIconProvider : FileIconProvider {
 
 public:
     Glib::RefPtr<Gdk::Pixbuf> getIconForFile(const Glib::ustring &filePath) override;

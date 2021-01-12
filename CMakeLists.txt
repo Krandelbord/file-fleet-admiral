@@ -57,10 +57,10 @@ set(SOURCE_FILES
         src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h
         src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h
         src/gui/FileWithInode.cc src/gui/FileWithInode.h
-        src/icon_provider/FileTypeIconProvider.cc src/icon_provider/FileTypeIconProvider.h
+        src/icon_provider/FileIconProvider.h
         src/icon_provider/FileAndDirectoryStaticIconProvider.cc src/icon_provider/FileAndDirectoryStaticIconProvider.h
         src/icon_provider/AlwaysSameIconProvider.cc src/icon_provider/AlwaysSameIconProvider.h
-        src/icon_provider/IconProvider.cc src/icon_provider/IconProvider.h)
+        src/icon_provider/IconProvider.cc src/icon_provider/IconProvider.h src/icon_provider/FileByTypeIconProvider.cc src/icon_provider/FileByTypeIconProvider.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 
