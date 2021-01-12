@@ -56,7 +56,10 @@ set(SOURCE_FILES
         src/operations/InterThreadProgressPipe.cc src/operations/InterThreadProgressPipe.h
         src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h
         src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h
-        src/gui/FileWithInode.cc src/gui/FileWithInode.h)
+        src/gui/FileWithInode.cc src/gui/FileWithInode.h
+        src/icon_provider/FileTypeIconProvider.cc src/icon_provider/FileTypeIconProvider.h
+        src/icon_provider/FileAndDirectoryStaticIconProvider.cc src/icon_provider/FileAndDirectoryStaticIconProvider.h
+        src/icon_provider/AlwaysSameIconProvider.cc src/icon_provider/AlwaysSameIconProvider.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 
