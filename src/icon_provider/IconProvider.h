@@ -13,5 +13,4 @@ private:
     Glib::RefPtr<Gtk::IconTheme> iconTheme;
 };
 
-
 #endif //FILE_FLEET_ADMIRAL_ICONPROVIDER_H

@@ -4,7 +4,7 @@
 
 #include "FileIconProvider.h"
 
-class FileAndDirectoryStaticIconProvider : FileIconProvider {
+class FileAndDirectoryStaticIconProvider : public FileIconProvider {
 public:
     Glib::RefPtr<Gdk::Pixbuf> getIconForFile(const Glib::ustring &filePath) override;
 };

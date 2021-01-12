@@ -60,7 +60,10 @@ set(SOURCE_FILES
         src/icon_provider/FileIconProvider.h
         src/icon_provider/FileAndDirectoryStaticIconProvider.cc src/icon_provider/FileAndDirectoryStaticIconProvider.h
         src/icon_provider/AlwaysSameIconProvider.cc src/icon_provider/AlwaysSameIconProvider.h
-        src/icon_provider/IconProvider.cc src/icon_provider/IconProvider.h src/icon_provider/FileByTypeIconProvider.cc src/icon_provider/FileByTypeIconProvider.h)
+        src/icon_provider/IconProvider.cc src/icon_provider/IconProvider.h
+        src/icon_provider/FileByTypeIconProvider.cc src/icon_provider/FileByTypeIconProvider.h
+        src/settings/FileIconsRenderingType.h
+        src/icon_provider/IconsRendererFactory.h src/icon_provider/IconsRendererFactory.cc)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 

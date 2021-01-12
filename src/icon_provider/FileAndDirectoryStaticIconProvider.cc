@@ -1,6 +1,5 @@
 
 #include <giomm.h>
-#include <gtkmm.h>
 #include "FileAndDirectoryStaticIconProvider.h"
 #include "IconProvider.h"
 

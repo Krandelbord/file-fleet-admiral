@@ -8,6 +8,7 @@ static const int DEFAULT_POPUP_MARGIN = 2*DEFAULT_LABEL_PADDING;
 #include <glibmm/ustring.h>
 #include <glibmm.h>
 #include "../gui/Rectangle.h"
+#include "FileIconsRenderingType.h"
 
 class Settings {
     public :
@@ -27,6 +28,7 @@ class Settings {
         ~Settings();
 
         const static int DEFAULT_ICON_SIZE = 3;
+        const static FileIconsRenderingType iconsRenderingType = FileIconsRenderingType::FILE_AND_DIR_DISTINCT_ICON;
 
 private:
         int readWindowWidth() const;

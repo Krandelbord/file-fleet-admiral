@@ -7,6 +7,7 @@
 #include "gui/SizeFormatterFactory.h"
 #include "gui/FileWithInode.h"
 #include "icon_provider/FileByTypeIconProvider.h"
+#include "icon_provider/IconsRendererFactory.h"
 
 auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
     struct stat_result {__off_t fileSizeInBytes; __ino_t inodeNumber;};
@@ -24,7 +25,7 @@ auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
 }
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
-    auto fileTypeIconProvider = new FileByTypeIconProvider();
+    auto fileTypeIconProvider = IconsRendererFactory::createFromSettings();
     const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromConfig();
     Glib::ustring dirToRead = threadMessage->getDirToRead();
     int readPositionsCount = 0;
