@@ -23,12 +23,12 @@ class Settings {
         void saveWindowSize(Rectangle rectWinSize);
         void savePanedPosition(int panedPositionToSave);
         void saveRightPanelDir(const Glib::ustring& dirToSave);
-        void saveSizeFormat(const Glib::ustring newSizeFormatToSave);
+        void saveSizeFormat(Glib::ustring newSizeFormatToSave);
 
         ~Settings();
 
         const static int DEFAULT_ICON_SIZE = 3;
-        const static FileIconsRenderingType iconsRenderingType = FileIconsRenderingType::FILE_AND_DIR_DISTINCT_ICON;
+        const static FileIconsRenderingType iconsRenderingType = FileIconsRenderingType::FILE_TYPE_PER_ICON;
 
 private:
         int readWindowWidth() const;

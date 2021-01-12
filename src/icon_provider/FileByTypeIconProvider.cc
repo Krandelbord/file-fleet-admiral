@@ -2,6 +2,12 @@
 #include "FileByTypeIconProvider.h"
 #include "../settings/Settings.h"
 
+/**
+ * Provides separate icon for each file type.
+ * Same dir to read using this takes 529 778us, in FileAndDirectoryStaticIconProvider takes 27 695us (19 times faster)
+ * @param filePath
+ * @return
+ */
 Glib::RefPtr<Gdk::Pixbuf> FileByTypeIconProvider::getIconForFile(const Glib::ustring &filePath) {
     const Glib::RefPtr<Gtk::IconTheme> &theme = Gtk::IconTheme::get_default();
     auto file = Gio::File::create_for_path(filePath);

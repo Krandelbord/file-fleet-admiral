@@ -25,6 +25,7 @@ auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
 }
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
+    
     auto fileTypeIconProvider = IconsRendererFactory::createFromSettings();
     const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromConfig();
     Glib::ustring dirToRead = threadMessage->getDirToRead();
