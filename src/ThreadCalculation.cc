@@ -2,15 +2,10 @@
 #include <sys/stat.h>
 #include <giomm.h>
 #include <gdkmm.h>
-#include <gtkmm.h>
-
 #include <memory>
 #include "config.h"
 #include "gui/SizeFormatterFactory.h"
 #include "gui/FileWithInode.h"
-#include "icon_provider/FileIconProvider.h"
-#include "icon_provider/AlwaysSameIconProvider.h"
-#include "icon_provider/FileAndDirectoryStaticIconProvider.h"
 #include "icon_provider/FileByTypeIconProvider.h"
 
 auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
@@ -68,10 +63,6 @@ FileType ThreadCalculation::readFileType(const std::string& pathToReadFileType) 
         fileType = FileType::DIRECTORY;
     }
     return fileType;
-}
-
-Glib::RefPtr<Gdk::Pixbuf> ThreadCalculation::someDefaultIcon() {
-    return Gdk::Pixbuf::create_from_file("/usr/share/icons/Moka/22x22/places/debian.png");
 }
 
 bool sortByNameDirsFirst(FileListElement first, FileListElement second) {

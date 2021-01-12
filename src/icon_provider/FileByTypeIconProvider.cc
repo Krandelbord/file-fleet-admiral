@@ -7,7 +7,6 @@ Glib::RefPtr<Gdk::Pixbuf> FileByTypeIconProvider::getIconForFile(const Glib::ust
     auto file = Gio::File::create_for_path(filePath);
     const Glib::RefPtr<Gio::FileInfo> &fileInfo = file->query_info();
     const Glib::RefPtr<Gio::Icon> &theIcon = fileInfo->get_icon();
-
     const Gtk::IconInfo &foundIcon = theme->lookup_icon(theIcon, Settings::DEFAULT_ICON_SIZE);
     return foundIcon.load_icon();
 }

@@ -14,11 +14,6 @@ class ThreadCalculation {
         auto readFileSize(const std::string& filePathToReadSize);
         FileType readFileType(const std::string& pathToReadFileType);
         void sortData(std::vector<FileListElement>& dataToSort);
-        static Glib::RefPtr<Gdk::Pixbuf> getIconForFile(const Glib::ustring &filePath);
-
-    static Glib::RefPtr<Gdk::Pixbuf> someDefaultIcon();
-
-    static Glib::RefPtr<Gdk::Pixbuf> totally_empty();
 };
 
 #endif /** THREAD_CALCULATION_H */
