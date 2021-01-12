@@ -1,6 +1,6 @@
 #include "FileListElement.h"
 #include "../PathResolver.h"
-#import <gtkmm.h>
+#include "../../icon_provider/IconProvider.h"
 
 FileListElement::FileListElement(const Glib::ustring& aFileName, __off_t aFileSizeInBytes,
         FileType aFileType, std::string sizeFormatted, const Glib::RefPtr<const Gdk::Pixbuf>& icon, __ino_t inodeNumber) {
@@ -29,13 +29,12 @@ Glib::ustring FileListElement::getFileSizeForDisplay() const {
 }
 
 FileListElement FileListElement::createParentDir() {
-    const Glib::RefPtr<Gio::Icon> &ptr = Gio::Icon::create("none");
-    Glib::RefPtr<const Gdk::Pixbuf> pixBufIcon = Gdk::Pixbuf::create_from_file("/usr/share/icons/Moka/22x22/places/debian.png");
-    FileListElement toParentDir(PARENT_DIR_SYMBOL, 0, FileType::PARENT_DIR, "", pixBufIcon);
+    IconProvider iconProvider;
+    FileListElement toParentDir(PARENT_DIR_SYMBOL, 0, FileType::PARENT_DIR, "", iconProvider.parentDirIcon());
     return toParentDir;
 }
 
-const std::string FileListElement::toString() const {
+std::string FileListElement::toString() const {
     return fileName;
 }
 

@@ -17,3 +17,7 @@ Glib::RefPtr<Gdk::Pixbuf> IconProvider::getIconOrDefault(const char *iconName) c
     }
 }
 
+Glib::RefPtr<Gdk::Pixbuf> IconProvider::parentDirIcon() {
+    return getIconOrDefault("folder");
+}
+

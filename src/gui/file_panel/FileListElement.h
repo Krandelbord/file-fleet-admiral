@@ -23,7 +23,7 @@ class FileListElement {
         __off_t getFileSizeInBytes() const;
         Glib::ustring getFileSizeForDisplay() const;
         FileType getFileType() const;
-        const std::string toString() const;
+        std::string toString() const;
         __ino_t getInodeNumber() const;
         const Glib::RefPtr<const Gdk::Pixbuf> &getIcon() const;
 
