@@ -9,7 +9,7 @@ FileListElement::FileListElement(const Glib::ustring& aFileName, __off_t aFileSi
     this->fileType = aFileType;
     this->fileSizeForDisplay = sizeFormatted;
     this->inodeNumber = inodeNumber;
-    this->icon = icon->copy();
+    this->icon = icon;
 }
 
 const Glib::ustring& FileListElement::getFileName() const {
