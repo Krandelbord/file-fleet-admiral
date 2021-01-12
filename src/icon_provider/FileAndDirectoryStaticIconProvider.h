@@ -7,6 +7,9 @@
 class FileAndDirectoryStaticIconProvider : FileTypeIconProvider {
 public:
     Glib::RefPtr<Gdk::Pixbuf> getIconForFile(const Glib::ustring &filePath) override;
+
+    Glib::RefPtr<Gdk::Pixbuf>
+    getIconOrDefault(const Glib::RefPtr<Gtk::IconTheme> &iconTheme, const char *iconName) const;
 };
 
 
