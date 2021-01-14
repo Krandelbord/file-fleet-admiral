@@ -66,7 +66,7 @@ class SinglePanel : public Gtk::Frame {
         Gtk::TreeModel::Path findByExactFileName(std::string fileNameToFind);
         Gtk::TreeModel::Path findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement);
         const Gtk::TreeModel::Path findByFileNameWithFunc(Glib::ustring basic_string, bool (*findFunction)(Glib::ustring, Glib::ustring),
-                                                          Gtk::TreeModel::Path afterElement)
+                                                          Gtk::TreeModel::Path afterElement);
         void changeDirectory(const Gtk::TreeModel::Path &path);
         Glib::ustring getSelectedFileName();
         void changeDirByPath(const Glib::ustring &selectedFileName);
