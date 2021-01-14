@@ -74,6 +74,7 @@ class SinglePanel : public Gtk::Frame {
         Gtk::TreePath firstElementOnList() const;
         FileWithInode toFileWithInode(Gtk::TreeRow row);
         Gtk::TreePath findByInodeNumber(const FileWithInode &fileNameToFind);
+        FileType getCurrentFileType(const Gtk::TreeModel::Path &path);
 };
 
 #endif /** SINGLE_PANEL_H */

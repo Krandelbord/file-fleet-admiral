@@ -2,6 +2,7 @@
 #define FILES_COLUMNS_H
 
 #include <gtkmm.h>
+#include "../FileType.h"
 
 class FilesColumns : public Gtk::TreeModel::ColumnRecord {
     public:
@@ -14,6 +15,7 @@ class FilesColumns : public Gtk::TreeModel::ColumnRecord {
         Gtk::TreeModelColumn<__ino_t> inodeNumber;
         Gtk::TreeModelColumn<Gdk::RGBA> backgroundColor;
         Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf>> icon;
+        Gtk::TreeModelColumn<FileType> file_type;
 };
 
 #endif /** FILES_COLUMNS_H **/

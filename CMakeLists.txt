@@ -67,7 +67,8 @@ set(SOURCE_FILES
         src/gui/FileWithInode.cc src/gui/FileWithInode.h
         src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h
         src/gui/MoveFilePopup.cc src/gui/MoveFilePopup.h
-        src/operations/ThreadPerformingMove.cc src/operations/ThreadPerformingMove.h)
+        src/operations/ThreadPerformingMove.cc src/operations/ThreadPerformingMove.h
+        src/viewer/FileViewer.cc src/viewer/FileViewer.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 
