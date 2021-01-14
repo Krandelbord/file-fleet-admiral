@@ -88,6 +88,7 @@ void SinglePanel::appendOneFile(Glib::RefPtr<Gtk::ListStore> refListStore, FileL
     }
 
     row[filesColumns.font_weight] = shouldBeBolded(oneNewDataElem) ? BOLDED_TXT : NOT_BOLDED_TXT;
+    row[filesColumns.inodeNumber] = oneNewDataElem.getInodeNumber();
 }
 
 bool SinglePanel::shouldBeBolded(const FileListElement &oneNewDataElem) const {
@@ -103,7 +104,9 @@ void SinglePanel::onRowActivated(const Gtk::TreeModel::Path& path, Gtk::TreeView
     changeDirectory(path);
 }
 void SinglePanel::refreshCurrentDir() {
-    changeDirByPath("");
+    createEmptyData();
+    pathHeader->startProgress();
+    startReadDataThread();
 }
 
 void SinglePanel::changeDirectory(const Gtk::TreeModel::Path &path) {
@@ -143,10 +146,14 @@ void SinglePanel::stopProgressIndicator() {
 }
 
 void SinglePanel::putFocusOnTopOfTreeview() {
-    std::string selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
-    auto foundPath = findByExactFileName(selectionShouldBe);
-    gfm_debug("selection should be %s\n", selectionShouldBe.c_str());
-    filesTreeView->set_cursor(foundPath);
+    FileWithInode selectionShouldBe = selectionHistory.getSelectionForDir(currentDir);
+    gfm_debug("Cursor should be put on %s\n", selectionShouldBe.toString().c_str());
+    auto foundPath = findByInodeOrName(selectionShouldBe);
+    if (foundPath) {
+        filesTreeView->set_cursor(foundPath);
+    } else {
+        filesTreeView->set_cursor(firstElementOnList());
+    }
 }
 
 const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fileNameToFind,
@@ -176,11 +183,34 @@ const Gtk::TreeModel::Path SinglePanel::findByFileNameWithFunc(Glib::ustring fil
         }
     }
     //first element in list
-    return Gtk::TreePath();
+    return firstElementOnList();
 }
+
+Gtk::TreePath SinglePanel::firstElementOnList() const { return Gtk::TreePath("0"); }
 
 Gtk::TreeModel::Path SinglePanel::findByFileNameStartingWith(const std::string& fileNameToFind, const Gtk::TreeModel::Path& afterElement) {
     return this->findByFileNameWithFunc(fileNameToFind, [](Glib::ustring a, Glib::ustring b) {return a.find(b)==0;}, afterElement) ;
+}
+
+Gtk::TreeModel::Path SinglePanel::findByInodeOrName(FileWithInode fileToFind) {
+    const Gtk::TreePath &inodeSearchResult = findByInodeNumber(fileToFind);
+    if (inodeSearchResult.empty()) {
+        return findByExactFileName(fileToFind.getFileName());
+    } else {
+        return inodeSearchResult;
+    }
+}
+
+Gtk::TreePath SinglePanel::findByInodeNumber(const FileWithInode &fileNameToFind) {
+    FilesColumns filesColumns;
+    for (const Gtk::TreeRow& fileListRow : refListStore->children()) {
+        __ino_t inodeNumber = fileListRow->get_value(filesColumns.inodeNumber);
+        if (fileNameToFind.matchesInode(inodeNumber)) {
+            return Gtk::TreePath(fileListRow);
+        }
+    }
+    // empty
+    return Gtk::TreePath();
 }
 
 Gtk::TreeModel::Path SinglePanel::findByExactFileName(std::string fileNameToFind) {
@@ -192,6 +222,16 @@ void SinglePanel::onCursorChanged() {
     if (!selectedFileName.empty()) {
         filePanelFooter.changeFooterValue(selectedFileName);
     }
+}
+
+Gtk::TreeRow SinglePanel::getFileUnderCursor() {
+    Glib::ustring selectedFileName;
+    Gtk::TreeModel::Path path = filesTreeView->getHighlitedElement();
+    if (!path.empty()) {
+        Gtk::TreeModel::iterator iter = refListStore->get_iter(path);
+        return *iter;
+    }
+    return {};
 }
 
 Glib::ustring SinglePanel::getSelectedFileName() {
@@ -224,6 +264,9 @@ bool SinglePanel::onKeyPressed(const GdkEventKey *key_event) {
     }
     if (isShiftHolded(key_event) && key_event->keyval == GDK_KEY_F6) {
         gfm_debug("Shift+F6 Pressed\n");
+
+        FileWithInode ff = toFileWithInode(getFileUnderCursor());
+        selectionHistory.updateForCurrentDir(getCurrentDir(), ff);
         showRenameSignal.emit(getCurrentDir(), getSelectedFileName());
         return true;
     }
@@ -270,6 +313,10 @@ sigc::signal<void, Glib::ustring, Glib::ustring> SinglePanel::signalShowRename()
     return this->showRenameSignal;
 }
 
+FileWithInode SinglePanel::toFileWithInode(Gtk::TreeRow row) {
+    FilesColumns possibleColumns;
+    return FileWithInode(row[possibleColumns.file_name_column], row[possibleColumns.inodeNumber]);
+}
 
 sigc::signal<void, const Glib::RefPtr<Gio::File>&> SinglePanel::signalShowMoveFile() {
     return this->showMoveSignal;
