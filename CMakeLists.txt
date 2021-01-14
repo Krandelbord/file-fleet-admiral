@@ -57,6 +57,14 @@ set(SOURCE_FILES
         src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h
         src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h
         src/gui/FileWithInode.cc src/gui/FileWithInode.h
+        src/icon_provider/FileIconProvider.h
+        src/icon_provider/FileAndDirectoryStaticIconProvider.cc src/icon_provider/FileAndDirectoryStaticIconProvider.h
+        src/icon_provider/AlwaysSameIconProvider.cc src/icon_provider/AlwaysSameIconProvider.h
+        src/icon_provider/IconProvider.cc src/icon_provider/IconProvider.h
+        src/icon_provider/FileByTypeIconProvider.cc src/icon_provider/FileByTypeIconProvider.h
+        src/settings/FileIconsRenderingType.h
+        src/icon_provider/IconsRendererFactory.h src/icon_provider/IconsRendererFactory.cc
+        src/gui/FileWithInode.cc src/gui/FileWithInode.h
         src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h
         src/gui/MoveFilePopup.cc src/gui/MoveFilePopup.h
         src/operations/ThreadPerformingMove.cc src/operations/ThreadPerformingMove.h)

@@ -34,6 +34,8 @@ private:
     const Gdk::RGBA getNotActiveBarColor();
 
     const Gdk::RGBA getFocusOutBarColor();
+
+    void addIconColumn(Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf>> columnValue, char *string);
 };
 
 #endif /** FILES_TREE_VIEW_H **/

@@ -6,4 +6,5 @@ FilesColumns::FilesColumns() {
     this->add(font_weight);
     this->add(backgroundColor);
     this->add(inodeNumber);
+    this->add(icon);
 }

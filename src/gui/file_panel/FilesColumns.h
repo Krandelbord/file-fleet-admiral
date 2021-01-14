@@ -13,6 +13,7 @@ class FilesColumns : public Gtk::TreeModel::ColumnRecord {
         Gtk::TreeModelColumn<int> font_weight;
         Gtk::TreeModelColumn<__ino_t> inodeNumber;
         Gtk::TreeModelColumn<Gdk::RGBA> backgroundColor;
+        Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf>> icon;
 };
 
 #endif /** FILES_COLUMNS_H **/

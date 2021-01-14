@@ -6,7 +6,9 @@ static const int DEFAULT_LABEL_PADDING = 8;
 static const int DEFAULT_POPUP_MARGIN = 2*DEFAULT_LABEL_PADDING;
 
 #include <glibmm/ustring.h>
+#include <glibmm.h>
 #include "../gui/Rectangle.h"
+#include "FileIconsRenderingType.h"
 
 class Settings {
     public :
@@ -21,9 +23,13 @@ class Settings {
         void saveWindowSize(Rectangle rectWinSize);
         void savePanedPosition(int panedPositionToSave);
         void saveRightPanelDir(const Glib::ustring& dirToSave);
-        void saveSizeFormat(const Glib::ustring newSizeFormatToSave);
+        void saveSizeFormat(Glib::ustring newSizeFormatToSave);
 
         ~Settings();
+
+        const static int DEFAULT_ICON_SIZE = 3;
+        const static FileIconsRenderingType iconsRenderingType = FileIconsRenderingType::FILE_TYPE_PER_ICON;
+
 private:
         int readWindowWidth() const;
         Glib::ustring readStringConfigValue(const Glib::ustring& paramToRead) const;
