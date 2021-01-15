@@ -34,10 +34,10 @@ private:
         int readWindowWidth() const;
         Glib::ustring readStringConfigValue(const Glib::ustring& paramToRead) const;
         void saveString(const Glib::ustring& name, const Glib::ustring& value);
+        std::string readStringConfigValueWithDefault(Glib::ustring keyToRead, Glib::ustring defaultValue);
+
         GKeyFile *m_key_file;
         char *m_file;
-
-        std::string readStringConfigValueWithDefault(const Glib::ustring keyToRead, const Glib::ustring defaultValue);
 };
 
 #endif /** SETTINGS_H */
