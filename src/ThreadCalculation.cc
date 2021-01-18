@@ -6,7 +6,6 @@
 #include "config.h"
 #include "gui/SizeFormatterFactory.h"
 #include "gui/FileWithInode.h"
-#include "icon_provider/FileByTypeIconProvider.h"
 #include "icon_provider/IconsRendererFactory.h"
 
 auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
