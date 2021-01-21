@@ -5,12 +5,12 @@
 
 /** Size of column "File name" in chars **/
 #define NAME_COLUMN_SIZE_IN_CHARS 70
+#define EMPTY_TITLE_FOR_ICON_COLUMN ""
 
 FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
     FilesColumns filesColumns;
     this->set_model(filesListStorage);
-    this->append_column("icon", filesColumns.icon);
-
+    this->addIconColumnWithCursor();
     addEllipsizedColumn(filesColumns.file_name_column, _("Name"), NAME_COLUMN_SIZE_IN_CHARS);
     addStyleByTypeTxtColumn(filesColumns.size_column, _("Size"));
 
@@ -21,6 +21,19 @@ FilesTreeView::FilesTreeView(Glib::RefPtr<Gtk::ListStore> filesListStorage) {
     this->signal_focus_in_event().connect(sigc::mem_fun(*this, &FilesTreeView::onFocusIn));
 }
 
+
+Gtk::CellRenderer * FilesTreeView::addIconColumnWithCursor() {
+    Gtk::CellRendererPixbuf* iconRenderer = manage(new Gtk::CellRendererPixbuf());
+    int cols_count = append_column(EMPTY_TITLE_FOR_ICON_COLUMN, *iconRenderer);
+    Gtk::TreeViewColumn* pColumn = get_column(cols_count - 1);
+    FilesColumns filesColumns;
+    if (pColumn) {
+        pColumn-> add_attribute(iconRenderer->property_pixbuf(), filesColumns.icon);
+        //to make cursor highlight when moving
+        pColumn->add_attribute(iconRenderer->property_cell_background_rgba(), filesColumns.backgroundColor);
+    }
+    return iconRenderer;
+}
 
 /**
  * Adds column styled by font-weight
