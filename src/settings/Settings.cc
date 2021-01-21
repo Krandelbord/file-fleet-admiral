@@ -95,12 +95,12 @@ void Settings::saveRightPanelDir(const Glib::ustring& dirToSave) {
 }
 
 Settings::~Settings() {
-	GError *blad = NULL;
-	gchar *raw_kfile = g_key_file_to_data(m_key_file, NULL, &blad);
+	GError *blad = nullptr;
+	gchar *raw_kfile = g_key_file_to_data(m_key_file, nullptr, &blad);
 	
 	FILE *plik_konfiguracji = fopen(m_file, "w+");
 	if (!plik_konfiguracji) g_error("Nie mozna utworzyć domyśnego pliku konfigutracji w %s\n", m_file);
-	fprintf(plik_konfiguracji, raw_kfile);
+	fprintf(plik_konfiguracji, "%s", raw_kfile);
 
 	/* Czystki: */
 	fclose(plik_konfiguracji);
