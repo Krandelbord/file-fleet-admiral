@@ -19,3 +19,5 @@ What features should version 1.0 have
 
 
 Build requires gtkmm-3.0
+
+[![CMake](https://github.com/Krandelbord/file-fleet-admiral/actions/workflows/cmake.yml/badge.svg)](https://github.com/Krandelbord/file-fleet-admiral/actions/workflows/cmake.yml)
