@@ -12,6 +12,8 @@ public :
 
     void showStats();
 
+    int exitStatus() const;
+
 private :
     unsigned int totalCount = 0;
     unsigned int successCount = 0;

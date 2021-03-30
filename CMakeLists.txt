@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.3)
 project(file-fleet-admiral)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -DDEBUG")
 
-
 find_package(PkgConfig)
 
 pkg_check_modules(GTKMM gtkmm-3.0) # look into FindPkgConfig.cmake,
@@ -55,14 +54,22 @@ set(SOURCE_FILES
         src/gui/RenamePopup.cc src/gui/RenamePopup.h
         src/operations/RenameExecutor.cc src/operations/RenameExecutor.h
         src/operations/InterThreadProgressPipe.cc src/operations/InterThreadProgressPipe.h
-        src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h)
+        src/operations/ThreadPerformingRename.cc src/operations/ThreadPerformingRename.h
+        src/operations/NotifiableByContentChange.cc src/operations/NotifiableByContentChange.h
+        src/gui/FileWithInode.cc src/gui/FileWithInode.h)
 add_executable(file-fleet-admiral ${SOURCE_FILES})
 
 
-target_compile_features(file-fleet-admiral PRIVATE cxx_std_11)
+target_compile_features(file-fleet-admiral PRIVATE cxx_std_14)
 
 
 target_link_libraries(file-fleet-admiral
         pthread
         ${GTKMM_LIBRARIES}  )
 
+
+include(CTest)
+add_test(NAME Runs-readDirTest COMMAND tests/readDirTest)
+add_test(NAME sizeDisplayTest COMMAND tests/sizeDisplayTest)
+add_test(NAME sortChainTest COMMAND tests/sortChainTest)
+add_test(NAME readMultiThreadDirs COMMAND tests/readMultiThreadDirs)

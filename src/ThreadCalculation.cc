@@ -2,6 +2,22 @@
 #include <sys/stat.h>
 #include "config.h"
 #include "gui/SizeFormatterFactory.h"
+#include "gui/FileWithInode.h"
+
+auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
+    struct stat_result {__off_t fileSizeInBytes; __ino_t inodeNumber;};
+    struct stat statFile {};
+    __off_t fileSize = 0;
+    __ino_t inodeNumber = UNDEFINED_INODE;
+    int err = stat(filePathToReadSize.c_str(), &statFile);
+    if (err != 0) {
+        fileSize = 0;
+    } else {
+        fileSize = statFile.st_size;
+        inodeNumber = statFile.st_ino;
+    }
+    return stat_result{fileSize, inodeNumber};
+}
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
     const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromConfig();
@@ -17,11 +33,11 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
             std::string path = Glib::build_filename(dirToRead, nextElemInDir);
             //Glib::usleep(101000);
 
-            if (nextElemInDir.size()!=0) {
-                __off_t sizeInBytes = readFileSize(path);
+            if (!nextElemInDir.empty()) {
+                auto statData = readFileSize(path);
                 FileType fileType = readFileType(path);
-                const std::string formattedSize = sizeFormatter->formatSize(sizeInBytes);
-                dirContent.push_back(FileListElement(nextElemInDir, sizeInBytes, fileType, formattedSize));
+                const std::string formattedSize = sizeFormatter->formatSize(statData.fileSizeInBytes);
+                dirContent.push_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize, statData.inodeNumber));
                 readPositionsCount++;
             }
             if (threadMessage->shouldCancelWorkAsync()) {
@@ -35,17 +51,6 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
     gfm_debug("finish of calculation for dir %s, found %d\n", dirToRead.c_str(), readPositionsCount);
 }
 
-__off_t ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
-    struct stat statFile;
-    __off_t fileSize = 0;
-    int err = stat(filePathToReadSize.c_str(), &statFile);
-    if (err != 0) {
-        fileSize = 0;
-    } else {
-        fileSize = statFile.st_size;
-    }
-    return fileSize;
-}
 
 FileType ThreadCalculation::readFileType(const std::string& pathToReadFileType) {
     FileType fileType = FileType::REGULAR_FILE;

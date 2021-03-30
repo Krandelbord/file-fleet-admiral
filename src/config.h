@@ -1,6 +1,6 @@
 #ifndef CONFIG_H
 
-#define APPLICATION_NAME "Gtkmm File Manager"
+#define APPLICATION_NAME "File Fleet Admiral"
 #define APPLICATION_VERSION "0.1"
 
 #ifdef DEBUG
