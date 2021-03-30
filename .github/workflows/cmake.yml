@@ -39,7 +39,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config $BUILD_TYPE
+      run: cmake --build . --parallel --config $BUILD_TYPE
 
     - name: Test
       working-directory: ${{runner.workspace}}/build
@@ -50,4 +50,4 @@ jobs:
         sudo apt install locales
         sudo locale-gen pl_PL.UTF-8
         sudo update-locale LANG=pl_PL.UTF-8
-        ctest --verbose -C $BUILD_TYPE
+        ctest -no-tests=error --verbose -C $BUILD_TYPE
