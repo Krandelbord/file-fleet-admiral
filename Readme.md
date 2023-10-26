@@ -21,8 +21,10 @@ What features should version 1.0 have
 Build requires gtkmm-3.0
 
 ### Building from CLI
+```
 cmake -E make_directory build 
 cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build . --parallel --config Release
+```
 
 [![CMake](https://github.com/Krandelbord/file-fleet-admiral/actions/workflows/cmake.yml/badge.svg)](https://github.com/Krandelbord/file-fleet-admiral/actions/workflows/cmake.yml)
