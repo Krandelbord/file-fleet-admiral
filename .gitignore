@@ -2,6 +2,11 @@ Makefile
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
+CTestTestfile.cmake
+DartConfiguration.tcl
+
 *.o
 .idea/
 cmake-build-debug/
+tests/
+file-fleet-admiral
