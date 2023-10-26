@@ -18,6 +18,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install gtkmm developmenet libs
       run: |
+        sudo apt update
         sudo apt install libgtkmm-3.0-dev
 
     - name: Create Build Environment

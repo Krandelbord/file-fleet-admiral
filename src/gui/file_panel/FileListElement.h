@@ -2,6 +2,7 @@
 #define FILE_LIST_ELEMENT_H
 
 #include <glibmm.h>
+#include <gdkmm.h>
 #include "../FileType.h"
 
 /**
@@ -13,6 +14,7 @@ class FileListElement {
                     __off_t fileSizeInBytes,
                     FileType fileType,
                     std::string sizeFormatted,
+                    const Glib::RefPtr<const Gdk::Pixbuf>& icon,
                     __ino_t inodeNumber = -1);
 
         static FileListElement createParentDir();
@@ -20,9 +22,10 @@ class FileListElement {
         const Glib::ustring& getFileName() const;
         __off_t getFileSizeInBytes() const;
         Glib::ustring getFileSizeForDisplay() const;
-        const FileType getFileType() const;
-        const std::string toString() const;
+        FileType getFileType() const;
+        std::string toString() const;
         __ino_t getInodeNumber() const;
+        const Glib::RefPtr<const Gdk::Pixbuf> &getIcon() const;
 
 private:
         Glib::ustring fileName;
@@ -30,6 +33,7 @@ private:
         __ino_t inodeNumber;
         FileType fileType;
         std::string fileSizeForDisplay;
+        Glib::RefPtr<const Gdk::Pixbuf> icon;
 };
 
 #endif /** FILE_LIST_ELEMENT_H **/

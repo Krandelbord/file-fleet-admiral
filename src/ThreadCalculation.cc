@@ -1,8 +1,12 @@
 #include "ThreadCalculation.h"
 #include <sys/stat.h>
+#include <giomm.h>
+#include <gdkmm.h>
+#include <memory>
 #include "config.h"
 #include "gui/SizeFormatterFactory.h"
 #include "gui/FileWithInode.h"
+#include "icon_provider/IconsRendererFactory.h"
 
 auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
     struct stat_result {__off_t fileSizeInBytes; __ino_t inodeNumber;};
@@ -20,6 +24,8 @@ auto ThreadCalculation::readFileSize(const std::string& filePathToReadSize) {
 }
 
 void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMessage) {
+    
+    auto fileTypeIconProvider = IconsRendererFactory::createFromSettings();
     const std::shared_ptr<SizeFormatter> sizeFormatter = SizeFormatterFactory::createFromConfig();
     Glib::ustring dirToRead = threadMessage->getDirToRead();
     int readPositionsCount = 0;
@@ -37,7 +43,8 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
                 auto statData = readFileSize(path);
                 FileType fileType = readFileType(path);
                 const std::string formattedSize = sizeFormatter->formatSize(statData.fileSizeInBytes);
-                dirContent.push_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize, statData.inodeNumber));
+                const Glib::RefPtr<Gdk::Pixbuf> &anIcon = fileTypeIconProvider->getIconForFile(path);
+                dirContent.emplace_back(FileListElement(nextElemInDir, statData.fileSizeInBytes, fileType, formattedSize, anIcon, statData.inodeNumber));
                 readPositionsCount++;
             }
             if (threadMessage->shouldCancelWorkAsync()) {
@@ -51,13 +58,11 @@ void ThreadCalculation::threadFunction(std::shared_ptr<ThreadMessage> threadMess
     gfm_debug("finish of calculation for dir %s, found %d\n", dirToRead.c_str(), readPositionsCount);
 }
 
-
 FileType ThreadCalculation::readFileType(const std::string& pathToReadFileType) {
     FileType fileType = FileType::REGULAR_FILE;
     if (Glib::file_test(pathToReadFileType, Glib::FILE_TEST_IS_DIR)) {
         fileType = FileType::DIRECTORY;
     }
-
     return fileType;
 }
 

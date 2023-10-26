@@ -21,7 +21,7 @@ private:
 
     void onCursorChanged();
 
-    void changeColor(Gtk::TreeModel::Path pathToChangeColor, const Gdk::RGBA newBgRowColor);
+    void changeColor(Gtk::TreeModel::Path pathToChangeColor, Gdk::RGBA newBgRowColor);
 
     Gtk::TreeModel::Path lastlySelectedPath;
 
@@ -34,6 +34,8 @@ private:
     const Gdk::RGBA getNotActiveBarColor();
 
     const Gdk::RGBA getFocusOutBarColor();
+
+    Gtk::CellRenderer * addIconColumnWithCursor();
 };
 
 #endif /** FILES_TREE_VIEW_H **/
